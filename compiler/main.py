@@ -1,6 +1,8 @@
 from sys import argv
+import lex
 
 def main(argv):
-    print(argv[1])
+    data = open(argv[1], 'r').read()
+    lex.scan(data)
 
 main(argv)
