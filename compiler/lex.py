@@ -27,14 +27,17 @@ tokens = [
     'MULTIPLY',
     'DIVIDE',
     'EQUAL',
-    'ASSIGNMENT'
+    'ASSIGNMENT',
 
     # SYMBOLS
+    'COLON',
+    'COMMA',
+    'OPEN_PARENTHESIS',
+    'CLOSE_PARENTHESIS'
 ] + list(reserved.values())
 
+
 # Numbers
-
-
 def t_N_FLOAT(t):
     r'\d+\.\d+'
     t.value = float(t.value)
@@ -52,6 +55,16 @@ t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIVIDE = r'\/'
+t_EQUAL = r'\='
+t_ASSIGNMENT = r':='
+
+
+# Symbols
+t_COLON = r':'
+t_COMMA = r','
+t_OPEN_PARENTHESIS = r'\('
+t_CLOSE_PARENTHESIS = r'\)'
+
 
 # Names
 def t_ID(t):
@@ -60,7 +73,7 @@ def t_ID(t):
     return t
 
 
-# Ply functions
+# PLY functions
 def t_error(t):
     print("Illegal characters '" + t.value + "' at line " +
           str(t.lexer.lineno) + "." + str(t.lexpos))
@@ -71,7 +84,6 @@ def t_error(t):
 
 def t_newline(t):
     r'\n+'
-    print(1)
     t.lexer.lineno += len(t.value)
 
 
