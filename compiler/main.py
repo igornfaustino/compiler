@@ -3,6 +3,6 @@ import lex
 
 def main(argv):
     data = open(argv[1], 'r').read()
-    lex.scan(data)
+    print(lex.scan(data))
 
 main(argv)
