@@ -27,13 +27,24 @@ tokens = [
     'MULTIPLY',
     'DIVIDE',
     'EQUAL',
+    'NOT_EQUAL',
+    'GREATER_THAN',
+    'GREATER_EQUAL',
+    'LESS_THAN',
+    'LESS_EQUAL',
     'ASSIGNMENT',
+    # Logical
+    'AND',
+    'OR',
 
     # SYMBOLS
     'COLON',
     'COMMA',
     'OPEN_PARENTHESIS',
-    'CLOSE_PARENTHESIS'
+    'CLOSE_PARENTHESIS',
+
+    # OTHERS
+    'COMMENT',
 ] + list(reserved.values())
 
 
@@ -56,7 +67,15 @@ t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIVIDE = r'\/'
 t_EQUAL = r'\='
+t_NOT_EQUAL = r'<>'
+t_GREATER_THAN = r'>'
+t_GREATER_EQUAL = r'>='
+t_LESS_THAN = r'<'
+t_LESS_EQUAL = r'<='
 t_ASSIGNMENT = r':='
+# LOGICAL
+t_AND = r'&&'
+t_OR = r'\|\|'
 
 
 # Symbols
@@ -68,18 +87,29 @@ t_CLOSE_PARENTHESIS = r'\)'
 
 # Names
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'''[a-zA-Z_áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]
+    [a-zA-Z_0-9áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]*'''
     t.type = reserved.get(t.value, 'ID')    # Check for reserved words
     return t
 
 
+# Comments
+def t_ignore_COMMENT(t):
+    r'({(.|\n)*?(}|$))'
+    t.lexer.lineno += t.value.count('\n')
+
+
+# AUX Functions
+def find_column(input, token):
+    line_start = input.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
+
+
 # PLY functions
 def t_error(t):
-    print("Illegal characters '" + t.value + "' at line " +
-          str(t.lexer.lineno) + "." + str(t.lexpos))
+    print("Illegal characters '" + t.value[0] + "' at line " +
+          str(t.lexer.lineno) + "." + str(find_column(t.lexer.lexdata, t)))
     exit(1)
-    t.lexer.skip(1)
-    return t
 
 
 def t_newline(t):
