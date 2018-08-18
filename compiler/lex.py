@@ -36,12 +36,15 @@ tokens = [
     # Logical
     'AND',
     'OR',
+    'NOT',
 
     # SYMBOLS
     'COLON',
     'COMMA',
     'OPEN_PARENTHESIS',
     'CLOSE_PARENTHESIS',
+    'OPEN_BRACKET',
+    'CLOSE_BRACKET',
 
     # OTHERS
     'COMMENT',
@@ -50,7 +53,7 @@ tokens = [
 
 # Numbers
 def t_N_FLOAT(t):
-    r'\d+\.\d+'
+    r'(\d+(\.\d*)?\ ?\*\ ?10\^-?\d+)|(\d+\.\d*)'
     t.value = float(t.value)
     return t
 
@@ -76,6 +79,7 @@ t_ASSIGNMENT = r':='
 # LOGICAL
 t_AND = r'&&'
 t_OR = r'\|\|'
+t_NOT = r'\!'
 
 
 # Symbols
@@ -83,6 +87,8 @@ t_COLON = r':'
 t_COMMA = r','
 t_OPEN_PARENTHESIS = r'\('
 t_CLOSE_PARENTHESIS = r'\)'
+t_OPEN_BRACKET = r'\['
+t_CLOSE_BRACKET = r'\]'
 
 
 # Names

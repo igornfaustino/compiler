@@ -1,4 +1,9 @@
 inteiro: n
+inteiro: b
+
+inteiro fat( flutuante: a, inteiro: b)
+    a:= 10.5
+fim
 
 inteiro fatorial(inteiro: n)
     inteiro: fat
@@ -10,12 +15,12 @@ inteiro fatorial(inteiro: n)
         até n = 0
         retorna(fat) {retorna o valor do fatorial de n}
     senão
-    	retorna(0)
+        retorna(0)
     fim
 fim
 
 inteiro principal()
     leia(n)
     escreva(fatorial(n))
-    retorna(0)
+    escreva(fat(1,1))
 fim
