@@ -14,7 +14,7 @@ reserved = {
 }
 
 tokens = [
-    # NUMBERS (DONE)
+    # NUMBERS
     'N_INT',
     'N_FLOAT',
 
@@ -53,7 +53,7 @@ tokens = [
 
 # Numbers
 def t_N_FLOAT(t):
-    r'(\d+(\.\d*)?\ ?\*\ ?10\^-?\d+)|(\d+\.\d*)'
+    r'(\d+(\.\d*)?[eE][-+]?\d+)|(\d+\.\d*)'
     t.value = float(t.value)
     return t
 
@@ -71,10 +71,10 @@ t_MULTIPLY = r'\*'
 t_DIVIDE = r'\/'
 t_EQUAL = r'\='
 t_NOT_EQUAL = r'<>'
-t_GREATER_THAN = r'>'
 t_GREATER_EQUAL = r'>='
-t_LESS_THAN = r'<'
+t_GREATER_THAN = r'>'
 t_LESS_EQUAL = r'<='
+t_LESS_THAN = r'<'
 t_ASSIGNMENT = r':='
 # LOGICAL
 t_AND = r'&&'
