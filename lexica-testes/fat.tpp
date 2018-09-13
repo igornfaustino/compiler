@@ -19,5 +19,4 @@ inteiro principal()
     leia(n)
     escreva(fatorial(n))
     retorna(0)
-fim
-
+fim 

@@ -1,10 +1,12 @@
+from colorpy import error
+
 def read_data_from_file(file_path):
     try:
         in_file = open(file_path, 'r')
         return in_file.read()
         in_file.close()
     except:
-        print('An error occured trying to read the file.')
+        error('An error occured trying to read the file.')
         exit(-1)
 
 def save_data_into_file(file_path, data):
@@ -13,5 +15,5 @@ def save_data_into_file(file_path, data):
         out_file.write(str(data))
         out_file.close()
     except IOError:
-        print('An error occured trying to read the file.')
+        error('An error occured trying to read the file.')
         exit(-1)
