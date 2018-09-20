@@ -14,6 +14,7 @@ reserved = {
     'senão': 'SENAO',
     'repita': 'REPITA',
     'leia': 'LEIA',
+    'escreva': 'ESCREVA',
     'retorna': 'RETORNA',
     'até': 'ATE',
     'inteiro': 'INTEIRO',
@@ -54,7 +55,7 @@ tokens = [
     'OPEN_BRACKET',
     'CLOSE_BRACKET',
 
-    'COMMENT',
+    # 'COMMENT',
 ] + list(reserved.values())
 
 
@@ -135,9 +136,9 @@ def t_comment_rbrace(t):
 
 
 def t_comment_eof(t):
-    t.lexer.begin('INITIAL')
     warning('Comment not closed at position ' + str(
         t.lexer.comment_line) + '.' + str(t.lexer.code_start))
+    return None
 
 
 def t_comment_COMMENT(t):
@@ -166,8 +167,10 @@ def t_ANY_newline(t):
 t_ANY_ignore = ' \t\r\f\v'
 
 
+lexer = lex.lex()
+
+
 def scan(content):
-    lexer = lex.lex()
     lexer.input(content)
 
     content_tokens = []

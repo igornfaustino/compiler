@@ -1,0 +1,7 @@
+digraph tree {
+    "root";
+    "1";
+    "2";
+    "root" -> "1";
+    "root" -> "2";
+}

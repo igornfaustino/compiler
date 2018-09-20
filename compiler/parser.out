@@ -1,0 +1,3412 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> declaration_list
+Rule 2     declaration_list -> declaration_list declaration
+Rule 3     declaration_list -> declaration
+Rule 4     declaration -> var_declaration
+Rule 5     declaration -> var_init
+Rule 6     declaration -> func_declaration
+Rule 7     var_declaration -> type COLON var_list
+Rule 8     var_init -> assignment
+Rule 9     var_list -> var_list COMMA var
+Rule 10    var_list -> var
+Rule 11    var -> ID
+Rule 12    var -> ID index
+Rule 13    index -> index OPEN_BRACKET expression CLOSE_BRACKET
+Rule 14    index -> OPEN_BRACKET expression CLOSE_BRACKET
+Rule 15    type -> INTEIRO
+Rule 16    type -> FLUTUANTE
+Rule 17    func_declaration -> type header
+Rule 18    func_declaration -> header
+Rule 19    header -> ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM
+Rule 20    params_list -> params_list COMMA param
+Rule 21    params_list -> param
+Rule 22    params_list -> empty
+Rule 23    param -> type COLON ID
+Rule 24    param -> param OPEN_BRACKET CLOSE_BRACKET
+Rule 25    body -> body action
+Rule 26    body -> empty
+Rule 27    action -> expression
+Rule 28    action -> var_declaration
+Rule 29    action -> se
+Rule 30    action -> repita
+Rule 31    action -> leia
+Rule 32    action -> escreva
+Rule 33    action -> retorna
+Rule 34    se -> SE expression ENTAO body FIM
+Rule 35    se -> SE expression ENTAO body SENAO body FIM
+Rule 36    repita -> REPITA body ATE expression
+Rule 37    assignment -> var ASSIGNMENT expression
+Rule 38    leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS
+Rule 39    escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+Rule 40    retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+Rule 41    expression -> logic_expression
+Rule 42    expression -> assignment
+Rule 43    logic_expression -> simple_expression
+Rule 44    logic_expression -> logic_expression logic_operator logic_expression
+Rule 45    simple_expression -> additive_expression
+Rule 46    simple_expression -> simple_expression operator_relational additive_expression
+Rule 47    additive_expression -> multiply_expression
+Rule 48    additive_expression -> additive_expression sum_operator multiply_expression
+Rule 49    multiply_expression -> single_expression
+Rule 50    multiply_expression -> multiply_expression multiply_operator single_expression
+Rule 51    single_expression -> factor
+Rule 52    single_expression -> sum_operator factor
+Rule 53    single_expression -> NOT factor
+Rule 54    operator_relational -> EQUAL
+Rule 55    operator_relational -> NOT_EQUAL
+Rule 56    operator_relational -> GREATER_THAN
+Rule 57    operator_relational -> GREATER_EQUAL
+Rule 58    operator_relational -> LESS_THAN
+Rule 59    operator_relational -> LESS_EQUAL
+Rule 60    sum_operator -> PLUS
+Rule 61    sum_operator -> MINUS
+Rule 62    logic_operator -> AND
+Rule 63    logic_operator -> OR
+Rule 64    multiply_operator -> MULTIPLY
+Rule 65    multiply_operator -> DIVIDE
+Rule 66    factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+Rule 67    factor -> var
+Rule 68    factor -> function_call
+Rule 69    factor -> num
+Rule 70    num -> N_INT
+Rule 71    num -> N_FLOAT
+Rule 72    function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+Rule 73    arguments_list -> arguments_list COMMA expression
+Rule 74    arguments_list -> expression
+Rule 75    arguments_list -> empty
+Rule 76    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 62
+ASSIGNMENT           : 37
+ATE                  : 36
+CLOSE_BRACKET        : 13 14 24
+CLOSE_PARENTHESIS    : 19 38 39 40 66 72
+COLON                : 7 23
+COMMA                : 9 20 73
+DIVIDE               : 65
+ENTAO                : 34 35
+EQUAL                : 54
+ESCREVA              : 39
+FIM                  : 19 34 35
+FLUTUANTE            : 16
+GREATER_EQUAL        : 57
+GREATER_THAN         : 56
+ID                   : 11 12 19 23 72
+INTEIRO              : 15
+LEIA                 : 38
+LESS_EQUAL           : 59
+LESS_THAN            : 58
+MINUS                : 61
+MULTIPLY             : 64
+NOT                  : 53
+NOT_EQUAL            : 55
+N_FLOAT              : 71
+N_INT                : 70
+OPEN_BRACKET         : 13 14 24
+OPEN_PARENTHESIS     : 19 38 39 40 66 72
+OR                   : 63
+PLUS                 : 60
+REPITA               : 36
+RETORNA              : 40
+SE                   : 34 35
+SENAO                : 35
+error                : 
+
+Nonterminals, with rules where they appear
+
+action               : 25
+additive_expression  : 45 46 48
+arguments_list       : 72 73
+assignment           : 8 42
+body                 : 19 25 34 35 35 36
+declaration          : 2 3
+declaration_list     : 1 2
+empty                : 22 26 75
+escreva              : 32
+expression           : 13 14 27 34 35 36 37 39 40 66 73 74
+factor               : 51 52 53
+func_declaration     : 6
+function_call        : 68
+header               : 17 18
+index                : 12 13
+leia                 : 31
+logic_expression     : 41 44 44
+logic_operator       : 44
+multiply_expression  : 47 48 50
+multiply_operator    : 50
+num                  : 69
+operator_relational  : 46
+param                : 20 21 24
+params_list          : 19 20
+program              : 0
+repita               : 30
+retorna              : 33
+se                   : 29
+simple_expression    : 43 46
+single_expression    : 49 50
+sum_operator         : 48 52
+type                 : 7 17 23
+var                  : 9 10 37 38 67
+var_declaration      : 4 28
+var_init             : 5
+var_list             : 7 9
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . declaration_list
+    (2) declaration_list -> . declaration_list declaration
+    (3) declaration_list -> . declaration
+    (4) declaration -> . var_declaration
+    (5) declaration -> . var_init
+    (6) declaration -> . func_declaration
+    (7) var_declaration -> . type COLON var_list
+    (8) var_init -> . assignment
+    (17) func_declaration -> . type header
+    (18) func_declaration -> . header
+    (15) type -> . INTEIRO
+    (16) type -> . FLUTUANTE
+    (37) assignment -> . var ASSIGNMENT expression
+    (19) header -> . ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM
+    (11) var -> . ID
+    (12) var -> . ID index
+
+    INTEIRO         shift and go to state 10
+    FLUTUANTE       shift and go to state 11
+    ID              shift and go to state 13
+
+    program                        shift and go to state 1
+    declaration_list               shift and go to state 2
+    declaration                    shift and go to state 3
+    var_declaration                shift and go to state 4
+    var_init                       shift and go to state 5
+    func_declaration               shift and go to state 6
+    type                           shift and go to state 7
+    assignment                     shift and go to state 8
+    header                         shift and go to state 9
+    var                            shift and go to state 12
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> declaration_list .
+    (2) declaration_list -> declaration_list . declaration
+    (4) declaration -> . var_declaration
+    (5) declaration -> . var_init
+    (6) declaration -> . func_declaration
+    (7) var_declaration -> . type COLON var_list
+    (8) var_init -> . assignment
+    (17) func_declaration -> . type header
+    (18) func_declaration -> . header
+    (15) type -> . INTEIRO
+    (16) type -> . FLUTUANTE
+    (37) assignment -> . var ASSIGNMENT expression
+    (19) header -> . ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM
+    (11) var -> . ID
+    (12) var -> . ID index
+
+    $end            reduce using rule 1 (program -> declaration_list .)
+    INTEIRO         shift and go to state 10
+    FLUTUANTE       shift and go to state 11
+    ID              shift and go to state 13
+
+    declaration                    shift and go to state 14
+    var_declaration                shift and go to state 4
+    var_init                       shift and go to state 5
+    func_declaration               shift and go to state 6
+    type                           shift and go to state 7
+    assignment                     shift and go to state 8
+    header                         shift and go to state 9
+    var                            shift and go to state 12
+
+state 3
+
+    (3) declaration_list -> declaration .
+
+    INTEIRO         reduce using rule 3 (declaration_list -> declaration .)
+    FLUTUANTE       reduce using rule 3 (declaration_list -> declaration .)
+    ID              reduce using rule 3 (declaration_list -> declaration .)
+    $end            reduce using rule 3 (declaration_list -> declaration .)
+
+
+state 4
+
+    (4) declaration -> var_declaration .
+
+    INTEIRO         reduce using rule 4 (declaration -> var_declaration .)
+    FLUTUANTE       reduce using rule 4 (declaration -> var_declaration .)
+    ID              reduce using rule 4 (declaration -> var_declaration .)
+    $end            reduce using rule 4 (declaration -> var_declaration .)
+
+
+state 5
+
+    (5) declaration -> var_init .
+
+    INTEIRO         reduce using rule 5 (declaration -> var_init .)
+    FLUTUANTE       reduce using rule 5 (declaration -> var_init .)
+    ID              reduce using rule 5 (declaration -> var_init .)
+    $end            reduce using rule 5 (declaration -> var_init .)
+
+
+state 6
+
+    (6) declaration -> func_declaration .
+
+    INTEIRO         reduce using rule 6 (declaration -> func_declaration .)
+    FLUTUANTE       reduce using rule 6 (declaration -> func_declaration .)
+    ID              reduce using rule 6 (declaration -> func_declaration .)
+    $end            reduce using rule 6 (declaration -> func_declaration .)
+
+
+state 7
+
+    (7) var_declaration -> type . COLON var_list
+    (17) func_declaration -> type . header
+    (19) header -> . ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM
+
+    COLON           shift and go to state 15
+    ID              shift and go to state 17
+
+    header                         shift and go to state 16
+
+state 8
+
+    (8) var_init -> assignment .
+
+    INTEIRO         reduce using rule 8 (var_init -> assignment .)
+    FLUTUANTE       reduce using rule 8 (var_init -> assignment .)
+    ID              reduce using rule 8 (var_init -> assignment .)
+    $end            reduce using rule 8 (var_init -> assignment .)
+
+
+state 9
+
+    (18) func_declaration -> header .
+
+    INTEIRO         reduce using rule 18 (func_declaration -> header .)
+    FLUTUANTE       reduce using rule 18 (func_declaration -> header .)
+    ID              reduce using rule 18 (func_declaration -> header .)
+    $end            reduce using rule 18 (func_declaration -> header .)
+
+
+state 10
+
+    (15) type -> INTEIRO .
+
+    COLON           reduce using rule 15 (type -> INTEIRO .)
+    ID              reduce using rule 15 (type -> INTEIRO .)
+
+
+state 11
+
+    (16) type -> FLUTUANTE .
+
+    COLON           reduce using rule 16 (type -> FLUTUANTE .)
+    ID              reduce using rule 16 (type -> FLUTUANTE .)
+
+
+state 12
+
+    (37) assignment -> var . ASSIGNMENT expression
+
+    ASSIGNMENT      shift and go to state 18
+
+
+state 13
+
+    (19) header -> ID . OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM
+    (11) var -> ID .
+    (12) var -> ID . index
+    (13) index -> . index OPEN_BRACKET expression CLOSE_BRACKET
+    (14) index -> . OPEN_BRACKET expression CLOSE_BRACKET
+
+    OPEN_PARENTHESIS shift and go to state 19
+    ASSIGNMENT      reduce using rule 11 (var -> ID .)
+    OPEN_BRACKET    shift and go to state 21
+
+    index                          shift and go to state 20
+
+state 14
+
+    (2) declaration_list -> declaration_list declaration .
+
+    INTEIRO         reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    FLUTUANTE       reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    ID              reduce using rule 2 (declaration_list -> declaration_list declaration .)
+    $end            reduce using rule 2 (declaration_list -> declaration_list declaration .)
+
+
+state 15
+
+    (7) var_declaration -> type COLON . var_list
+    (9) var_list -> . var_list COMMA var
+    (10) var_list -> . var
+    (11) var -> . ID
+    (12) var -> . ID index
+
+    ID              shift and go to state 24
+
+    var_list                       shift and go to state 22
+    var                            shift and go to state 23
+
+state 16
+
+    (17) func_declaration -> type header .
+
+    INTEIRO         reduce using rule 17 (func_declaration -> type header .)
+    FLUTUANTE       reduce using rule 17 (func_declaration -> type header .)
+    ID              reduce using rule 17 (func_declaration -> type header .)
+    $end            reduce using rule 17 (func_declaration -> type header .)
+
+
+state 17
+
+    (19) header -> ID . OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM
+
+    OPEN_PARENTHESIS shift and go to state 19
+
+
+state 18
+
+    (37) assignment -> var ASSIGNMENT . expression
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    var                            shift and go to state 25
+    expression                     shift and go to state 26
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 19
+
+    (19) header -> ID OPEN_PARENTHESIS . params_list CLOSE_PARENTHESIS body FIM
+    (20) params_list -> . params_list COMMA param
+    (21) params_list -> . param
+    (22) params_list -> . empty
+    (23) param -> . type COLON ID
+    (24) param -> . param OPEN_BRACKET CLOSE_BRACKET
+    (76) empty -> .
+    (15) type -> . INTEIRO
+    (16) type -> . FLUTUANTE
+
+    CLOSE_PARENTHESIS reduce using rule 76 (empty -> .)
+    COMMA           reduce using rule 76 (empty -> .)
+    INTEIRO         shift and go to state 10
+    FLUTUANTE       shift and go to state 11
+
+    params_list                    shift and go to state 44
+    param                          shift and go to state 45
+    empty                          shift and go to state 46
+    type                           shift and go to state 47
+
+state 20
+
+    (12) var -> ID index .
+    (13) index -> index . OPEN_BRACKET expression CLOSE_BRACKET
+
+    ASSIGNMENT      reduce using rule 12 (var -> ID index .)
+    COMMA           reduce using rule 12 (var -> ID index .)
+    INTEIRO         reduce using rule 12 (var -> ID index .)
+    FLUTUANTE       reduce using rule 12 (var -> ID index .)
+    ID              reduce using rule 12 (var -> ID index .)
+    $end            reduce using rule 12 (var -> ID index .)
+    FIM             reduce using rule 12 (var -> ID index .)
+    SE              reduce using rule 12 (var -> ID index .)
+    REPITA          reduce using rule 12 (var -> ID index .)
+    LEIA            reduce using rule 12 (var -> ID index .)
+    ESCREVA         reduce using rule 12 (var -> ID index .)
+    RETORNA         reduce using rule 12 (var -> ID index .)
+    NOT             reduce using rule 12 (var -> ID index .)
+    OPEN_PARENTHESIS reduce using rule 12 (var -> ID index .)
+    PLUS            reduce using rule 12 (var -> ID index .)
+    MINUS           reduce using rule 12 (var -> ID index .)
+    N_INT           reduce using rule 12 (var -> ID index .)
+    N_FLOAT         reduce using rule 12 (var -> ID index .)
+    ATE             reduce using rule 12 (var -> ID index .)
+    SENAO           reduce using rule 12 (var -> ID index .)
+    MULTIPLY        reduce using rule 12 (var -> ID index .)
+    DIVIDE          reduce using rule 12 (var -> ID index .)
+    EQUAL           reduce using rule 12 (var -> ID index .)
+    NOT_EQUAL       reduce using rule 12 (var -> ID index .)
+    GREATER_THAN    reduce using rule 12 (var -> ID index .)
+    GREATER_EQUAL   reduce using rule 12 (var -> ID index .)
+    LESS_THAN       reduce using rule 12 (var -> ID index .)
+    LESS_EQUAL      reduce using rule 12 (var -> ID index .)
+    AND             reduce using rule 12 (var -> ID index .)
+    OR              reduce using rule 12 (var -> ID index .)
+    CLOSE_BRACKET   reduce using rule 12 (var -> ID index .)
+    CLOSE_PARENTHESIS reduce using rule 12 (var -> ID index .)
+    ENTAO           reduce using rule 12 (var -> ID index .)
+    OPEN_BRACKET    shift and go to state 48
+
+
+state 21
+
+    (14) index -> OPEN_BRACKET . expression CLOSE_BRACKET
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 49
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 22
+
+    (7) var_declaration -> type COLON var_list .
+    (9) var_list -> var_list . COMMA var
+
+    INTEIRO         reduce using rule 7 (var_declaration -> type COLON var_list .)
+    FLUTUANTE       reduce using rule 7 (var_declaration -> type COLON var_list .)
+    ID              reduce using rule 7 (var_declaration -> type COLON var_list .)
+    $end            reduce using rule 7 (var_declaration -> type COLON var_list .)
+    FIM             reduce using rule 7 (var_declaration -> type COLON var_list .)
+    SE              reduce using rule 7 (var_declaration -> type COLON var_list .)
+    REPITA          reduce using rule 7 (var_declaration -> type COLON var_list .)
+    LEIA            reduce using rule 7 (var_declaration -> type COLON var_list .)
+    ESCREVA         reduce using rule 7 (var_declaration -> type COLON var_list .)
+    RETORNA         reduce using rule 7 (var_declaration -> type COLON var_list .)
+    NOT             reduce using rule 7 (var_declaration -> type COLON var_list .)
+    OPEN_PARENTHESIS reduce using rule 7 (var_declaration -> type COLON var_list .)
+    PLUS            reduce using rule 7 (var_declaration -> type COLON var_list .)
+    MINUS           reduce using rule 7 (var_declaration -> type COLON var_list .)
+    N_INT           reduce using rule 7 (var_declaration -> type COLON var_list .)
+    N_FLOAT         reduce using rule 7 (var_declaration -> type COLON var_list .)
+    ATE             reduce using rule 7 (var_declaration -> type COLON var_list .)
+    SENAO           reduce using rule 7 (var_declaration -> type COLON var_list .)
+    COMMA           shift and go to state 50
+
+
+state 23
+
+    (10) var_list -> var .
+
+    COMMA           reduce using rule 10 (var_list -> var .)
+    INTEIRO         reduce using rule 10 (var_list -> var .)
+    FLUTUANTE       reduce using rule 10 (var_list -> var .)
+    ID              reduce using rule 10 (var_list -> var .)
+    $end            reduce using rule 10 (var_list -> var .)
+    FIM             reduce using rule 10 (var_list -> var .)
+    SE              reduce using rule 10 (var_list -> var .)
+    REPITA          reduce using rule 10 (var_list -> var .)
+    LEIA            reduce using rule 10 (var_list -> var .)
+    ESCREVA         reduce using rule 10 (var_list -> var .)
+    RETORNA         reduce using rule 10 (var_list -> var .)
+    NOT             reduce using rule 10 (var_list -> var .)
+    OPEN_PARENTHESIS reduce using rule 10 (var_list -> var .)
+    PLUS            reduce using rule 10 (var_list -> var .)
+    MINUS           reduce using rule 10 (var_list -> var .)
+    N_INT           reduce using rule 10 (var_list -> var .)
+    N_FLOAT         reduce using rule 10 (var_list -> var .)
+    ATE             reduce using rule 10 (var_list -> var .)
+    SENAO           reduce using rule 10 (var_list -> var .)
+
+
+state 24
+
+    (11) var -> ID .
+    (12) var -> ID . index
+    (13) index -> . index OPEN_BRACKET expression CLOSE_BRACKET
+    (14) index -> . OPEN_BRACKET expression CLOSE_BRACKET
+
+    COMMA           reduce using rule 11 (var -> ID .)
+    INTEIRO         reduce using rule 11 (var -> ID .)
+    FLUTUANTE       reduce using rule 11 (var -> ID .)
+    ID              reduce using rule 11 (var -> ID .)
+    $end            reduce using rule 11 (var -> ID .)
+    FIM             reduce using rule 11 (var -> ID .)
+    SE              reduce using rule 11 (var -> ID .)
+    REPITA          reduce using rule 11 (var -> ID .)
+    LEIA            reduce using rule 11 (var -> ID .)
+    ESCREVA         reduce using rule 11 (var -> ID .)
+    RETORNA         reduce using rule 11 (var -> ID .)
+    NOT             reduce using rule 11 (var -> ID .)
+    OPEN_PARENTHESIS reduce using rule 11 (var -> ID .)
+    PLUS            reduce using rule 11 (var -> ID .)
+    MINUS           reduce using rule 11 (var -> ID .)
+    N_INT           reduce using rule 11 (var -> ID .)
+    N_FLOAT         reduce using rule 11 (var -> ID .)
+    ATE             reduce using rule 11 (var -> ID .)
+    SENAO           reduce using rule 11 (var -> ID .)
+    CLOSE_PARENTHESIS reduce using rule 11 (var -> ID .)
+    OPEN_BRACKET    shift and go to state 21
+
+    index                          shift and go to state 20
+
+state 25
+
+    (37) assignment -> var . ASSIGNMENT expression
+    (67) factor -> var .
+
+    ASSIGNMENT      shift and go to state 18
+    MULTIPLY        reduce using rule 67 (factor -> var .)
+    DIVIDE          reduce using rule 67 (factor -> var .)
+    PLUS            reduce using rule 67 (factor -> var .)
+    MINUS           reduce using rule 67 (factor -> var .)
+    EQUAL           reduce using rule 67 (factor -> var .)
+    NOT_EQUAL       reduce using rule 67 (factor -> var .)
+    GREATER_THAN    reduce using rule 67 (factor -> var .)
+    GREATER_EQUAL   reduce using rule 67 (factor -> var .)
+    LESS_THAN       reduce using rule 67 (factor -> var .)
+    LESS_EQUAL      reduce using rule 67 (factor -> var .)
+    AND             reduce using rule 67 (factor -> var .)
+    OR              reduce using rule 67 (factor -> var .)
+    INTEIRO         reduce using rule 67 (factor -> var .)
+    FLUTUANTE       reduce using rule 67 (factor -> var .)
+    ID              reduce using rule 67 (factor -> var .)
+    $end            reduce using rule 67 (factor -> var .)
+    CLOSE_BRACKET   reduce using rule 67 (factor -> var .)
+    CLOSE_PARENTHESIS reduce using rule 67 (factor -> var .)
+    COMMA           reduce using rule 67 (factor -> var .)
+    FIM             reduce using rule 67 (factor -> var .)
+    SE              reduce using rule 67 (factor -> var .)
+    REPITA          reduce using rule 67 (factor -> var .)
+    LEIA            reduce using rule 67 (factor -> var .)
+    ESCREVA         reduce using rule 67 (factor -> var .)
+    RETORNA         reduce using rule 67 (factor -> var .)
+    NOT             reduce using rule 67 (factor -> var .)
+    OPEN_PARENTHESIS reduce using rule 67 (factor -> var .)
+    N_INT           reduce using rule 67 (factor -> var .)
+    N_FLOAT         reduce using rule 67 (factor -> var .)
+    ENTAO           reduce using rule 67 (factor -> var .)
+    ATE             reduce using rule 67 (factor -> var .)
+    SENAO           reduce using rule 67 (factor -> var .)
+
+
+state 26
+
+    (37) assignment -> var ASSIGNMENT expression .
+
+    INTEIRO         reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    FLUTUANTE       reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    ID              reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    $end            reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    CLOSE_BRACKET   reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    CLOSE_PARENTHESIS reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    COMMA           reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    FIM             reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    SE              reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    REPITA          reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    LEIA            reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    ESCREVA         reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    RETORNA         reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    NOT             reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    OPEN_PARENTHESIS reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    PLUS            reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    MINUS           reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    N_INT           reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    N_FLOAT         reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    ENTAO           reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    ATE             reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+    SENAO           reduce using rule 37 (assignment -> var ASSIGNMENT expression .)
+
+
+state 27
+
+    (41) expression -> logic_expression .
+    (44) logic_expression -> logic_expression . logic_operator logic_expression
+    (62) logic_operator -> . AND
+    (63) logic_operator -> . OR
+
+    INTEIRO         reduce using rule 41 (expression -> logic_expression .)
+    FLUTUANTE       reduce using rule 41 (expression -> logic_expression .)
+    ID              reduce using rule 41 (expression -> logic_expression .)
+    $end            reduce using rule 41 (expression -> logic_expression .)
+    CLOSE_BRACKET   reduce using rule 41 (expression -> logic_expression .)
+    CLOSE_PARENTHESIS reduce using rule 41 (expression -> logic_expression .)
+    COMMA           reduce using rule 41 (expression -> logic_expression .)
+    FIM             reduce using rule 41 (expression -> logic_expression .)
+    SE              reduce using rule 41 (expression -> logic_expression .)
+    REPITA          reduce using rule 41 (expression -> logic_expression .)
+    LEIA            reduce using rule 41 (expression -> logic_expression .)
+    ESCREVA         reduce using rule 41 (expression -> logic_expression .)
+    RETORNA         reduce using rule 41 (expression -> logic_expression .)
+    NOT             reduce using rule 41 (expression -> logic_expression .)
+    OPEN_PARENTHESIS reduce using rule 41 (expression -> logic_expression .)
+    PLUS            reduce using rule 41 (expression -> logic_expression .)
+    MINUS           reduce using rule 41 (expression -> logic_expression .)
+    N_INT           reduce using rule 41 (expression -> logic_expression .)
+    N_FLOAT         reduce using rule 41 (expression -> logic_expression .)
+    ENTAO           reduce using rule 41 (expression -> logic_expression .)
+    ATE             reduce using rule 41 (expression -> logic_expression .)
+    SENAO           reduce using rule 41 (expression -> logic_expression .)
+    AND             shift and go to state 52
+    OR              shift and go to state 53
+
+    logic_operator                 shift and go to state 51
+
+state 28
+
+    (42) expression -> assignment .
+
+    INTEIRO         reduce using rule 42 (expression -> assignment .)
+    FLUTUANTE       reduce using rule 42 (expression -> assignment .)
+    ID              reduce using rule 42 (expression -> assignment .)
+    $end            reduce using rule 42 (expression -> assignment .)
+    CLOSE_BRACKET   reduce using rule 42 (expression -> assignment .)
+    CLOSE_PARENTHESIS reduce using rule 42 (expression -> assignment .)
+    COMMA           reduce using rule 42 (expression -> assignment .)
+    FIM             reduce using rule 42 (expression -> assignment .)
+    SE              reduce using rule 42 (expression -> assignment .)
+    REPITA          reduce using rule 42 (expression -> assignment .)
+    LEIA            reduce using rule 42 (expression -> assignment .)
+    ESCREVA         reduce using rule 42 (expression -> assignment .)
+    RETORNA         reduce using rule 42 (expression -> assignment .)
+    NOT             reduce using rule 42 (expression -> assignment .)
+    OPEN_PARENTHESIS reduce using rule 42 (expression -> assignment .)
+    PLUS            reduce using rule 42 (expression -> assignment .)
+    MINUS           reduce using rule 42 (expression -> assignment .)
+    N_INT           reduce using rule 42 (expression -> assignment .)
+    N_FLOAT         reduce using rule 42 (expression -> assignment .)
+    ENTAO           reduce using rule 42 (expression -> assignment .)
+    ATE             reduce using rule 42 (expression -> assignment .)
+    SENAO           reduce using rule 42 (expression -> assignment .)
+
+
+state 29
+
+    (43) logic_expression -> simple_expression .
+    (46) simple_expression -> simple_expression . operator_relational additive_expression
+    (54) operator_relational -> . EQUAL
+    (55) operator_relational -> . NOT_EQUAL
+    (56) operator_relational -> . GREATER_THAN
+    (57) operator_relational -> . GREATER_EQUAL
+    (58) operator_relational -> . LESS_THAN
+    (59) operator_relational -> . LESS_EQUAL
+
+    AND             reduce using rule 43 (logic_expression -> simple_expression .)
+    OR              reduce using rule 43 (logic_expression -> simple_expression .)
+    INTEIRO         reduce using rule 43 (logic_expression -> simple_expression .)
+    FLUTUANTE       reduce using rule 43 (logic_expression -> simple_expression .)
+    ID              reduce using rule 43 (logic_expression -> simple_expression .)
+    $end            reduce using rule 43 (logic_expression -> simple_expression .)
+    CLOSE_BRACKET   reduce using rule 43 (logic_expression -> simple_expression .)
+    CLOSE_PARENTHESIS reduce using rule 43 (logic_expression -> simple_expression .)
+    COMMA           reduce using rule 43 (logic_expression -> simple_expression .)
+    FIM             reduce using rule 43 (logic_expression -> simple_expression .)
+    SE              reduce using rule 43 (logic_expression -> simple_expression .)
+    REPITA          reduce using rule 43 (logic_expression -> simple_expression .)
+    LEIA            reduce using rule 43 (logic_expression -> simple_expression .)
+    ESCREVA         reduce using rule 43 (logic_expression -> simple_expression .)
+    RETORNA         reduce using rule 43 (logic_expression -> simple_expression .)
+    NOT             reduce using rule 43 (logic_expression -> simple_expression .)
+    OPEN_PARENTHESIS reduce using rule 43 (logic_expression -> simple_expression .)
+    PLUS            reduce using rule 43 (logic_expression -> simple_expression .)
+    MINUS           reduce using rule 43 (logic_expression -> simple_expression .)
+    N_INT           reduce using rule 43 (logic_expression -> simple_expression .)
+    N_FLOAT         reduce using rule 43 (logic_expression -> simple_expression .)
+    ENTAO           reduce using rule 43 (logic_expression -> simple_expression .)
+    ATE             reduce using rule 43 (logic_expression -> simple_expression .)
+    SENAO           reduce using rule 43 (logic_expression -> simple_expression .)
+    EQUAL           shift and go to state 55
+    NOT_EQUAL       shift and go to state 56
+    GREATER_THAN    shift and go to state 57
+    GREATER_EQUAL   shift and go to state 58
+    LESS_THAN       shift and go to state 59
+    LESS_EQUAL      shift and go to state 60
+
+    operator_relational            shift and go to state 54
+
+state 30
+
+    (45) simple_expression -> additive_expression .
+    (48) additive_expression -> additive_expression . sum_operator multiply_expression
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    EQUAL           reduce using rule 45 (simple_expression -> additive_expression .)
+    NOT_EQUAL       reduce using rule 45 (simple_expression -> additive_expression .)
+    GREATER_THAN    reduce using rule 45 (simple_expression -> additive_expression .)
+    GREATER_EQUAL   reduce using rule 45 (simple_expression -> additive_expression .)
+    LESS_THAN       reduce using rule 45 (simple_expression -> additive_expression .)
+    LESS_EQUAL      reduce using rule 45 (simple_expression -> additive_expression .)
+    AND             reduce using rule 45 (simple_expression -> additive_expression .)
+    OR              reduce using rule 45 (simple_expression -> additive_expression .)
+    INTEIRO         reduce using rule 45 (simple_expression -> additive_expression .)
+    FLUTUANTE       reduce using rule 45 (simple_expression -> additive_expression .)
+    ID              reduce using rule 45 (simple_expression -> additive_expression .)
+    $end            reduce using rule 45 (simple_expression -> additive_expression .)
+    CLOSE_BRACKET   reduce using rule 45 (simple_expression -> additive_expression .)
+    CLOSE_PARENTHESIS reduce using rule 45 (simple_expression -> additive_expression .)
+    COMMA           reduce using rule 45 (simple_expression -> additive_expression .)
+    FIM             reduce using rule 45 (simple_expression -> additive_expression .)
+    SE              reduce using rule 45 (simple_expression -> additive_expression .)
+    REPITA          reduce using rule 45 (simple_expression -> additive_expression .)
+    LEIA            reduce using rule 45 (simple_expression -> additive_expression .)
+    ESCREVA         reduce using rule 45 (simple_expression -> additive_expression .)
+    RETORNA         reduce using rule 45 (simple_expression -> additive_expression .)
+    NOT             reduce using rule 45 (simple_expression -> additive_expression .)
+    OPEN_PARENTHESIS reduce using rule 45 (simple_expression -> additive_expression .)
+    N_INT           reduce using rule 45 (simple_expression -> additive_expression .)
+    N_FLOAT         reduce using rule 45 (simple_expression -> additive_expression .)
+    ENTAO           reduce using rule 45 (simple_expression -> additive_expression .)
+    ATE             reduce using rule 45 (simple_expression -> additive_expression .)
+    SENAO           reduce using rule 45 (simple_expression -> additive_expression .)
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+
+  ! PLUS            [ reduce using rule 45 (simple_expression -> additive_expression .) ]
+  ! MINUS           [ reduce using rule 45 (simple_expression -> additive_expression .) ]
+
+    sum_operator                   shift and go to state 61
+
+state 31
+
+    (11) var -> ID .
+    (12) var -> ID . index
+    (72) function_call -> ID . OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (13) index -> . index OPEN_BRACKET expression CLOSE_BRACKET
+    (14) index -> . OPEN_BRACKET expression CLOSE_BRACKET
+
+  ! shift/reduce conflict for OPEN_PARENTHESIS resolved as shift
+    ASSIGNMENT      reduce using rule 11 (var -> ID .)
+    MULTIPLY        reduce using rule 11 (var -> ID .)
+    DIVIDE          reduce using rule 11 (var -> ID .)
+    PLUS            reduce using rule 11 (var -> ID .)
+    MINUS           reduce using rule 11 (var -> ID .)
+    EQUAL           reduce using rule 11 (var -> ID .)
+    NOT_EQUAL       reduce using rule 11 (var -> ID .)
+    GREATER_THAN    reduce using rule 11 (var -> ID .)
+    GREATER_EQUAL   reduce using rule 11 (var -> ID .)
+    LESS_THAN       reduce using rule 11 (var -> ID .)
+    LESS_EQUAL      reduce using rule 11 (var -> ID .)
+    AND             reduce using rule 11 (var -> ID .)
+    OR              reduce using rule 11 (var -> ID .)
+    INTEIRO         reduce using rule 11 (var -> ID .)
+    FLUTUANTE       reduce using rule 11 (var -> ID .)
+    ID              reduce using rule 11 (var -> ID .)
+    $end            reduce using rule 11 (var -> ID .)
+    CLOSE_BRACKET   reduce using rule 11 (var -> ID .)
+    CLOSE_PARENTHESIS reduce using rule 11 (var -> ID .)
+    COMMA           reduce using rule 11 (var -> ID .)
+    FIM             reduce using rule 11 (var -> ID .)
+    SE              reduce using rule 11 (var -> ID .)
+    REPITA          reduce using rule 11 (var -> ID .)
+    LEIA            reduce using rule 11 (var -> ID .)
+    ESCREVA         reduce using rule 11 (var -> ID .)
+    RETORNA         reduce using rule 11 (var -> ID .)
+    NOT             reduce using rule 11 (var -> ID .)
+    N_INT           reduce using rule 11 (var -> ID .)
+    N_FLOAT         reduce using rule 11 (var -> ID .)
+    ENTAO           reduce using rule 11 (var -> ID .)
+    ATE             reduce using rule 11 (var -> ID .)
+    SENAO           reduce using rule 11 (var -> ID .)
+    OPEN_PARENTHESIS shift and go to state 62
+    OPEN_BRACKET    shift and go to state 21
+
+  ! OPEN_PARENTHESIS [ reduce using rule 11 (var -> ID .) ]
+
+    index                          shift and go to state 20
+
+state 32
+
+    (47) additive_expression -> multiply_expression .
+    (50) multiply_expression -> multiply_expression . multiply_operator single_expression
+    (64) multiply_operator -> . MULTIPLY
+    (65) multiply_operator -> . DIVIDE
+
+    PLUS            reduce using rule 47 (additive_expression -> multiply_expression .)
+    MINUS           reduce using rule 47 (additive_expression -> multiply_expression .)
+    EQUAL           reduce using rule 47 (additive_expression -> multiply_expression .)
+    NOT_EQUAL       reduce using rule 47 (additive_expression -> multiply_expression .)
+    GREATER_THAN    reduce using rule 47 (additive_expression -> multiply_expression .)
+    GREATER_EQUAL   reduce using rule 47 (additive_expression -> multiply_expression .)
+    LESS_THAN       reduce using rule 47 (additive_expression -> multiply_expression .)
+    LESS_EQUAL      reduce using rule 47 (additive_expression -> multiply_expression .)
+    AND             reduce using rule 47 (additive_expression -> multiply_expression .)
+    OR              reduce using rule 47 (additive_expression -> multiply_expression .)
+    INTEIRO         reduce using rule 47 (additive_expression -> multiply_expression .)
+    FLUTUANTE       reduce using rule 47 (additive_expression -> multiply_expression .)
+    ID              reduce using rule 47 (additive_expression -> multiply_expression .)
+    $end            reduce using rule 47 (additive_expression -> multiply_expression .)
+    CLOSE_BRACKET   reduce using rule 47 (additive_expression -> multiply_expression .)
+    CLOSE_PARENTHESIS reduce using rule 47 (additive_expression -> multiply_expression .)
+    COMMA           reduce using rule 47 (additive_expression -> multiply_expression .)
+    FIM             reduce using rule 47 (additive_expression -> multiply_expression .)
+    SE              reduce using rule 47 (additive_expression -> multiply_expression .)
+    REPITA          reduce using rule 47 (additive_expression -> multiply_expression .)
+    LEIA            reduce using rule 47 (additive_expression -> multiply_expression .)
+    ESCREVA         reduce using rule 47 (additive_expression -> multiply_expression .)
+    RETORNA         reduce using rule 47 (additive_expression -> multiply_expression .)
+    NOT             reduce using rule 47 (additive_expression -> multiply_expression .)
+    OPEN_PARENTHESIS reduce using rule 47 (additive_expression -> multiply_expression .)
+    N_INT           reduce using rule 47 (additive_expression -> multiply_expression .)
+    N_FLOAT         reduce using rule 47 (additive_expression -> multiply_expression .)
+    ENTAO           reduce using rule 47 (additive_expression -> multiply_expression .)
+    ATE             reduce using rule 47 (additive_expression -> multiply_expression .)
+    SENAO           reduce using rule 47 (additive_expression -> multiply_expression .)
+    MULTIPLY        shift and go to state 64
+    DIVIDE          shift and go to state 65
+
+    multiply_operator              shift and go to state 63
+
+state 33
+
+    (52) single_expression -> sum_operator . factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (11) var -> . ID
+    (12) var -> . ID index
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    OPEN_PARENTHESIS shift and go to state 37
+    ID              shift and go to state 31
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    factor                         shift and go to state 66
+    var                            shift and go to state 67
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 34
+
+    (49) multiply_expression -> single_expression .
+
+    MULTIPLY        reduce using rule 49 (multiply_expression -> single_expression .)
+    DIVIDE          reduce using rule 49 (multiply_expression -> single_expression .)
+    PLUS            reduce using rule 49 (multiply_expression -> single_expression .)
+    MINUS           reduce using rule 49 (multiply_expression -> single_expression .)
+    EQUAL           reduce using rule 49 (multiply_expression -> single_expression .)
+    NOT_EQUAL       reduce using rule 49 (multiply_expression -> single_expression .)
+    GREATER_THAN    reduce using rule 49 (multiply_expression -> single_expression .)
+    GREATER_EQUAL   reduce using rule 49 (multiply_expression -> single_expression .)
+    LESS_THAN       reduce using rule 49 (multiply_expression -> single_expression .)
+    LESS_EQUAL      reduce using rule 49 (multiply_expression -> single_expression .)
+    AND             reduce using rule 49 (multiply_expression -> single_expression .)
+    OR              reduce using rule 49 (multiply_expression -> single_expression .)
+    INTEIRO         reduce using rule 49 (multiply_expression -> single_expression .)
+    FLUTUANTE       reduce using rule 49 (multiply_expression -> single_expression .)
+    ID              reduce using rule 49 (multiply_expression -> single_expression .)
+    $end            reduce using rule 49 (multiply_expression -> single_expression .)
+    CLOSE_BRACKET   reduce using rule 49 (multiply_expression -> single_expression .)
+    CLOSE_PARENTHESIS reduce using rule 49 (multiply_expression -> single_expression .)
+    COMMA           reduce using rule 49 (multiply_expression -> single_expression .)
+    FIM             reduce using rule 49 (multiply_expression -> single_expression .)
+    SE              reduce using rule 49 (multiply_expression -> single_expression .)
+    REPITA          reduce using rule 49 (multiply_expression -> single_expression .)
+    LEIA            reduce using rule 49 (multiply_expression -> single_expression .)
+    ESCREVA         reduce using rule 49 (multiply_expression -> single_expression .)
+    RETORNA         reduce using rule 49 (multiply_expression -> single_expression .)
+    NOT             reduce using rule 49 (multiply_expression -> single_expression .)
+    OPEN_PARENTHESIS reduce using rule 49 (multiply_expression -> single_expression .)
+    N_INT           reduce using rule 49 (multiply_expression -> single_expression .)
+    N_FLOAT         reduce using rule 49 (multiply_expression -> single_expression .)
+    ENTAO           reduce using rule 49 (multiply_expression -> single_expression .)
+    ATE             reduce using rule 49 (multiply_expression -> single_expression .)
+    SENAO           reduce using rule 49 (multiply_expression -> single_expression .)
+
+
+state 35
+
+    (51) single_expression -> factor .
+
+    MULTIPLY        reduce using rule 51 (single_expression -> factor .)
+    DIVIDE          reduce using rule 51 (single_expression -> factor .)
+    PLUS            reduce using rule 51 (single_expression -> factor .)
+    MINUS           reduce using rule 51 (single_expression -> factor .)
+    EQUAL           reduce using rule 51 (single_expression -> factor .)
+    NOT_EQUAL       reduce using rule 51 (single_expression -> factor .)
+    GREATER_THAN    reduce using rule 51 (single_expression -> factor .)
+    GREATER_EQUAL   reduce using rule 51 (single_expression -> factor .)
+    LESS_THAN       reduce using rule 51 (single_expression -> factor .)
+    LESS_EQUAL      reduce using rule 51 (single_expression -> factor .)
+    AND             reduce using rule 51 (single_expression -> factor .)
+    OR              reduce using rule 51 (single_expression -> factor .)
+    INTEIRO         reduce using rule 51 (single_expression -> factor .)
+    FLUTUANTE       reduce using rule 51 (single_expression -> factor .)
+    ID              reduce using rule 51 (single_expression -> factor .)
+    $end            reduce using rule 51 (single_expression -> factor .)
+    CLOSE_BRACKET   reduce using rule 51 (single_expression -> factor .)
+    CLOSE_PARENTHESIS reduce using rule 51 (single_expression -> factor .)
+    COMMA           reduce using rule 51 (single_expression -> factor .)
+    FIM             reduce using rule 51 (single_expression -> factor .)
+    SE              reduce using rule 51 (single_expression -> factor .)
+    REPITA          reduce using rule 51 (single_expression -> factor .)
+    LEIA            reduce using rule 51 (single_expression -> factor .)
+    ESCREVA         reduce using rule 51 (single_expression -> factor .)
+    RETORNA         reduce using rule 51 (single_expression -> factor .)
+    NOT             reduce using rule 51 (single_expression -> factor .)
+    OPEN_PARENTHESIS reduce using rule 51 (single_expression -> factor .)
+    N_INT           reduce using rule 51 (single_expression -> factor .)
+    N_FLOAT         reduce using rule 51 (single_expression -> factor .)
+    ENTAO           reduce using rule 51 (single_expression -> factor .)
+    ATE             reduce using rule 51 (single_expression -> factor .)
+    SENAO           reduce using rule 51 (single_expression -> factor .)
+
+
+state 36
+
+    (53) single_expression -> NOT . factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (11) var -> . ID
+    (12) var -> . ID index
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    OPEN_PARENTHESIS shift and go to state 37
+    ID              shift and go to state 31
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    factor                         shift and go to state 68
+    var                            shift and go to state 67
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 37
+
+    (66) factor -> OPEN_PARENTHESIS . expression CLOSE_PARENTHESIS
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 69
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 38
+
+    (68) factor -> function_call .
+
+    MULTIPLY        reduce using rule 68 (factor -> function_call .)
+    DIVIDE          reduce using rule 68 (factor -> function_call .)
+    PLUS            reduce using rule 68 (factor -> function_call .)
+    MINUS           reduce using rule 68 (factor -> function_call .)
+    EQUAL           reduce using rule 68 (factor -> function_call .)
+    NOT_EQUAL       reduce using rule 68 (factor -> function_call .)
+    GREATER_THAN    reduce using rule 68 (factor -> function_call .)
+    GREATER_EQUAL   reduce using rule 68 (factor -> function_call .)
+    LESS_THAN       reduce using rule 68 (factor -> function_call .)
+    LESS_EQUAL      reduce using rule 68 (factor -> function_call .)
+    AND             reduce using rule 68 (factor -> function_call .)
+    OR              reduce using rule 68 (factor -> function_call .)
+    INTEIRO         reduce using rule 68 (factor -> function_call .)
+    FLUTUANTE       reduce using rule 68 (factor -> function_call .)
+    ID              reduce using rule 68 (factor -> function_call .)
+    $end            reduce using rule 68 (factor -> function_call .)
+    CLOSE_BRACKET   reduce using rule 68 (factor -> function_call .)
+    CLOSE_PARENTHESIS reduce using rule 68 (factor -> function_call .)
+    COMMA           reduce using rule 68 (factor -> function_call .)
+    FIM             reduce using rule 68 (factor -> function_call .)
+    SE              reduce using rule 68 (factor -> function_call .)
+    REPITA          reduce using rule 68 (factor -> function_call .)
+    LEIA            reduce using rule 68 (factor -> function_call .)
+    ESCREVA         reduce using rule 68 (factor -> function_call .)
+    RETORNA         reduce using rule 68 (factor -> function_call .)
+    NOT             reduce using rule 68 (factor -> function_call .)
+    OPEN_PARENTHESIS reduce using rule 68 (factor -> function_call .)
+    N_INT           reduce using rule 68 (factor -> function_call .)
+    N_FLOAT         reduce using rule 68 (factor -> function_call .)
+    ENTAO           reduce using rule 68 (factor -> function_call .)
+    ATE             reduce using rule 68 (factor -> function_call .)
+    SENAO           reduce using rule 68 (factor -> function_call .)
+
+
+state 39
+
+    (69) factor -> num .
+
+    MULTIPLY        reduce using rule 69 (factor -> num .)
+    DIVIDE          reduce using rule 69 (factor -> num .)
+    PLUS            reduce using rule 69 (factor -> num .)
+    MINUS           reduce using rule 69 (factor -> num .)
+    EQUAL           reduce using rule 69 (factor -> num .)
+    NOT_EQUAL       reduce using rule 69 (factor -> num .)
+    GREATER_THAN    reduce using rule 69 (factor -> num .)
+    GREATER_EQUAL   reduce using rule 69 (factor -> num .)
+    LESS_THAN       reduce using rule 69 (factor -> num .)
+    LESS_EQUAL      reduce using rule 69 (factor -> num .)
+    AND             reduce using rule 69 (factor -> num .)
+    OR              reduce using rule 69 (factor -> num .)
+    INTEIRO         reduce using rule 69 (factor -> num .)
+    FLUTUANTE       reduce using rule 69 (factor -> num .)
+    ID              reduce using rule 69 (factor -> num .)
+    $end            reduce using rule 69 (factor -> num .)
+    CLOSE_BRACKET   reduce using rule 69 (factor -> num .)
+    CLOSE_PARENTHESIS reduce using rule 69 (factor -> num .)
+    COMMA           reduce using rule 69 (factor -> num .)
+    FIM             reduce using rule 69 (factor -> num .)
+    SE              reduce using rule 69 (factor -> num .)
+    REPITA          reduce using rule 69 (factor -> num .)
+    LEIA            reduce using rule 69 (factor -> num .)
+    ESCREVA         reduce using rule 69 (factor -> num .)
+    RETORNA         reduce using rule 69 (factor -> num .)
+    NOT             reduce using rule 69 (factor -> num .)
+    OPEN_PARENTHESIS reduce using rule 69 (factor -> num .)
+    N_INT           reduce using rule 69 (factor -> num .)
+    N_FLOAT         reduce using rule 69 (factor -> num .)
+    ENTAO           reduce using rule 69 (factor -> num .)
+    ATE             reduce using rule 69 (factor -> num .)
+    SENAO           reduce using rule 69 (factor -> num .)
+
+
+state 40
+
+    (60) sum_operator -> PLUS .
+
+    OPEN_PARENTHESIS reduce using rule 60 (sum_operator -> PLUS .)
+    ID              reduce using rule 60 (sum_operator -> PLUS .)
+    N_INT           reduce using rule 60 (sum_operator -> PLUS .)
+    N_FLOAT         reduce using rule 60 (sum_operator -> PLUS .)
+    NOT             reduce using rule 60 (sum_operator -> PLUS .)
+    PLUS            reduce using rule 60 (sum_operator -> PLUS .)
+    MINUS           reduce using rule 60 (sum_operator -> PLUS .)
+
+
+state 41
+
+    (61) sum_operator -> MINUS .
+
+    OPEN_PARENTHESIS reduce using rule 61 (sum_operator -> MINUS .)
+    ID              reduce using rule 61 (sum_operator -> MINUS .)
+    N_INT           reduce using rule 61 (sum_operator -> MINUS .)
+    N_FLOAT         reduce using rule 61 (sum_operator -> MINUS .)
+    NOT             reduce using rule 61 (sum_operator -> MINUS .)
+    PLUS            reduce using rule 61 (sum_operator -> MINUS .)
+    MINUS           reduce using rule 61 (sum_operator -> MINUS .)
+
+
+state 42
+
+    (70) num -> N_INT .
+
+    MULTIPLY        reduce using rule 70 (num -> N_INT .)
+    DIVIDE          reduce using rule 70 (num -> N_INT .)
+    PLUS            reduce using rule 70 (num -> N_INT .)
+    MINUS           reduce using rule 70 (num -> N_INT .)
+    EQUAL           reduce using rule 70 (num -> N_INT .)
+    NOT_EQUAL       reduce using rule 70 (num -> N_INT .)
+    GREATER_THAN    reduce using rule 70 (num -> N_INT .)
+    GREATER_EQUAL   reduce using rule 70 (num -> N_INT .)
+    LESS_THAN       reduce using rule 70 (num -> N_INT .)
+    LESS_EQUAL      reduce using rule 70 (num -> N_INT .)
+    AND             reduce using rule 70 (num -> N_INT .)
+    OR              reduce using rule 70 (num -> N_INT .)
+    INTEIRO         reduce using rule 70 (num -> N_INT .)
+    FLUTUANTE       reduce using rule 70 (num -> N_INT .)
+    ID              reduce using rule 70 (num -> N_INT .)
+    $end            reduce using rule 70 (num -> N_INT .)
+    CLOSE_BRACKET   reduce using rule 70 (num -> N_INT .)
+    CLOSE_PARENTHESIS reduce using rule 70 (num -> N_INT .)
+    COMMA           reduce using rule 70 (num -> N_INT .)
+    FIM             reduce using rule 70 (num -> N_INT .)
+    SE              reduce using rule 70 (num -> N_INT .)
+    REPITA          reduce using rule 70 (num -> N_INT .)
+    LEIA            reduce using rule 70 (num -> N_INT .)
+    ESCREVA         reduce using rule 70 (num -> N_INT .)
+    RETORNA         reduce using rule 70 (num -> N_INT .)
+    NOT             reduce using rule 70 (num -> N_INT .)
+    OPEN_PARENTHESIS reduce using rule 70 (num -> N_INT .)
+    N_INT           reduce using rule 70 (num -> N_INT .)
+    N_FLOAT         reduce using rule 70 (num -> N_INT .)
+    ENTAO           reduce using rule 70 (num -> N_INT .)
+    ATE             reduce using rule 70 (num -> N_INT .)
+    SENAO           reduce using rule 70 (num -> N_INT .)
+
+
+state 43
+
+    (71) num -> N_FLOAT .
+
+    MULTIPLY        reduce using rule 71 (num -> N_FLOAT .)
+    DIVIDE          reduce using rule 71 (num -> N_FLOAT .)
+    PLUS            reduce using rule 71 (num -> N_FLOAT .)
+    MINUS           reduce using rule 71 (num -> N_FLOAT .)
+    EQUAL           reduce using rule 71 (num -> N_FLOAT .)
+    NOT_EQUAL       reduce using rule 71 (num -> N_FLOAT .)
+    GREATER_THAN    reduce using rule 71 (num -> N_FLOAT .)
+    GREATER_EQUAL   reduce using rule 71 (num -> N_FLOAT .)
+    LESS_THAN       reduce using rule 71 (num -> N_FLOAT .)
+    LESS_EQUAL      reduce using rule 71 (num -> N_FLOAT .)
+    AND             reduce using rule 71 (num -> N_FLOAT .)
+    OR              reduce using rule 71 (num -> N_FLOAT .)
+    INTEIRO         reduce using rule 71 (num -> N_FLOAT .)
+    FLUTUANTE       reduce using rule 71 (num -> N_FLOAT .)
+    ID              reduce using rule 71 (num -> N_FLOAT .)
+    $end            reduce using rule 71 (num -> N_FLOAT .)
+    CLOSE_BRACKET   reduce using rule 71 (num -> N_FLOAT .)
+    CLOSE_PARENTHESIS reduce using rule 71 (num -> N_FLOAT .)
+    COMMA           reduce using rule 71 (num -> N_FLOAT .)
+    FIM             reduce using rule 71 (num -> N_FLOAT .)
+    SE              reduce using rule 71 (num -> N_FLOAT .)
+    REPITA          reduce using rule 71 (num -> N_FLOAT .)
+    LEIA            reduce using rule 71 (num -> N_FLOAT .)
+    ESCREVA         reduce using rule 71 (num -> N_FLOAT .)
+    RETORNA         reduce using rule 71 (num -> N_FLOAT .)
+    NOT             reduce using rule 71 (num -> N_FLOAT .)
+    OPEN_PARENTHESIS reduce using rule 71 (num -> N_FLOAT .)
+    N_INT           reduce using rule 71 (num -> N_FLOAT .)
+    N_FLOAT         reduce using rule 71 (num -> N_FLOAT .)
+    ENTAO           reduce using rule 71 (num -> N_FLOAT .)
+    ATE             reduce using rule 71 (num -> N_FLOAT .)
+    SENAO           reduce using rule 71 (num -> N_FLOAT .)
+
+
+state 44
+
+    (19) header -> ID OPEN_PARENTHESIS params_list . CLOSE_PARENTHESIS body FIM
+    (20) params_list -> params_list . COMMA param
+
+    CLOSE_PARENTHESIS shift and go to state 70
+    COMMA           shift and go to state 71
+
+
+state 45
+
+    (21) params_list -> param .
+    (24) param -> param . OPEN_BRACKET CLOSE_BRACKET
+
+    CLOSE_PARENTHESIS reduce using rule 21 (params_list -> param .)
+    COMMA           reduce using rule 21 (params_list -> param .)
+    OPEN_BRACKET    shift and go to state 72
+
+
+state 46
+
+    (22) params_list -> empty .
+
+    CLOSE_PARENTHESIS reduce using rule 22 (params_list -> empty .)
+    COMMA           reduce using rule 22 (params_list -> empty .)
+
+
+state 47
+
+    (23) param -> type . COLON ID
+
+    COLON           shift and go to state 73
+
+
+state 48
+
+    (13) index -> index OPEN_BRACKET . expression CLOSE_BRACKET
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 74
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 49
+
+    (14) index -> OPEN_BRACKET expression . CLOSE_BRACKET
+
+    CLOSE_BRACKET   shift and go to state 75
+
+
+state 50
+
+    (9) var_list -> var_list COMMA . var
+    (11) var -> . ID
+    (12) var -> . ID index
+
+    ID              shift and go to state 24
+
+    var                            shift and go to state 76
+
+state 51
+
+    (44) logic_expression -> logic_expression logic_operator . logic_expression
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (11) var -> . ID
+    (12) var -> . ID index
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    ID              shift and go to state 31
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    logic_expression               shift and go to state 77
+    simple_expression              shift and go to state 29
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    var                            shift and go to state 67
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 52
+
+    (62) logic_operator -> AND .
+
+    NOT             reduce using rule 62 (logic_operator -> AND .)
+    OPEN_PARENTHESIS reduce using rule 62 (logic_operator -> AND .)
+    PLUS            reduce using rule 62 (logic_operator -> AND .)
+    MINUS           reduce using rule 62 (logic_operator -> AND .)
+    ID              reduce using rule 62 (logic_operator -> AND .)
+    N_INT           reduce using rule 62 (logic_operator -> AND .)
+    N_FLOAT         reduce using rule 62 (logic_operator -> AND .)
+
+
+state 53
+
+    (63) logic_operator -> OR .
+
+    NOT             reduce using rule 63 (logic_operator -> OR .)
+    OPEN_PARENTHESIS reduce using rule 63 (logic_operator -> OR .)
+    PLUS            reduce using rule 63 (logic_operator -> OR .)
+    MINUS           reduce using rule 63 (logic_operator -> OR .)
+    ID              reduce using rule 63 (logic_operator -> OR .)
+    N_INT           reduce using rule 63 (logic_operator -> OR .)
+    N_FLOAT         reduce using rule 63 (logic_operator -> OR .)
+
+
+state 54
+
+    (46) simple_expression -> simple_expression operator_relational . additive_expression
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (11) var -> . ID
+    (12) var -> . ID index
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    ID              shift and go to state 31
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    additive_expression            shift and go to state 78
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    var                            shift and go to state 67
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 55
+
+    (54) operator_relational -> EQUAL .
+
+    NOT             reduce using rule 54 (operator_relational -> EQUAL .)
+    OPEN_PARENTHESIS reduce using rule 54 (operator_relational -> EQUAL .)
+    PLUS            reduce using rule 54 (operator_relational -> EQUAL .)
+    MINUS           reduce using rule 54 (operator_relational -> EQUAL .)
+    ID              reduce using rule 54 (operator_relational -> EQUAL .)
+    N_INT           reduce using rule 54 (operator_relational -> EQUAL .)
+    N_FLOAT         reduce using rule 54 (operator_relational -> EQUAL .)
+
+
+state 56
+
+    (55) operator_relational -> NOT_EQUAL .
+
+    NOT             reduce using rule 55 (operator_relational -> NOT_EQUAL .)
+    OPEN_PARENTHESIS reduce using rule 55 (operator_relational -> NOT_EQUAL .)
+    PLUS            reduce using rule 55 (operator_relational -> NOT_EQUAL .)
+    MINUS           reduce using rule 55 (operator_relational -> NOT_EQUAL .)
+    ID              reduce using rule 55 (operator_relational -> NOT_EQUAL .)
+    N_INT           reduce using rule 55 (operator_relational -> NOT_EQUAL .)
+    N_FLOAT         reduce using rule 55 (operator_relational -> NOT_EQUAL .)
+
+
+state 57
+
+    (56) operator_relational -> GREATER_THAN .
+
+    NOT             reduce using rule 56 (operator_relational -> GREATER_THAN .)
+    OPEN_PARENTHESIS reduce using rule 56 (operator_relational -> GREATER_THAN .)
+    PLUS            reduce using rule 56 (operator_relational -> GREATER_THAN .)
+    MINUS           reduce using rule 56 (operator_relational -> GREATER_THAN .)
+    ID              reduce using rule 56 (operator_relational -> GREATER_THAN .)
+    N_INT           reduce using rule 56 (operator_relational -> GREATER_THAN .)
+    N_FLOAT         reduce using rule 56 (operator_relational -> GREATER_THAN .)
+
+
+state 58
+
+    (57) operator_relational -> GREATER_EQUAL .
+
+    NOT             reduce using rule 57 (operator_relational -> GREATER_EQUAL .)
+    OPEN_PARENTHESIS reduce using rule 57 (operator_relational -> GREATER_EQUAL .)
+    PLUS            reduce using rule 57 (operator_relational -> GREATER_EQUAL .)
+    MINUS           reduce using rule 57 (operator_relational -> GREATER_EQUAL .)
+    ID              reduce using rule 57 (operator_relational -> GREATER_EQUAL .)
+    N_INT           reduce using rule 57 (operator_relational -> GREATER_EQUAL .)
+    N_FLOAT         reduce using rule 57 (operator_relational -> GREATER_EQUAL .)
+
+
+state 59
+
+    (58) operator_relational -> LESS_THAN .
+
+    NOT             reduce using rule 58 (operator_relational -> LESS_THAN .)
+    OPEN_PARENTHESIS reduce using rule 58 (operator_relational -> LESS_THAN .)
+    PLUS            reduce using rule 58 (operator_relational -> LESS_THAN .)
+    MINUS           reduce using rule 58 (operator_relational -> LESS_THAN .)
+    ID              reduce using rule 58 (operator_relational -> LESS_THAN .)
+    N_INT           reduce using rule 58 (operator_relational -> LESS_THAN .)
+    N_FLOAT         reduce using rule 58 (operator_relational -> LESS_THAN .)
+
+
+state 60
+
+    (59) operator_relational -> LESS_EQUAL .
+
+    NOT             reduce using rule 59 (operator_relational -> LESS_EQUAL .)
+    OPEN_PARENTHESIS reduce using rule 59 (operator_relational -> LESS_EQUAL .)
+    PLUS            reduce using rule 59 (operator_relational -> LESS_EQUAL .)
+    MINUS           reduce using rule 59 (operator_relational -> LESS_EQUAL .)
+    ID              reduce using rule 59 (operator_relational -> LESS_EQUAL .)
+    N_INT           reduce using rule 59 (operator_relational -> LESS_EQUAL .)
+    N_FLOAT         reduce using rule 59 (operator_relational -> LESS_EQUAL .)
+
+
+state 61
+
+    (48) additive_expression -> additive_expression sum_operator . multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (11) var -> . ID
+    (12) var -> . ID index
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    ID              shift and go to state 31
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    sum_operator                   shift and go to state 33
+    multiply_expression            shift and go to state 79
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    var                            shift and go to state 67
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 62
+
+    (72) function_call -> ID OPEN_PARENTHESIS . arguments_list CLOSE_PARENTHESIS
+    (73) arguments_list -> . arguments_list COMMA expression
+    (74) arguments_list -> . expression
+    (75) arguments_list -> . empty
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (76) empty -> .
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    CLOSE_PARENTHESIS reduce using rule 76 (empty -> .)
+    COMMA           reduce using rule 76 (empty -> .)
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    arguments_list                 shift and go to state 80
+    expression                     shift and go to state 81
+    empty                          shift and go to state 82
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 63
+
+    (50) multiply_expression -> multiply_expression multiply_operator . single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (11) var -> . ID
+    (12) var -> . ID index
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    ID              shift and go to state 31
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    single_expression              shift and go to state 83
+    factor                         shift and go to state 35
+    sum_operator                   shift and go to state 33
+    var                            shift and go to state 67
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 64
+
+    (64) multiply_operator -> MULTIPLY .
+
+    NOT             reduce using rule 64 (multiply_operator -> MULTIPLY .)
+    OPEN_PARENTHESIS reduce using rule 64 (multiply_operator -> MULTIPLY .)
+    PLUS            reduce using rule 64 (multiply_operator -> MULTIPLY .)
+    MINUS           reduce using rule 64 (multiply_operator -> MULTIPLY .)
+    ID              reduce using rule 64 (multiply_operator -> MULTIPLY .)
+    N_INT           reduce using rule 64 (multiply_operator -> MULTIPLY .)
+    N_FLOAT         reduce using rule 64 (multiply_operator -> MULTIPLY .)
+
+
+state 65
+
+    (65) multiply_operator -> DIVIDE .
+
+    NOT             reduce using rule 65 (multiply_operator -> DIVIDE .)
+    OPEN_PARENTHESIS reduce using rule 65 (multiply_operator -> DIVIDE .)
+    PLUS            reduce using rule 65 (multiply_operator -> DIVIDE .)
+    MINUS           reduce using rule 65 (multiply_operator -> DIVIDE .)
+    ID              reduce using rule 65 (multiply_operator -> DIVIDE .)
+    N_INT           reduce using rule 65 (multiply_operator -> DIVIDE .)
+    N_FLOAT         reduce using rule 65 (multiply_operator -> DIVIDE .)
+
+
+state 66
+
+    (52) single_expression -> sum_operator factor .
+
+    MULTIPLY        reduce using rule 52 (single_expression -> sum_operator factor .)
+    DIVIDE          reduce using rule 52 (single_expression -> sum_operator factor .)
+    PLUS            reduce using rule 52 (single_expression -> sum_operator factor .)
+    MINUS           reduce using rule 52 (single_expression -> sum_operator factor .)
+    EQUAL           reduce using rule 52 (single_expression -> sum_operator factor .)
+    NOT_EQUAL       reduce using rule 52 (single_expression -> sum_operator factor .)
+    GREATER_THAN    reduce using rule 52 (single_expression -> sum_operator factor .)
+    GREATER_EQUAL   reduce using rule 52 (single_expression -> sum_operator factor .)
+    LESS_THAN       reduce using rule 52 (single_expression -> sum_operator factor .)
+    LESS_EQUAL      reduce using rule 52 (single_expression -> sum_operator factor .)
+    AND             reduce using rule 52 (single_expression -> sum_operator factor .)
+    OR              reduce using rule 52 (single_expression -> sum_operator factor .)
+    INTEIRO         reduce using rule 52 (single_expression -> sum_operator factor .)
+    FLUTUANTE       reduce using rule 52 (single_expression -> sum_operator factor .)
+    ID              reduce using rule 52 (single_expression -> sum_operator factor .)
+    $end            reduce using rule 52 (single_expression -> sum_operator factor .)
+    CLOSE_BRACKET   reduce using rule 52 (single_expression -> sum_operator factor .)
+    CLOSE_PARENTHESIS reduce using rule 52 (single_expression -> sum_operator factor .)
+    COMMA           reduce using rule 52 (single_expression -> sum_operator factor .)
+    FIM             reduce using rule 52 (single_expression -> sum_operator factor .)
+    SE              reduce using rule 52 (single_expression -> sum_operator factor .)
+    REPITA          reduce using rule 52 (single_expression -> sum_operator factor .)
+    LEIA            reduce using rule 52 (single_expression -> sum_operator factor .)
+    ESCREVA         reduce using rule 52 (single_expression -> sum_operator factor .)
+    RETORNA         reduce using rule 52 (single_expression -> sum_operator factor .)
+    NOT             reduce using rule 52 (single_expression -> sum_operator factor .)
+    OPEN_PARENTHESIS reduce using rule 52 (single_expression -> sum_operator factor .)
+    N_INT           reduce using rule 52 (single_expression -> sum_operator factor .)
+    N_FLOAT         reduce using rule 52 (single_expression -> sum_operator factor .)
+    ENTAO           reduce using rule 52 (single_expression -> sum_operator factor .)
+    ATE             reduce using rule 52 (single_expression -> sum_operator factor .)
+    SENAO           reduce using rule 52 (single_expression -> sum_operator factor .)
+
+
+state 67
+
+    (67) factor -> var .
+
+    MULTIPLY        reduce using rule 67 (factor -> var .)
+    DIVIDE          reduce using rule 67 (factor -> var .)
+    PLUS            reduce using rule 67 (factor -> var .)
+    MINUS           reduce using rule 67 (factor -> var .)
+    EQUAL           reduce using rule 67 (factor -> var .)
+    NOT_EQUAL       reduce using rule 67 (factor -> var .)
+    GREATER_THAN    reduce using rule 67 (factor -> var .)
+    GREATER_EQUAL   reduce using rule 67 (factor -> var .)
+    LESS_THAN       reduce using rule 67 (factor -> var .)
+    LESS_EQUAL      reduce using rule 67 (factor -> var .)
+    AND             reduce using rule 67 (factor -> var .)
+    OR              reduce using rule 67 (factor -> var .)
+    INTEIRO         reduce using rule 67 (factor -> var .)
+    FLUTUANTE       reduce using rule 67 (factor -> var .)
+    ID              reduce using rule 67 (factor -> var .)
+    $end            reduce using rule 67 (factor -> var .)
+    CLOSE_BRACKET   reduce using rule 67 (factor -> var .)
+    CLOSE_PARENTHESIS reduce using rule 67 (factor -> var .)
+    COMMA           reduce using rule 67 (factor -> var .)
+    FIM             reduce using rule 67 (factor -> var .)
+    SE              reduce using rule 67 (factor -> var .)
+    REPITA          reduce using rule 67 (factor -> var .)
+    LEIA            reduce using rule 67 (factor -> var .)
+    ESCREVA         reduce using rule 67 (factor -> var .)
+    RETORNA         reduce using rule 67 (factor -> var .)
+    NOT             reduce using rule 67 (factor -> var .)
+    OPEN_PARENTHESIS reduce using rule 67 (factor -> var .)
+    N_INT           reduce using rule 67 (factor -> var .)
+    N_FLOAT         reduce using rule 67 (factor -> var .)
+    ENTAO           reduce using rule 67 (factor -> var .)
+    ATE             reduce using rule 67 (factor -> var .)
+    SENAO           reduce using rule 67 (factor -> var .)
+
+
+state 68
+
+    (53) single_expression -> NOT factor .
+
+    MULTIPLY        reduce using rule 53 (single_expression -> NOT factor .)
+    DIVIDE          reduce using rule 53 (single_expression -> NOT factor .)
+    PLUS            reduce using rule 53 (single_expression -> NOT factor .)
+    MINUS           reduce using rule 53 (single_expression -> NOT factor .)
+    EQUAL           reduce using rule 53 (single_expression -> NOT factor .)
+    NOT_EQUAL       reduce using rule 53 (single_expression -> NOT factor .)
+    GREATER_THAN    reduce using rule 53 (single_expression -> NOT factor .)
+    GREATER_EQUAL   reduce using rule 53 (single_expression -> NOT factor .)
+    LESS_THAN       reduce using rule 53 (single_expression -> NOT factor .)
+    LESS_EQUAL      reduce using rule 53 (single_expression -> NOT factor .)
+    AND             reduce using rule 53 (single_expression -> NOT factor .)
+    OR              reduce using rule 53 (single_expression -> NOT factor .)
+    INTEIRO         reduce using rule 53 (single_expression -> NOT factor .)
+    FLUTUANTE       reduce using rule 53 (single_expression -> NOT factor .)
+    ID              reduce using rule 53 (single_expression -> NOT factor .)
+    $end            reduce using rule 53 (single_expression -> NOT factor .)
+    CLOSE_BRACKET   reduce using rule 53 (single_expression -> NOT factor .)
+    CLOSE_PARENTHESIS reduce using rule 53 (single_expression -> NOT factor .)
+    COMMA           reduce using rule 53 (single_expression -> NOT factor .)
+    FIM             reduce using rule 53 (single_expression -> NOT factor .)
+    SE              reduce using rule 53 (single_expression -> NOT factor .)
+    REPITA          reduce using rule 53 (single_expression -> NOT factor .)
+    LEIA            reduce using rule 53 (single_expression -> NOT factor .)
+    ESCREVA         reduce using rule 53 (single_expression -> NOT factor .)
+    RETORNA         reduce using rule 53 (single_expression -> NOT factor .)
+    NOT             reduce using rule 53 (single_expression -> NOT factor .)
+    OPEN_PARENTHESIS reduce using rule 53 (single_expression -> NOT factor .)
+    N_INT           reduce using rule 53 (single_expression -> NOT factor .)
+    N_FLOAT         reduce using rule 53 (single_expression -> NOT factor .)
+    ENTAO           reduce using rule 53 (single_expression -> NOT factor .)
+    ATE             reduce using rule 53 (single_expression -> NOT factor .)
+    SENAO           reduce using rule 53 (single_expression -> NOT factor .)
+
+
+state 69
+
+    (66) factor -> OPEN_PARENTHESIS expression . CLOSE_PARENTHESIS
+
+    CLOSE_PARENTHESIS shift and go to state 84
+
+
+state 70
+
+    (19) header -> ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS . body FIM
+    (25) body -> . body action
+    (26) body -> . empty
+    (76) empty -> .
+
+    FIM             reduce using rule 76 (empty -> .)
+    SE              reduce using rule 76 (empty -> .)
+    REPITA          reduce using rule 76 (empty -> .)
+    LEIA            reduce using rule 76 (empty -> .)
+    ESCREVA         reduce using rule 76 (empty -> .)
+    RETORNA         reduce using rule 76 (empty -> .)
+    INTEIRO         reduce using rule 76 (empty -> .)
+    FLUTUANTE       reduce using rule 76 (empty -> .)
+    ID              reduce using rule 76 (empty -> .)
+    NOT             reduce using rule 76 (empty -> .)
+    OPEN_PARENTHESIS reduce using rule 76 (empty -> .)
+    PLUS            reduce using rule 76 (empty -> .)
+    MINUS           reduce using rule 76 (empty -> .)
+    N_INT           reduce using rule 76 (empty -> .)
+    N_FLOAT         reduce using rule 76 (empty -> .)
+
+    body                           shift and go to state 85
+    empty                          shift and go to state 86
+
+state 71
+
+    (20) params_list -> params_list COMMA . param
+    (23) param -> . type COLON ID
+    (24) param -> . param OPEN_BRACKET CLOSE_BRACKET
+    (15) type -> . INTEIRO
+    (16) type -> . FLUTUANTE
+
+    INTEIRO         shift and go to state 10
+    FLUTUANTE       shift and go to state 11
+
+    param                          shift and go to state 87
+    type                           shift and go to state 47
+
+state 72
+
+    (24) param -> param OPEN_BRACKET . CLOSE_BRACKET
+
+    CLOSE_BRACKET   shift and go to state 88
+
+
+state 73
+
+    (23) param -> type COLON . ID
+
+    ID              shift and go to state 89
+
+
+state 74
+
+    (13) index -> index OPEN_BRACKET expression . CLOSE_BRACKET
+
+    CLOSE_BRACKET   shift and go to state 90
+
+
+state 75
+
+    (14) index -> OPEN_BRACKET expression CLOSE_BRACKET .
+
+    OPEN_BRACKET    reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    ASSIGNMENT      reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    COMMA           reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    INTEIRO         reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    FLUTUANTE       reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    ID              reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    $end            reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    FIM             reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    SE              reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    REPITA          reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    LEIA            reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    ESCREVA         reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    RETORNA         reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    NOT             reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    OPEN_PARENTHESIS reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    PLUS            reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    MINUS           reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    N_INT           reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    N_FLOAT         reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    ATE             reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    SENAO           reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    CLOSE_PARENTHESIS reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    MULTIPLY        reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    DIVIDE          reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    EQUAL           reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    NOT_EQUAL       reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    GREATER_THAN    reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    GREATER_EQUAL   reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    LESS_THAN       reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    LESS_EQUAL      reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    AND             reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    OR              reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    CLOSE_BRACKET   reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+    ENTAO           reduce using rule 14 (index -> OPEN_BRACKET expression CLOSE_BRACKET .)
+
+
+state 76
+
+    (9) var_list -> var_list COMMA var .
+
+    COMMA           reduce using rule 9 (var_list -> var_list COMMA var .)
+    INTEIRO         reduce using rule 9 (var_list -> var_list COMMA var .)
+    FLUTUANTE       reduce using rule 9 (var_list -> var_list COMMA var .)
+    ID              reduce using rule 9 (var_list -> var_list COMMA var .)
+    $end            reduce using rule 9 (var_list -> var_list COMMA var .)
+    FIM             reduce using rule 9 (var_list -> var_list COMMA var .)
+    SE              reduce using rule 9 (var_list -> var_list COMMA var .)
+    REPITA          reduce using rule 9 (var_list -> var_list COMMA var .)
+    LEIA            reduce using rule 9 (var_list -> var_list COMMA var .)
+    ESCREVA         reduce using rule 9 (var_list -> var_list COMMA var .)
+    RETORNA         reduce using rule 9 (var_list -> var_list COMMA var .)
+    NOT             reduce using rule 9 (var_list -> var_list COMMA var .)
+    OPEN_PARENTHESIS reduce using rule 9 (var_list -> var_list COMMA var .)
+    PLUS            reduce using rule 9 (var_list -> var_list COMMA var .)
+    MINUS           reduce using rule 9 (var_list -> var_list COMMA var .)
+    N_INT           reduce using rule 9 (var_list -> var_list COMMA var .)
+    N_FLOAT         reduce using rule 9 (var_list -> var_list COMMA var .)
+    ATE             reduce using rule 9 (var_list -> var_list COMMA var .)
+    SENAO           reduce using rule 9 (var_list -> var_list COMMA var .)
+
+
+state 77
+
+    (44) logic_expression -> logic_expression logic_operator logic_expression .
+    (44) logic_expression -> logic_expression . logic_operator logic_expression
+    (62) logic_operator -> . AND
+    (63) logic_operator -> . OR
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+    INTEIRO         reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    FLUTUANTE       reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    ID              reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    $end            reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    CLOSE_BRACKET   reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    CLOSE_PARENTHESIS reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    COMMA           reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    FIM             reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    SE              reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    REPITA          reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    LEIA            reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    ESCREVA         reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    RETORNA         reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    NOT             reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    OPEN_PARENTHESIS reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    PLUS            reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    MINUS           reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    N_INT           reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    N_FLOAT         reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    ENTAO           reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    ATE             reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    SENAO           reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .)
+    AND             shift and go to state 52
+    OR              shift and go to state 53
+
+  ! AND             [ reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .) ]
+  ! OR              [ reduce using rule 44 (logic_expression -> logic_expression logic_operator logic_expression .) ]
+
+    logic_operator                 shift and go to state 51
+
+state 78
+
+    (46) simple_expression -> simple_expression operator_relational additive_expression .
+    (48) additive_expression -> additive_expression . sum_operator multiply_expression
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    EQUAL           reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    NOT_EQUAL       reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    GREATER_THAN    reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    GREATER_EQUAL   reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    LESS_THAN       reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    LESS_EQUAL      reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    AND             reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    OR              reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    INTEIRO         reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    FLUTUANTE       reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    ID              reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    $end            reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    CLOSE_BRACKET   reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    CLOSE_PARENTHESIS reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    COMMA           reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    FIM             reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    SE              reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    REPITA          reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    LEIA            reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    ESCREVA         reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    RETORNA         reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    NOT             reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    OPEN_PARENTHESIS reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    N_INT           reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    N_FLOAT         reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    ENTAO           reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    ATE             reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    SENAO           reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .)
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+
+  ! PLUS            [ reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .) ]
+  ! MINUS           [ reduce using rule 46 (simple_expression -> simple_expression operator_relational additive_expression .) ]
+
+    sum_operator                   shift and go to state 61
+
+state 79
+
+    (48) additive_expression -> additive_expression sum_operator multiply_expression .
+    (50) multiply_expression -> multiply_expression . multiply_operator single_expression
+    (64) multiply_operator -> . MULTIPLY
+    (65) multiply_operator -> . DIVIDE
+
+    PLUS            reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    MINUS           reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    EQUAL           reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    NOT_EQUAL       reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    GREATER_THAN    reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    GREATER_EQUAL   reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    LESS_THAN       reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    LESS_EQUAL      reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    AND             reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    OR              reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    INTEIRO         reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    FLUTUANTE       reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    ID              reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    $end            reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    CLOSE_BRACKET   reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    CLOSE_PARENTHESIS reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    COMMA           reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    FIM             reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    SE              reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    REPITA          reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    LEIA            reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    ESCREVA         reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    RETORNA         reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    NOT             reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    OPEN_PARENTHESIS reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    N_INT           reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    N_FLOAT         reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    ENTAO           reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    ATE             reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    SENAO           reduce using rule 48 (additive_expression -> additive_expression sum_operator multiply_expression .)
+    MULTIPLY        shift and go to state 64
+    DIVIDE          shift and go to state 65
+
+    multiply_operator              shift and go to state 63
+
+state 80
+
+    (72) function_call -> ID OPEN_PARENTHESIS arguments_list . CLOSE_PARENTHESIS
+    (73) arguments_list -> arguments_list . COMMA expression
+
+    CLOSE_PARENTHESIS shift and go to state 91
+    COMMA           shift and go to state 92
+
+
+state 81
+
+    (74) arguments_list -> expression .
+
+    CLOSE_PARENTHESIS reduce using rule 74 (arguments_list -> expression .)
+    COMMA           reduce using rule 74 (arguments_list -> expression .)
+
+
+state 82
+
+    (75) arguments_list -> empty .
+
+    CLOSE_PARENTHESIS reduce using rule 75 (arguments_list -> empty .)
+    COMMA           reduce using rule 75 (arguments_list -> empty .)
+
+
+state 83
+
+    (50) multiply_expression -> multiply_expression multiply_operator single_expression .
+
+    MULTIPLY        reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    DIVIDE          reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    PLUS            reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    MINUS           reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    EQUAL           reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    NOT_EQUAL       reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    GREATER_THAN    reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    GREATER_EQUAL   reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    LESS_THAN       reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    LESS_EQUAL      reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    AND             reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    OR              reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    INTEIRO         reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    FLUTUANTE       reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    ID              reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    $end            reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    CLOSE_BRACKET   reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    CLOSE_PARENTHESIS reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    COMMA           reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    FIM             reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    SE              reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    REPITA          reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    LEIA            reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    ESCREVA         reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    RETORNA         reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    NOT             reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    OPEN_PARENTHESIS reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    N_INT           reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    N_FLOAT         reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    ENTAO           reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    ATE             reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+    SENAO           reduce using rule 50 (multiply_expression -> multiply_expression multiply_operator single_expression .)
+
+
+state 84
+
+    (66) factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .
+
+    MULTIPLY        reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    DIVIDE          reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    PLUS            reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    MINUS           reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    EQUAL           reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    NOT_EQUAL       reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    GREATER_THAN    reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    GREATER_EQUAL   reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    LESS_THAN       reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    LESS_EQUAL      reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    AND             reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    OR              reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    INTEIRO         reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    FLUTUANTE       reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ID              reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    $end            reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    CLOSE_BRACKET   reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    CLOSE_PARENTHESIS reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    COMMA           reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    FIM             reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    SE              reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    REPITA          reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    LEIA            reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ESCREVA         reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    RETORNA         reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    NOT             reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    OPEN_PARENTHESIS reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    N_INT           reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    N_FLOAT         reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ENTAO           reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ATE             reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    SENAO           reduce using rule 66 (factor -> OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+
+
+state 85
+
+    (19) header -> ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body . FIM
+    (25) body -> body . action
+    (27) action -> . expression
+    (28) action -> . var_declaration
+    (29) action -> . se
+    (30) action -> . repita
+    (31) action -> . leia
+    (32) action -> . escreva
+    (33) action -> . retorna
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (7) var_declaration -> . type COLON var_list
+    (34) se -> . SE expression ENTAO body FIM
+    (35) se -> . SE expression ENTAO body SENAO body FIM
+    (36) repita -> . REPITA body ATE expression
+    (38) leia -> . LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS
+    (39) escreva -> . ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (40) retorna -> . RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (15) type -> . INTEIRO
+    (16) type -> . FLUTUANTE
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    FIM             shift and go to state 93
+    SE              shift and go to state 103
+    REPITA          shift and go to state 104
+    LEIA            shift and go to state 105
+    ESCREVA         shift and go to state 106
+    RETORNA         shift and go to state 107
+    INTEIRO         shift and go to state 10
+    FLUTUANTE       shift and go to state 11
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    action                         shift and go to state 94
+    expression                     shift and go to state 95
+    var_declaration                shift and go to state 96
+    se                             shift and go to state 97
+    repita                         shift and go to state 98
+    leia                           shift and go to state 99
+    escreva                        shift and go to state 100
+    retorna                        shift and go to state 101
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    type                           shift and go to state 102
+    var                            shift and go to state 25
+    simple_expression              shift and go to state 29
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 86
+
+    (26) body -> empty .
+
+    FIM             reduce using rule 26 (body -> empty .)
+    SE              reduce using rule 26 (body -> empty .)
+    REPITA          reduce using rule 26 (body -> empty .)
+    LEIA            reduce using rule 26 (body -> empty .)
+    ESCREVA         reduce using rule 26 (body -> empty .)
+    RETORNA         reduce using rule 26 (body -> empty .)
+    INTEIRO         reduce using rule 26 (body -> empty .)
+    FLUTUANTE       reduce using rule 26 (body -> empty .)
+    ID              reduce using rule 26 (body -> empty .)
+    NOT             reduce using rule 26 (body -> empty .)
+    OPEN_PARENTHESIS reduce using rule 26 (body -> empty .)
+    PLUS            reduce using rule 26 (body -> empty .)
+    MINUS           reduce using rule 26 (body -> empty .)
+    N_INT           reduce using rule 26 (body -> empty .)
+    N_FLOAT         reduce using rule 26 (body -> empty .)
+    ATE             reduce using rule 26 (body -> empty .)
+    SENAO           reduce using rule 26 (body -> empty .)
+
+
+state 87
+
+    (20) params_list -> params_list COMMA param .
+    (24) param -> param . OPEN_BRACKET CLOSE_BRACKET
+
+    CLOSE_PARENTHESIS reduce using rule 20 (params_list -> params_list COMMA param .)
+    COMMA           reduce using rule 20 (params_list -> params_list COMMA param .)
+    OPEN_BRACKET    shift and go to state 72
+
+
+state 88
+
+    (24) param -> param OPEN_BRACKET CLOSE_BRACKET .
+
+    OPEN_BRACKET    reduce using rule 24 (param -> param OPEN_BRACKET CLOSE_BRACKET .)
+    CLOSE_PARENTHESIS reduce using rule 24 (param -> param OPEN_BRACKET CLOSE_BRACKET .)
+    COMMA           reduce using rule 24 (param -> param OPEN_BRACKET CLOSE_BRACKET .)
+
+
+state 89
+
+    (23) param -> type COLON ID .
+
+    OPEN_BRACKET    reduce using rule 23 (param -> type COLON ID .)
+    CLOSE_PARENTHESIS reduce using rule 23 (param -> type COLON ID .)
+    COMMA           reduce using rule 23 (param -> type COLON ID .)
+
+
+state 90
+
+    (13) index -> index OPEN_BRACKET expression CLOSE_BRACKET .
+
+    OPEN_BRACKET    reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    ASSIGNMENT      reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    COMMA           reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    INTEIRO         reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    FLUTUANTE       reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    ID              reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    $end            reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    FIM             reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    SE              reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    REPITA          reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    LEIA            reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    ESCREVA         reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    RETORNA         reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    NOT             reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    OPEN_PARENTHESIS reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    PLUS            reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    MINUS           reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    N_INT           reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    N_FLOAT         reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    ATE             reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    SENAO           reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    CLOSE_PARENTHESIS reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    MULTIPLY        reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    DIVIDE          reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    EQUAL           reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    NOT_EQUAL       reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    GREATER_THAN    reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    GREATER_EQUAL   reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    LESS_THAN       reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    LESS_EQUAL      reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    AND             reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    OR              reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    CLOSE_BRACKET   reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+    ENTAO           reduce using rule 13 (index -> index OPEN_BRACKET expression CLOSE_BRACKET .)
+
+
+state 91
+
+    (72) function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .
+
+    MULTIPLY        reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    DIVIDE          reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    PLUS            reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    MINUS           reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    EQUAL           reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    NOT_EQUAL       reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    GREATER_THAN    reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    GREATER_EQUAL   reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    LESS_THAN       reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    LESS_EQUAL      reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    AND             reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    OR              reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    INTEIRO         reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    FLUTUANTE       reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    ID              reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    $end            reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    CLOSE_BRACKET   reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    CLOSE_PARENTHESIS reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    COMMA           reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    FIM             reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    SE              reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    REPITA          reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    LEIA            reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    ESCREVA         reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    RETORNA         reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    NOT             reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    OPEN_PARENTHESIS reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    N_INT           reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    N_FLOAT         reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    ENTAO           reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    ATE             reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+    SENAO           reduce using rule 72 (function_call -> ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS .)
+
+
+state 92
+
+    (73) arguments_list -> arguments_list COMMA . expression
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 108
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 93
+
+    (19) header -> ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM .
+
+    INTEIRO         reduce using rule 19 (header -> ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM .)
+    FLUTUANTE       reduce using rule 19 (header -> ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM .)
+    ID              reduce using rule 19 (header -> ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM .)
+    $end            reduce using rule 19 (header -> ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM .)
+
+
+state 94
+
+    (25) body -> body action .
+
+    FIM             reduce using rule 25 (body -> body action .)
+    SE              reduce using rule 25 (body -> body action .)
+    REPITA          reduce using rule 25 (body -> body action .)
+    LEIA            reduce using rule 25 (body -> body action .)
+    ESCREVA         reduce using rule 25 (body -> body action .)
+    RETORNA         reduce using rule 25 (body -> body action .)
+    INTEIRO         reduce using rule 25 (body -> body action .)
+    FLUTUANTE       reduce using rule 25 (body -> body action .)
+    ID              reduce using rule 25 (body -> body action .)
+    NOT             reduce using rule 25 (body -> body action .)
+    OPEN_PARENTHESIS reduce using rule 25 (body -> body action .)
+    PLUS            reduce using rule 25 (body -> body action .)
+    MINUS           reduce using rule 25 (body -> body action .)
+    N_INT           reduce using rule 25 (body -> body action .)
+    N_FLOAT         reduce using rule 25 (body -> body action .)
+    ATE             reduce using rule 25 (body -> body action .)
+    SENAO           reduce using rule 25 (body -> body action .)
+
+
+state 95
+
+    (27) action -> expression .
+
+    FIM             reduce using rule 27 (action -> expression .)
+    SE              reduce using rule 27 (action -> expression .)
+    REPITA          reduce using rule 27 (action -> expression .)
+    LEIA            reduce using rule 27 (action -> expression .)
+    ESCREVA         reduce using rule 27 (action -> expression .)
+    RETORNA         reduce using rule 27 (action -> expression .)
+    INTEIRO         reduce using rule 27 (action -> expression .)
+    FLUTUANTE       reduce using rule 27 (action -> expression .)
+    ID              reduce using rule 27 (action -> expression .)
+    NOT             reduce using rule 27 (action -> expression .)
+    OPEN_PARENTHESIS reduce using rule 27 (action -> expression .)
+    PLUS            reduce using rule 27 (action -> expression .)
+    MINUS           reduce using rule 27 (action -> expression .)
+    N_INT           reduce using rule 27 (action -> expression .)
+    N_FLOAT         reduce using rule 27 (action -> expression .)
+    ATE             reduce using rule 27 (action -> expression .)
+    SENAO           reduce using rule 27 (action -> expression .)
+
+
+state 96
+
+    (28) action -> var_declaration .
+
+    FIM             reduce using rule 28 (action -> var_declaration .)
+    SE              reduce using rule 28 (action -> var_declaration .)
+    REPITA          reduce using rule 28 (action -> var_declaration .)
+    LEIA            reduce using rule 28 (action -> var_declaration .)
+    ESCREVA         reduce using rule 28 (action -> var_declaration .)
+    RETORNA         reduce using rule 28 (action -> var_declaration .)
+    INTEIRO         reduce using rule 28 (action -> var_declaration .)
+    FLUTUANTE       reduce using rule 28 (action -> var_declaration .)
+    ID              reduce using rule 28 (action -> var_declaration .)
+    NOT             reduce using rule 28 (action -> var_declaration .)
+    OPEN_PARENTHESIS reduce using rule 28 (action -> var_declaration .)
+    PLUS            reduce using rule 28 (action -> var_declaration .)
+    MINUS           reduce using rule 28 (action -> var_declaration .)
+    N_INT           reduce using rule 28 (action -> var_declaration .)
+    N_FLOAT         reduce using rule 28 (action -> var_declaration .)
+    ATE             reduce using rule 28 (action -> var_declaration .)
+    SENAO           reduce using rule 28 (action -> var_declaration .)
+
+
+state 97
+
+    (29) action -> se .
+
+    FIM             reduce using rule 29 (action -> se .)
+    SE              reduce using rule 29 (action -> se .)
+    REPITA          reduce using rule 29 (action -> se .)
+    LEIA            reduce using rule 29 (action -> se .)
+    ESCREVA         reduce using rule 29 (action -> se .)
+    RETORNA         reduce using rule 29 (action -> se .)
+    INTEIRO         reduce using rule 29 (action -> se .)
+    FLUTUANTE       reduce using rule 29 (action -> se .)
+    ID              reduce using rule 29 (action -> se .)
+    NOT             reduce using rule 29 (action -> se .)
+    OPEN_PARENTHESIS reduce using rule 29 (action -> se .)
+    PLUS            reduce using rule 29 (action -> se .)
+    MINUS           reduce using rule 29 (action -> se .)
+    N_INT           reduce using rule 29 (action -> se .)
+    N_FLOAT         reduce using rule 29 (action -> se .)
+    ATE             reduce using rule 29 (action -> se .)
+    SENAO           reduce using rule 29 (action -> se .)
+
+
+state 98
+
+    (30) action -> repita .
+
+    FIM             reduce using rule 30 (action -> repita .)
+    SE              reduce using rule 30 (action -> repita .)
+    REPITA          reduce using rule 30 (action -> repita .)
+    LEIA            reduce using rule 30 (action -> repita .)
+    ESCREVA         reduce using rule 30 (action -> repita .)
+    RETORNA         reduce using rule 30 (action -> repita .)
+    INTEIRO         reduce using rule 30 (action -> repita .)
+    FLUTUANTE       reduce using rule 30 (action -> repita .)
+    ID              reduce using rule 30 (action -> repita .)
+    NOT             reduce using rule 30 (action -> repita .)
+    OPEN_PARENTHESIS reduce using rule 30 (action -> repita .)
+    PLUS            reduce using rule 30 (action -> repita .)
+    MINUS           reduce using rule 30 (action -> repita .)
+    N_INT           reduce using rule 30 (action -> repita .)
+    N_FLOAT         reduce using rule 30 (action -> repita .)
+    ATE             reduce using rule 30 (action -> repita .)
+    SENAO           reduce using rule 30 (action -> repita .)
+
+
+state 99
+
+    (31) action -> leia .
+
+    FIM             reduce using rule 31 (action -> leia .)
+    SE              reduce using rule 31 (action -> leia .)
+    REPITA          reduce using rule 31 (action -> leia .)
+    LEIA            reduce using rule 31 (action -> leia .)
+    ESCREVA         reduce using rule 31 (action -> leia .)
+    RETORNA         reduce using rule 31 (action -> leia .)
+    INTEIRO         reduce using rule 31 (action -> leia .)
+    FLUTUANTE       reduce using rule 31 (action -> leia .)
+    ID              reduce using rule 31 (action -> leia .)
+    NOT             reduce using rule 31 (action -> leia .)
+    OPEN_PARENTHESIS reduce using rule 31 (action -> leia .)
+    PLUS            reduce using rule 31 (action -> leia .)
+    MINUS           reduce using rule 31 (action -> leia .)
+    N_INT           reduce using rule 31 (action -> leia .)
+    N_FLOAT         reduce using rule 31 (action -> leia .)
+    ATE             reduce using rule 31 (action -> leia .)
+    SENAO           reduce using rule 31 (action -> leia .)
+
+
+state 100
+
+    (32) action -> escreva .
+
+    FIM             reduce using rule 32 (action -> escreva .)
+    SE              reduce using rule 32 (action -> escreva .)
+    REPITA          reduce using rule 32 (action -> escreva .)
+    LEIA            reduce using rule 32 (action -> escreva .)
+    ESCREVA         reduce using rule 32 (action -> escreva .)
+    RETORNA         reduce using rule 32 (action -> escreva .)
+    INTEIRO         reduce using rule 32 (action -> escreva .)
+    FLUTUANTE       reduce using rule 32 (action -> escreva .)
+    ID              reduce using rule 32 (action -> escreva .)
+    NOT             reduce using rule 32 (action -> escreva .)
+    OPEN_PARENTHESIS reduce using rule 32 (action -> escreva .)
+    PLUS            reduce using rule 32 (action -> escreva .)
+    MINUS           reduce using rule 32 (action -> escreva .)
+    N_INT           reduce using rule 32 (action -> escreva .)
+    N_FLOAT         reduce using rule 32 (action -> escreva .)
+    ATE             reduce using rule 32 (action -> escreva .)
+    SENAO           reduce using rule 32 (action -> escreva .)
+
+
+state 101
+
+    (33) action -> retorna .
+
+    FIM             reduce using rule 33 (action -> retorna .)
+    SE              reduce using rule 33 (action -> retorna .)
+    REPITA          reduce using rule 33 (action -> retorna .)
+    LEIA            reduce using rule 33 (action -> retorna .)
+    ESCREVA         reduce using rule 33 (action -> retorna .)
+    RETORNA         reduce using rule 33 (action -> retorna .)
+    INTEIRO         reduce using rule 33 (action -> retorna .)
+    FLUTUANTE       reduce using rule 33 (action -> retorna .)
+    ID              reduce using rule 33 (action -> retorna .)
+    NOT             reduce using rule 33 (action -> retorna .)
+    OPEN_PARENTHESIS reduce using rule 33 (action -> retorna .)
+    PLUS            reduce using rule 33 (action -> retorna .)
+    MINUS           reduce using rule 33 (action -> retorna .)
+    N_INT           reduce using rule 33 (action -> retorna .)
+    N_FLOAT         reduce using rule 33 (action -> retorna .)
+    ATE             reduce using rule 33 (action -> retorna .)
+    SENAO           reduce using rule 33 (action -> retorna .)
+
+
+state 102
+
+    (7) var_declaration -> type . COLON var_list
+
+    COLON           shift and go to state 15
+
+
+state 103
+
+    (34) se -> SE . expression ENTAO body FIM
+    (35) se -> SE . expression ENTAO body SENAO body FIM
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 109
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 104
+
+    (36) repita -> REPITA . body ATE expression
+    (25) body -> . body action
+    (26) body -> . empty
+    (76) empty -> .
+
+    ATE             reduce using rule 76 (empty -> .)
+    SE              reduce using rule 76 (empty -> .)
+    REPITA          reduce using rule 76 (empty -> .)
+    LEIA            reduce using rule 76 (empty -> .)
+    ESCREVA         reduce using rule 76 (empty -> .)
+    RETORNA         reduce using rule 76 (empty -> .)
+    INTEIRO         reduce using rule 76 (empty -> .)
+    FLUTUANTE       reduce using rule 76 (empty -> .)
+    ID              reduce using rule 76 (empty -> .)
+    NOT             reduce using rule 76 (empty -> .)
+    OPEN_PARENTHESIS reduce using rule 76 (empty -> .)
+    PLUS            reduce using rule 76 (empty -> .)
+    MINUS           reduce using rule 76 (empty -> .)
+    N_INT           reduce using rule 76 (empty -> .)
+    N_FLOAT         reduce using rule 76 (empty -> .)
+
+    body                           shift and go to state 110
+    empty                          shift and go to state 86
+
+state 105
+
+    (38) leia -> LEIA . OPEN_PARENTHESIS var CLOSE_PARENTHESIS
+
+    OPEN_PARENTHESIS shift and go to state 111
+
+
+state 106
+
+    (39) escreva -> ESCREVA . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+
+    OPEN_PARENTHESIS shift and go to state 112
+
+
+state 107
+
+    (40) retorna -> RETORNA . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+
+    OPEN_PARENTHESIS shift and go to state 113
+
+
+state 108
+
+    (73) arguments_list -> arguments_list COMMA expression .
+
+    CLOSE_PARENTHESIS reduce using rule 73 (arguments_list -> arguments_list COMMA expression .)
+    COMMA           reduce using rule 73 (arguments_list -> arguments_list COMMA expression .)
+
+
+state 109
+
+    (34) se -> SE expression . ENTAO body FIM
+    (35) se -> SE expression . ENTAO body SENAO body FIM
+
+    ENTAO           shift and go to state 114
+
+
+state 110
+
+    (36) repita -> REPITA body . ATE expression
+    (25) body -> body . action
+    (27) action -> . expression
+    (28) action -> . var_declaration
+    (29) action -> . se
+    (30) action -> . repita
+    (31) action -> . leia
+    (32) action -> . escreva
+    (33) action -> . retorna
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (7) var_declaration -> . type COLON var_list
+    (34) se -> . SE expression ENTAO body FIM
+    (35) se -> . SE expression ENTAO body SENAO body FIM
+    (36) repita -> . REPITA body ATE expression
+    (38) leia -> . LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS
+    (39) escreva -> . ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (40) retorna -> . RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (15) type -> . INTEIRO
+    (16) type -> . FLUTUANTE
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ATE             shift and go to state 115
+    SE              shift and go to state 103
+    REPITA          shift and go to state 104
+    LEIA            shift and go to state 105
+    ESCREVA         shift and go to state 106
+    RETORNA         shift and go to state 107
+    INTEIRO         shift and go to state 10
+    FLUTUANTE       shift and go to state 11
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 95
+    action                         shift and go to state 94
+    var_declaration                shift and go to state 96
+    se                             shift and go to state 97
+    repita                         shift and go to state 98
+    leia                           shift and go to state 99
+    escreva                        shift and go to state 100
+    retorna                        shift and go to state 101
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    type                           shift and go to state 102
+    var                            shift and go to state 25
+    simple_expression              shift and go to state 29
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 111
+
+    (38) leia -> LEIA OPEN_PARENTHESIS . var CLOSE_PARENTHESIS
+    (11) var -> . ID
+    (12) var -> . ID index
+
+    ID              shift and go to state 24
+
+    var                            shift and go to state 116
+
+state 112
+
+    (39) escreva -> ESCREVA OPEN_PARENTHESIS . expression CLOSE_PARENTHESIS
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 117
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 113
+
+    (40) retorna -> RETORNA OPEN_PARENTHESIS . expression CLOSE_PARENTHESIS
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 118
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 114
+
+    (34) se -> SE expression ENTAO . body FIM
+    (35) se -> SE expression ENTAO . body SENAO body FIM
+    (25) body -> . body action
+    (26) body -> . empty
+    (76) empty -> .
+
+    FIM             reduce using rule 76 (empty -> .)
+    SENAO           reduce using rule 76 (empty -> .)
+    SE              reduce using rule 76 (empty -> .)
+    REPITA          reduce using rule 76 (empty -> .)
+    LEIA            reduce using rule 76 (empty -> .)
+    ESCREVA         reduce using rule 76 (empty -> .)
+    RETORNA         reduce using rule 76 (empty -> .)
+    INTEIRO         reduce using rule 76 (empty -> .)
+    FLUTUANTE       reduce using rule 76 (empty -> .)
+    ID              reduce using rule 76 (empty -> .)
+    NOT             reduce using rule 76 (empty -> .)
+    OPEN_PARENTHESIS reduce using rule 76 (empty -> .)
+    PLUS            reduce using rule 76 (empty -> .)
+    MINUS           reduce using rule 76 (empty -> .)
+    N_INT           reduce using rule 76 (empty -> .)
+    N_FLOAT         reduce using rule 76 (empty -> .)
+
+    body                           shift and go to state 119
+    empty                          shift and go to state 86
+
+state 115
+
+    (36) repita -> REPITA body ATE . expression
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 120
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    simple_expression              shift and go to state 29
+    var                            shift and go to state 25
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 116
+
+    (38) leia -> LEIA OPEN_PARENTHESIS var . CLOSE_PARENTHESIS
+
+    CLOSE_PARENTHESIS shift and go to state 121
+
+
+state 117
+
+    (39) escreva -> ESCREVA OPEN_PARENTHESIS expression . CLOSE_PARENTHESIS
+
+    CLOSE_PARENTHESIS shift and go to state 122
+
+
+state 118
+
+    (40) retorna -> RETORNA OPEN_PARENTHESIS expression . CLOSE_PARENTHESIS
+
+    CLOSE_PARENTHESIS shift and go to state 123
+
+
+state 119
+
+    (34) se -> SE expression ENTAO body . FIM
+    (35) se -> SE expression ENTAO body . SENAO body FIM
+    (25) body -> body . action
+    (27) action -> . expression
+    (28) action -> . var_declaration
+    (29) action -> . se
+    (30) action -> . repita
+    (31) action -> . leia
+    (32) action -> . escreva
+    (33) action -> . retorna
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (7) var_declaration -> . type COLON var_list
+    (34) se -> . SE expression ENTAO body FIM
+    (35) se -> . SE expression ENTAO body SENAO body FIM
+    (36) repita -> . REPITA body ATE expression
+    (38) leia -> . LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS
+    (39) escreva -> . ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (40) retorna -> . RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (15) type -> . INTEIRO
+    (16) type -> . FLUTUANTE
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    FIM             shift and go to state 124
+    SENAO           shift and go to state 125
+    SE              shift and go to state 103
+    REPITA          shift and go to state 104
+    LEIA            shift and go to state 105
+    ESCREVA         shift and go to state 106
+    RETORNA         shift and go to state 107
+    INTEIRO         shift and go to state 10
+    FLUTUANTE       shift and go to state 11
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 95
+    action                         shift and go to state 94
+    var_declaration                shift and go to state 96
+    se                             shift and go to state 97
+    repita                         shift and go to state 98
+    leia                           shift and go to state 99
+    escreva                        shift and go to state 100
+    retorna                        shift and go to state 101
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    type                           shift and go to state 102
+    var                            shift and go to state 25
+    simple_expression              shift and go to state 29
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 120
+
+    (36) repita -> REPITA body ATE expression .
+
+    FIM             reduce using rule 36 (repita -> REPITA body ATE expression .)
+    SE              reduce using rule 36 (repita -> REPITA body ATE expression .)
+    REPITA          reduce using rule 36 (repita -> REPITA body ATE expression .)
+    LEIA            reduce using rule 36 (repita -> REPITA body ATE expression .)
+    ESCREVA         reduce using rule 36 (repita -> REPITA body ATE expression .)
+    RETORNA         reduce using rule 36 (repita -> REPITA body ATE expression .)
+    INTEIRO         reduce using rule 36 (repita -> REPITA body ATE expression .)
+    FLUTUANTE       reduce using rule 36 (repita -> REPITA body ATE expression .)
+    ID              reduce using rule 36 (repita -> REPITA body ATE expression .)
+    NOT             reduce using rule 36 (repita -> REPITA body ATE expression .)
+    OPEN_PARENTHESIS reduce using rule 36 (repita -> REPITA body ATE expression .)
+    PLUS            reduce using rule 36 (repita -> REPITA body ATE expression .)
+    MINUS           reduce using rule 36 (repita -> REPITA body ATE expression .)
+    N_INT           reduce using rule 36 (repita -> REPITA body ATE expression .)
+    N_FLOAT         reduce using rule 36 (repita -> REPITA body ATE expression .)
+    ATE             reduce using rule 36 (repita -> REPITA body ATE expression .)
+    SENAO           reduce using rule 36 (repita -> REPITA body ATE expression .)
+
+
+state 121
+
+    (38) leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .
+
+    FIM             reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    SE              reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    REPITA          reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    LEIA            reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    ESCREVA         reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    RETORNA         reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    INTEIRO         reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    FLUTUANTE       reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    ID              reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    NOT             reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    OPEN_PARENTHESIS reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    PLUS            reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    MINUS           reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    N_INT           reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    N_FLOAT         reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    ATE             reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+    SENAO           reduce using rule 38 (leia -> LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS .)
+
+
+state 122
+
+    (39) escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .
+
+    FIM             reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    SE              reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    REPITA          reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    LEIA            reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ESCREVA         reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    RETORNA         reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    INTEIRO         reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    FLUTUANTE       reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ID              reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    NOT             reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    OPEN_PARENTHESIS reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    PLUS            reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    MINUS           reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    N_INT           reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    N_FLOAT         reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ATE             reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    SENAO           reduce using rule 39 (escreva -> ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+
+
+state 123
+
+    (40) retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .
+
+    FIM             reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    SE              reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    REPITA          reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    LEIA            reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ESCREVA         reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    RETORNA         reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    INTEIRO         reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    FLUTUANTE       reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ID              reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    NOT             reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    OPEN_PARENTHESIS reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    PLUS            reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    MINUS           reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    N_INT           reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    N_FLOAT         reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    ATE             reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+    SENAO           reduce using rule 40 (retorna -> RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS .)
+
+
+state 124
+
+    (34) se -> SE expression ENTAO body FIM .
+
+    FIM             reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    SE              reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    REPITA          reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    LEIA            reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    ESCREVA         reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    RETORNA         reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    INTEIRO         reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    FLUTUANTE       reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    ID              reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    NOT             reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    OPEN_PARENTHESIS reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    PLUS            reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    MINUS           reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    N_INT           reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    N_FLOAT         reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    ATE             reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+    SENAO           reduce using rule 34 (se -> SE expression ENTAO body FIM .)
+
+
+state 125
+
+    (35) se -> SE expression ENTAO body SENAO . body FIM
+    (25) body -> . body action
+    (26) body -> . empty
+    (76) empty -> .
+
+    FIM             reduce using rule 76 (empty -> .)
+    SE              reduce using rule 76 (empty -> .)
+    REPITA          reduce using rule 76 (empty -> .)
+    LEIA            reduce using rule 76 (empty -> .)
+    ESCREVA         reduce using rule 76 (empty -> .)
+    RETORNA         reduce using rule 76 (empty -> .)
+    INTEIRO         reduce using rule 76 (empty -> .)
+    FLUTUANTE       reduce using rule 76 (empty -> .)
+    ID              reduce using rule 76 (empty -> .)
+    NOT             reduce using rule 76 (empty -> .)
+    OPEN_PARENTHESIS reduce using rule 76 (empty -> .)
+    PLUS            reduce using rule 76 (empty -> .)
+    MINUS           reduce using rule 76 (empty -> .)
+    N_INT           reduce using rule 76 (empty -> .)
+    N_FLOAT         reduce using rule 76 (empty -> .)
+
+    body                           shift and go to state 126
+    empty                          shift and go to state 86
+
+state 126
+
+    (35) se -> SE expression ENTAO body SENAO body . FIM
+    (25) body -> body . action
+    (27) action -> . expression
+    (28) action -> . var_declaration
+    (29) action -> . se
+    (30) action -> . repita
+    (31) action -> . leia
+    (32) action -> . escreva
+    (33) action -> . retorna
+    (41) expression -> . logic_expression
+    (42) expression -> . assignment
+    (7) var_declaration -> . type COLON var_list
+    (34) se -> . SE expression ENTAO body FIM
+    (35) se -> . SE expression ENTAO body SENAO body FIM
+    (36) repita -> . REPITA body ATE expression
+    (38) leia -> . LEIA OPEN_PARENTHESIS var CLOSE_PARENTHESIS
+    (39) escreva -> . ESCREVA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (40) retorna -> . RETORNA OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (43) logic_expression -> . simple_expression
+    (44) logic_expression -> . logic_expression logic_operator logic_expression
+    (37) assignment -> . var ASSIGNMENT expression
+    (15) type -> . INTEIRO
+    (16) type -> . FLUTUANTE
+    (45) simple_expression -> . additive_expression
+    (46) simple_expression -> . simple_expression operator_relational additive_expression
+    (11) var -> . ID
+    (12) var -> . ID index
+    (47) additive_expression -> . multiply_expression
+    (48) additive_expression -> . additive_expression sum_operator multiply_expression
+    (49) multiply_expression -> . single_expression
+    (50) multiply_expression -> . multiply_expression multiply_operator single_expression
+    (51) single_expression -> . factor
+    (52) single_expression -> . sum_operator factor
+    (53) single_expression -> . NOT factor
+    (66) factor -> . OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
+    (67) factor -> . var
+    (68) factor -> . function_call
+    (69) factor -> . num
+    (60) sum_operator -> . PLUS
+    (61) sum_operator -> . MINUS
+    (72) function_call -> . ID OPEN_PARENTHESIS arguments_list CLOSE_PARENTHESIS
+    (70) num -> . N_INT
+    (71) num -> . N_FLOAT
+
+    FIM             shift and go to state 127
+    SE              shift and go to state 103
+    REPITA          shift and go to state 104
+    LEIA            shift and go to state 105
+    ESCREVA         shift and go to state 106
+    RETORNA         shift and go to state 107
+    INTEIRO         shift and go to state 10
+    FLUTUANTE       shift and go to state 11
+    ID              shift and go to state 31
+    NOT             shift and go to state 36
+    OPEN_PARENTHESIS shift and go to state 37
+    PLUS            shift and go to state 40
+    MINUS           shift and go to state 41
+    N_INT           shift and go to state 42
+    N_FLOAT         shift and go to state 43
+
+    expression                     shift and go to state 95
+    action                         shift and go to state 94
+    var_declaration                shift and go to state 96
+    se                             shift and go to state 97
+    repita                         shift and go to state 98
+    leia                           shift and go to state 99
+    escreva                        shift and go to state 100
+    retorna                        shift and go to state 101
+    logic_expression               shift and go to state 27
+    assignment                     shift and go to state 28
+    type                           shift and go to state 102
+    var                            shift and go to state 25
+    simple_expression              shift and go to state 29
+    additive_expression            shift and go to state 30
+    multiply_expression            shift and go to state 32
+    sum_operator                   shift and go to state 33
+    single_expression              shift and go to state 34
+    factor                         shift and go to state 35
+    function_call                  shift and go to state 38
+    num                            shift and go to state 39
+
+state 127
+
+    (35) se -> SE expression ENTAO body SENAO body FIM .
+
+    FIM             reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    SE              reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    REPITA          reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    LEIA            reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    ESCREVA         reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    RETORNA         reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    INTEIRO         reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    FLUTUANTE       reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    ID              reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    NOT             reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    OPEN_PARENTHESIS reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    PLUS            reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    MINUS           reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    N_INT           reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    N_FLOAT         reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    ATE             reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+    SENAO           reduce using rule 35 (se -> SE expression ENTAO body SENAO body FIM .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 30 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 30 resolved as shift
+WARNING: shift/reduce conflict for OPEN_PARENTHESIS in state 31 resolved as shift
+WARNING: shift/reduce conflict for AND in state 77 resolved as shift
+WARNING: shift/reduce conflict for OR in state 77 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 78 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 78 resolved as shift

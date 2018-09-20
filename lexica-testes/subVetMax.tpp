@@ -1,4 +1,4 @@
-inteiro somaMax(inteiro v[], inteiro t)
+inteiro somaMax(inteiro: v[], inteiro: t)
     inteiro: i, sAtual, sMax
     i := 1
     sAtual := v[0]
@@ -6,10 +6,10 @@ inteiro somaMax(inteiro v[], inteiro t)
 
     repita
         sAtual := sAtual + v[i]
-        se v[i] > sAtual
+        se v[i] > sAtual então
             sAtual := v[i]
         fim
-        se sAtual > somaMax
+        se sAtual > somaMax então
             somaMax := sAtual
         fim
         i := i + 1
