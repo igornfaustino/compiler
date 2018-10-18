@@ -1,9 +1,17 @@
 import ply.yacc as yacc
 from anytree import Node, RenderTree
 from anytree.exporter import DotExporter
-from lex import tokens
+from lex import tokens, find_column
+from colorpy import warning, error
+import logging
 
 num = 0
+haveError = False
+
+precedence = (
+    ("nonassoc", "ID"),
+    ("nonassoc", "OPEN_PARENTHESIS"),
+)
 
 
 def p_program(p):
@@ -78,42 +86,6 @@ def p_var_init(p):
     p[0] = father
 
 
-def p_var_list(p):
-    '''
-    var_list : var_list COMMA var
-             | var
-    '''
-
-    global num
-    father = Node(str(num) + ")" + 'var_list')
-    num += 1
-    if(len(p) == 4):
-        p[1].parent = father
-        Node(str(num) + ")" + str(p[2]), father)
-        num += 1
-        p[3].parent = father
-    else:
-        p[1].parent = father
-
-    p[0] = father
-
-
-def p_var(p):
-    '''
-    var : ID
-        | ID index
-    '''
-
-    global num
-    father = Node(str(num) + ")" + 'var')
-    num += 1
-    Node(str(num) + ")" + str(p[1]), father)
-    num += 1
-    if(len(p) == 3):
-        p[2].parent = father
-    p[0] = father
-
-
 def p_index(p):
     '''
     index : index OPEN_BRACKET expression CLOSE_BRACKET
@@ -184,6 +156,42 @@ def p_header(p):
     Node(str(num) + ")" + str(p[6]), father)
     num += 1
 
+    p[0] = father
+
+
+def p_var_list(p):
+    '''
+    var_list : var_list COMMA var
+             | var
+    '''
+
+    global num
+    father = Node(str(num) + ")" + 'var_list')
+    num += 1
+    if(len(p) == 4):
+        p[1].parent = father
+        Node(str(num) + ")" + str(p[2]), father)
+        num += 1
+        p[3].parent = father
+    else:
+        p[1].parent = father
+
+    p[0] = father
+
+
+def p_var(p):
+    '''
+    var : ID
+        | ID index
+    '''
+
+    global num
+    father = Node(str(num) + ")" + 'var')
+    num += 1
+    Node(str(num) + ")" + str(p[1]), father)
+    num += 1
+    if(len(p) == 3):
+        p[2].parent = father
     p[0] = father
 
 
@@ -397,7 +405,7 @@ def p_expression(p):
 def p_logic_expression(p):
     '''
     logic_expression : simple_expression
-                     | logic_expression logic_operator logic_expression
+                     | logic_expression logic_operator simple_expression
     '''
 
     global num
@@ -552,8 +560,8 @@ def p_multiply_operator(p):
 def p_factor(p):
     '''
     factor : OPEN_PARENTHESIS expression CLOSE_PARENTHESIS
-           | var
            | function_call
+           | var
            | num
     '''
 
@@ -635,7 +643,16 @@ def p_empty(p):
     pass
 
 
-import logging
+def p_error(p):
+    global haveError
+    haveError = True
+    if not p:
+        return
+    error("Syntax error '" + str(p.value) + "' at line " +
+          str(p.lineno) + "." + str(find_column(p)))
+    parser.errok()
+
+
 logging.basicConfig(
     level=logging.DEBUG,
     filename="parselog.txt",
@@ -645,13 +662,16 @@ logging.basicConfig(
 
 log = logging.getLogger()
 
-parser = yacc.yacc(errorlog=log)
+parser = yacc.yacc()
 
 
 def parse(content):
     result = parser.parse(content, debug=log)
 
-    DotExporter(result).to_dotfile('tree.txt')
+    global haveError
+
+    if (not haveError):
+        DotExporter(result).to_dotfile('tree.txt')
 
 
 # parse('')

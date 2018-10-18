@@ -9,10 +9,9 @@ def print_help():
     print('\nUsage: python', argv[0], '[OPTIONS] file\n')
     print('Return an list of tokens\n')
     print('Options:')
-    print('  -f, --format                          Format output print')
     print('  -h, --help                            Print usage')
-    print('  -o, --output file                     Place the output into file')
     print('      --tokens                          Show tokens founded')
+    print('      --tokens-format                   Show tokens founded formated')
 
 
 def print_tokens(listToken, format_print=False):
@@ -35,15 +34,14 @@ def main(argv):
 
     # Check for options
     optlist, args = getopt.getopt(
-        argv[1:], "fho:", ["format", "help", "output=", "tokens"])
+        argv[1:], "h:", ["tokens-format", "help", "tokens"])
     for o, a in optlist:
-        if (o == '-f' or o == '--format'):
+        if (o == '--tokens-format'):
             format_print = True
+            show_lex = True
         if (o == '-h' or o == '--help'):
             print_help()
             return
-        if (o == '-o' or o == '--output'):
-            output_file_path = a
         if(o == '--tokens'):
             show_lex = True
     if(len(args) == 0):

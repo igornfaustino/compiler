@@ -73,30 +73,88 @@ def t_N_INT(t):
 
 
 # Operators
-t_PLUS = r'\+'
-t_MINUS = r'\-'
-t_MULTIPLY = r'\*'
-t_DIVIDE = r'\/'
-t_EQUAL = r'\='
-t_NOT_EQUAL = r'<>'
-t_GREATER_EQUAL = r'>='
-t_GREATER_THAN = r'>'
-t_LESS_EQUAL = r'<='
-t_LESS_THAN = r'<'
-t_ASSIGNMENT = r':='
+def t_PLUS(t):
+    r'\+'
+    return t
+
+def t_MINUS(t):
+    r'\-'
+    return t
+
+def t_MULTIPLY(t):
+    r'\*'
+    return t
+
+def t_DIVIDE(t):
+    r'\/'
+    return t
+
+def t_EQUAL(t):
+    r'\='
+    return t
+
+def t_NOT_EQUAL(t):
+    r'<>'
+    return t
+
+def t_GREATER_EQUAL(t):
+    r'>='
+    return t
+
+def t_GREATER_THAN(t):
+    r'>'
+    return t
+
+def t_LESS_EQUAL(t):
+    r'<='
+    return t
+
+def t_LESS_THAN(t):
+    r'<'
+    return t
+
+def t_ASSIGNMENT(t):
+    r':='
+    return t
+
 # LOGICAL
-t_AND = r'&&'
-t_OR = r'\|\|'
-t_NOT = r'\!'
+def t_AND(t):
+    r'&&'
+    return t
+
+def t_OR(t):
+    r'\|\|'
+    return t
+
+def t_NOT(T):
+    r'\!'
+    return t
 
 
 # Symbols
-t_COLON = r':'
-t_COMMA = r','
-t_OPEN_PARENTHESIS = r'\('
-t_CLOSE_PARENTHESIS = r'\)'
-t_OPEN_BRACKET = r'\['
-t_CLOSE_BRACKET = r'\]'
+def t_COLON(t):
+    r':'
+    return t
+
+def t_COMMA(t):
+    r','
+    return t
+
+def t_OPEN_PARENTHESIS(t):
+    r'\('
+    return t
+
+def t_CLOSE_PARENTHESIS(t):
+    r'\)'
+    return t
+
+def t_OPEN_BRACKET(t):
+    r'\['
+    return t
+
+def t_CLOSE_BRACKET(t):
+    r'\]'
+    return t
 
 
 # Names
@@ -114,7 +172,7 @@ def t_ID(t):
 def t_comment(t):
     r'\{'
     # Record the starting position
-    t.lexer.code_start = find_column(t.lexer.lexdata, t)
+    t.lexer.code_start = find_column(t)
     t.lexer.comment_line = t.lexer.lineno      # Record the starting line
     t.lexer.level = 1                          # Initial brace level
     t.lexer.begin('comment')                     # Enter 'comment' state
@@ -147,7 +205,8 @@ def t_comment_COMMENT(t):
 
 
 # AUX Functions
-def find_column(input, token):
+def find_column(token):
+    input = token.lexer.lexdata
     line_start = input.rfind('\n', 0, token.lexpos) + 1
     return (token.lexpos - line_start) + 1
 
@@ -155,7 +214,7 @@ def find_column(input, token):
 # PLY functions
 def t_ANY_error(t):
     error("Illegal characters '" + t.value[0] + "' at line " +
-          str(t.lexer.lineno) + "." + str(find_column(t.lexer.lexdata, t)))
+          str(t.lexer.lineno) + "." + str(find_column(t)))
     exit(1)
 
 
@@ -171,6 +230,8 @@ lexer = lex.lex()
 
 
 def scan(content):
+    global lexer
+
     lexer.input(content)
 
     content_tokens = []
@@ -178,8 +239,9 @@ def scan(content):
         tok = lexer.token()
         if not tok or tok.value == 'error':
             break
-        tok.lexpos = find_column(content, tok)
+        tok.lexpos = find_column(tok)
         content_tokens.append(tok)
+    lexer = lex.lex()
     return content_tokens
 
 
