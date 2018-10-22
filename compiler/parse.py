@@ -20,7 +20,7 @@ def p_program(p):
     '''
 
     global num
-    root = Node(str(num) + ")" + 'root')
+    root = Node(str(num) + ". " + 'root')
     num += 1
     p[1].parent = root
 
@@ -34,7 +34,7 @@ def p_declaration_list(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'declaration_list')
+    father = Node(str(num) + ". " + 'declaration_list')
     num += 1
     if (len(p) == 3):
         p[1].parent = father
@@ -53,7 +53,7 @@ def p_declaration(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'declaration')
+    father = Node(str(num) + ". " + 'declaration')
     num += 1
     p[1].parent = father
     p[0] = father
@@ -65,10 +65,10 @@ def p_var_declaration(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'var_declaration')
+    father = Node(str(num) + ". " + 'var_declaration')
     num += 1
     p[1].parent = father
-    Node(str(num) + ")" + str(p[2]), father)
+    Node(str(num) + ". " + str(p[2]), father)
     num += 1
     p[3].parent = father
     p[0] = father
@@ -80,7 +80,7 @@ def p_var_init(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'var_init')
+    father = Node(str(num) + ". " + 'var_init')
     num += 1
     p[1].parent = father
     p[0] = father
@@ -93,20 +93,20 @@ def p_index(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'index')
+    father = Node(str(num) + ". " + 'index')
     num += 1
     if(len(p) == 5):
         p[1].parent = father
-        Node(str(num) + ")" + str(p[2]), father)
+        Node(str(num) + ". " + str(p[2]), father)
         num += 1
         p[3].parent = father
-        Node(str(num) + ")" + str(p[4]), father)
+        Node(str(num) + ". " + str(p[4]), father)
         num += 1
     else:
-        Node(str(num) + ")" + str(p[1]), father)
+        Node(str(num) + ". " + str(p[1]), father)
         num += 1
         p[2].parent = father
-        Node(str(num) + ")" + str(p[3]), father)
+        Node(str(num) + ". " + str(p[3]), father)
         num += 1
     p[0] = father
 
@@ -118,7 +118,7 @@ def p_type(p):
     '''
 
     global num
-    p[0] = Node(str(num) + ")" + str(p[1]))
+    p[0] = Node(str(num) + ". " + str(p[1]))
     num += 1
 
 
@@ -129,7 +129,7 @@ def p_func_declaration(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "func_declaration")
+    father = Node(str(num) + ". " + "func_declaration")
     num += 1
     p[1].parent = father
     if(len(p) == 3):
@@ -143,17 +143,17 @@ def p_header(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "header")
+    father = Node(str(num) + ". " + "header")
     num += 1
-    Node(str(num) + ")" + str(p[1]), father)
+    Node(str(num) + ". " + str(p[1]), father)
     num += 1
-    Node(str(num) + ")" + str(p[2]), father)
+    Node(str(num) + ". " + str(p[2]), father)
     num += 1
     p[3].parent = father
-    Node(str(num) + ")" + str(p[4]), father)
+    Node(str(num) + ". " + str(p[4]), father)
     num += 1
     p[5].parent = father
-    Node(str(num) + ")" + str(p[6]), father)
+    Node(str(num) + ". " + str(p[6]), father)
     num += 1
 
     p[0] = father
@@ -166,11 +166,11 @@ def p_var_list(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'var_list')
+    father = Node(str(num) + ". " + 'var_list')
     num += 1
     if(len(p) == 4):
         p[1].parent = father
-        Node(str(num) + ")" + str(p[2]), father)
+        Node(str(num) + ". " + str(p[2]), father)
         num += 1
         p[3].parent = father
     else:
@@ -186,9 +186,9 @@ def p_var(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'var')
+    father = Node(str(num) + ". " + 'var')
     num += 1
-    Node(str(num) + ")" + str(p[1]), father)
+    Node(str(num) + ". " + str(p[1]), father)
     num += 1
     if(len(p) == 3):
         p[2].parent = father
@@ -203,17 +203,17 @@ def p_params_list(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "params_list")
+    father = Node(str(num) + ". " + "params_list")
     num += 1
     if(len(p) == 4):
         p[1].parent = father
-        Node(str(num) + ")" + str(p[2]), father)
+        Node(str(num) + ". " + str(p[2]), father)
         num += 1
         p[3].parent = father
     elif(p[1] is not None):
         p[1].parent = father
     else:
-        Node(str(num) + ")" + "", father)
+        Node(str(num) + ". " + "", father)
         num += 1
 
     p[0] = father
@@ -226,12 +226,12 @@ def p_param(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "param")
+    father = Node(str(num) + ". " + "param")
     num += 1
     p[1].parent = father
-    Node(str(num) + ")" + str(p[2]), father)
+    Node(str(num) + ". " + str(p[2]), father)
     num += 1
-    Node(str(num) + ")" + str(p[3]), father)
+    Node(str(num) + ". " + str(p[3]), father)
     num += 1
     p[0] = father
 
@@ -243,13 +243,13 @@ def p_body(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "body")
+    father = Node(str(num) + ". " + "body")
     num += 1
     if(len(p) == 3):
         p[1].parent = father
         p[2].parent = father
     else:
-        Node(str(num) + ")" + "", father)
+        Node(str(num) + ". " + "", father)
         num += 1
     p[0] = father
 
@@ -266,7 +266,7 @@ def p_action(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "action")
+    father = Node(str(num) + ". " + "action")
     num += 1
     p[1].parent = father
     p[0] = father
@@ -279,19 +279,19 @@ def p_se(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "se")
+    father = Node(str(num) + ". " + "se")
     num += 1
-    Node(str(num) + ")" + str(p[1]), father)
+    Node(str(num) + ". " + str(p[1]), father)
     num += 1
     p[2].parent = father
-    Node(str(num) + ")" + str(p[3]), father)
+    Node(str(num) + ". " + str(p[3]), father)
     num += 1
     p[4].parent = father
-    Node(str(num) + ")" + str(p[5]), father)
+    Node(str(num) + ". " + str(p[5]), father)
     num += 1
     if(len(p) == 8):
         p[6].parent = father
-        Node(str(num) + ")" + str(p[7]), father)
+        Node(str(num) + ". " + str(p[7]), father)
         num += 1
 
     p[0] = father
@@ -303,12 +303,12 @@ def p_repita(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "repita")
+    father = Node(str(num) + ". " + "repita")
     num += 1
-    Node(str(num) + ")" + str(p[1]), father)
+    Node(str(num) + ". " + str(p[1]), father)
     num += 1
     p[2].parent = father
-    Node(str(num) + ")" + str(p[3]), father)
+    Node(str(num) + ". " + str(p[3]), father)
     num += 1
     p[4].parent = father
 
@@ -321,10 +321,10 @@ def p_assignment(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "assignment")
+    father = Node(str(num) + ". " + "assignment")
     num += 1
     p[1].parent = father
-    Node(str(num) + ")" + str(p[2]), father)
+    Node(str(num) + ". " + str(p[2]), father)
     num += 1
     p[3].parent = father
 
@@ -337,14 +337,14 @@ def p_leia(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "leia")
+    father = Node(str(num) + ". " + "leia")
     num += 1
-    Node(str(num) + ")" + str(p[1]), father)
+    Node(str(num) + ". " + str(p[1]), father)
     num += 1
-    Node(str(num) + ")" + str(p[2]), father)
+    Node(str(num) + ". " + str(p[2]), father)
     num += 1
     p[3].parent = father
-    Node(str(num) + ")" + str(p[4]), father)
+    Node(str(num) + ". " + str(p[4]), father)
     num += 1
 
     p[0] = father
@@ -356,14 +356,14 @@ def p_escreva(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "escreva")
+    father = Node(str(num) + ". " + "escreva")
     num += 1
-    Node(str(num) + ")" + str(p[1]), father)
+    Node(str(num) + ". " + str(p[1]), father)
     num += 1
-    Node(str(num) + ")" + str(p[2]), father)
+    Node(str(num) + ". " + str(p[2]), father)
     num += 1
     p[3].parent = father
-    Node(str(num) + ")" + str(p[4]), father)
+    Node(str(num) + ". " + str(p[4]), father)
     num += 1
 
     p[0] = father
@@ -375,14 +375,14 @@ def p_retorna(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "retorna")
+    father = Node(str(num) + ". " + "retorna")
     num += 1
-    Node(str(num) + ")" + str(p[1]), father)
+    Node(str(num) + ". " + str(p[1]), father)
     num += 1
-    Node(str(num) + ")" + str(p[2]), father)
+    Node(str(num) + ". " + str(p[2]), father)
     num += 1
     p[3].parent = father
-    Node(str(num) + ")" + str(p[4]), father)
+    Node(str(num) + ". " + str(p[4]), father)
     num += 1
 
     p[0] = father
@@ -395,7 +395,7 @@ def p_expression(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "expression")
+    father = Node(str(num) + ". " + "expression")
     num += 1
     p[1].parent = father
 
@@ -409,7 +409,7 @@ def p_logic_expression(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "logic_expression")
+    father = Node(str(num) + ". " + "logic_expression")
     num += 1
     p[1].parent = father
     if(len(p) == 4):
@@ -426,7 +426,7 @@ def p_simple_expression(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "simple_expression")
+    father = Node(str(num) + ". " + "simple_expression")
     num += 1
     p[1].parent = father
     if(len(p) == 4):
@@ -443,7 +443,7 @@ def p_additive_expression(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "additive_expression")
+    father = Node(str(num) + ". " + "additive_expression")
     num += 1
     p[1].parent = father
     if(len(p) == 4):
@@ -460,7 +460,7 @@ def p_multiply_expression(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "multiply_expression")
+    father = Node(str(num) + ". " + "multiply_expression")
     num += 1
     p[1].parent = father
     if(len(p) == 4):
@@ -478,11 +478,11 @@ def p_single_expression(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + "single_expression")
+    father = Node(str(num) + ". " + "single_expression")
     num += 1
     if (len(p) == 3):
         if(p[1] == '!'):
-            Node(str(num) + ")" + str(p[1]), father)
+            Node(str(num) + ". " + str(p[1]), father)
             num += 1
         else:
             p[1].parent = father
@@ -504,9 +504,9 @@ def p_operator_relational(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'relational_op')
+    father = Node(str(num) + ". " + 'relational_op')
     num += 1
-    son = Node(str(num) + ")" + str(p[1]), father)
+    son = Node(str(num) + ". " + str(p[1]), father)
     num += 1
 
     p[0] = father
@@ -519,9 +519,9 @@ def p_sum_operator(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'op')
+    father = Node(str(num) + ". " + 'op')
     num += 1
-    son = Node(str(num) + ")" + str(p[1]), father)
+    son = Node(str(num) + ". " + str(p[1]), father)
     num += 1
 
     p[0] = father
@@ -534,9 +534,9 @@ def p_logic_operator(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'logic_op')
+    father = Node(str(num) + ". " + 'logic_op')
     num += 1
-    son = Node(str(num) + ")" + str(p[1]), father)
+    son = Node(str(num) + ". " + str(p[1]), father)
     num += 1
 
     p[0] = father
@@ -549,9 +549,9 @@ def p_multiply_operator(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'op')
+    father = Node(str(num) + ". " + 'op')
     num += 1
-    son = Node(str(num) + ")" + str(p[1]), father)
+    son = Node(str(num) + ". " + str(p[1]), father)
     num += 1
 
     p[0] = father
@@ -566,13 +566,13 @@ def p_factor(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'factor')
+    father = Node(str(num) + ". " + 'factor')
     num += 1
     if (len(p) == 4):
-        Node(str(num) + ")" + str(p[1]), father)
+        Node(str(num) + ". " + str(p[1]), father)
         num += 1
         p[2].parent = father
-        Node(str(num) + ")" + str(p[3]), father)
+        Node(str(num) + ". " + str(p[3]), father)
         num += 1
     else:
         p[1].parent = father
@@ -587,9 +587,9 @@ def p_num(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'num')
+    father = Node(str(num) + ". " + 'num')
     num += 1
-    son = Node(str(num) + ")" + str(p[1]), father)
+    son = Node(str(num) + ". " + str(p[1]), father)
     num += 1
 
     p[0] = father
@@ -601,14 +601,14 @@ def p_function_call(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'function_call')
+    father = Node(str(num) + ". " + 'function_call')
     num += 1
-    Node(str(num) + ")" + str(p[1]), father)
+    Node(str(num) + ". " + str(p[1]), father)
     num += 1
-    Node(str(num) + ")" + str(p[2]), father)
+    Node(str(num) + ". " + str(p[2]), father)
     num += 1
     p[3].parent = father
-    Node(str(num) + ")" + str(p[4]), father)
+    Node(str(num) + ". " + str(p[4]), father)
     num += 1
 
     p[0] = father
@@ -622,17 +622,17 @@ def p_arguments_list(p):
     '''
 
     global num
-    father = Node(str(num) + ")" + 'arguments_list')
+    father = Node(str(num) + ". " + 'arguments_list')
     num += 1
     if(len(p) == 4):
         p[1].parent = father
-        Node(str(num) + ")" + str(p[2]), father)
+        Node(str(num) + ". " + str(p[2]), father)
         num += 1
         p[3].parent = father
     elif(p[1] is not None):
         p[1].parent = father
     else:
-        Node(str(num) + ")" + "", father)
+        Node(str(num) + ". " + "", father)
         num += 1
 
     p[0] = father
@@ -665,13 +665,16 @@ log = logging.getLogger()
 parser = yacc.yacc()
 
 
-def parse(content):
+def parse(content, path="tree.out", printTree=False):
     result = parser.parse(content, debug=log)
 
     global haveError
-
     if (not haveError):
-        DotExporter(result).to_dotfile('tree.txt')
+        if(path):
+            DotExporter(result).to_dotfile(path)
+        if(printTree):
+            for pre, fill, node in RenderTree(result):
+                print("%s%s" % (pre, node.name))
 
 
 # parse('')

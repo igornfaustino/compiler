@@ -7,11 +7,14 @@ import file_utils
 
 def print_help():
     print('\nUsage: python', argv[0], '[OPTIONS] file\n')
-    print('Return an list of tokens\n')
+    print('\n')
     print('Options:')
     print('  -h, --help                            Print usage')
+    print('      --tree                            Print tree')
+    print('      --tree-output=                    Print tree to a file')
     print('      --tokens                          Show tokens founded')
     print('      --tokens-format                   Show tokens founded formated')
+    print('      --tokens-output=                  Print tokens to a file')
 
 
 def print_tokens(listToken, format_print=False):
@@ -27,14 +30,20 @@ def print_tokens(listToken, format_print=False):
             print("<" + str(token.type) + ", '" + str(token.value) + "'>")
 
 
+def print_tokens_to_file(listToken, path):
+    file_utils.save_data_into_file(path, listToken)
+
+
 def main(argv):
-    output_file_path = None
+    output_file_path_tokens = None
+    output_file_path_tree = None
     format_print = False
     show_lex = False
+    show_tree = False
 
     # Check for options
     optlist, args = getopt.getopt(
-        argv[1:], "h:", ["tokens-format", "help", "tokens"])
+        argv[1:], "h:", ["tokens-format", "help", "tokens", "tokens-output=", "tree-output=", "tree"])
     for o, a in optlist:
         if (o == '--tokens-format'):
             format_print = True
@@ -44,6 +53,13 @@ def main(argv):
             return
         if(o == '--tokens'):
             show_lex = True
+        if(o == '--tokens-output'):
+            show_lex = True
+            output_file_path_tokens = a
+        if(o == '--tree-output'):
+            output_file_path_tree = a
+        if(o == '--tree'):
+            show_tree = True
     if(len(args) == 0):
         print("Requires at least 1 argument.")
         print("Type '--help' for more informations")
@@ -54,8 +70,12 @@ def main(argv):
 
     # Save data into file
     if (show_lex):
-        print_tokens(lex.scan(data), format_print)
-    parse.parse(data)
+        if (output_file_path_tokens):
+            print(output_file_path_tokens)
+            print_tokens_to_file(lex.scan(data), output_file_path_tokens)
+        else:
+            print_tokens(lex.scan(data), format_print)
+    parse.parse(data, output_file_path_tree, show_tree)
 
 
 main(argv)
