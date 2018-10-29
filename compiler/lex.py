@@ -126,7 +126,7 @@ def t_OR(t):
     r'\|\|'
     return t
 
-def t_NOT(T):
+def t_NOT(t):
     r'\!'
     return t
 

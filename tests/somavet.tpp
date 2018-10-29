@@ -4,11 +4,12 @@ T:= 4
 inteiro: V1[T]
 
 inteiro somavet(inteiro: vet[], inteiro: tam)
-	inteiro: result 
+	inteiro: result, teste 
 	result := 0
 
 	inteiro: i 
-	i := 0
+	i := -1
+	i := !result
 
 	repita
 		result := result + vet[i]

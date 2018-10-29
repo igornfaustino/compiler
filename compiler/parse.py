@@ -13,7 +13,7 @@ precedence = (
     ("nonassoc", "OPEN_PARENTHESIS"),
 )
 
-
+# ok
 def p_program(p):
     '''
     program : declaration_list
@@ -26,7 +26,7 @@ def p_program(p):
 
     p[0] = root
 
-
+# ok
 def p_declaration_list(p):
     '''
     declaration_list : declaration_list declaration
@@ -73,7 +73,7 @@ def p_var_declaration(p):
     p[3].parent = father
     p[0] = father
 
-
+# ok
 def p_var_init(p):
     '''
     var_init : assignment
@@ -110,7 +110,7 @@ def p_index(p):
         num += 1
     p[0] = father
 
-
+# ok
 def p_type(p):
     '''
     type : INTEIRO
@@ -118,10 +118,13 @@ def p_type(p):
     '''
 
     global num
-    p[0] = Node(str(num), value=str(p[1]))
+    father = Node(str(num), value="type")
     num += 1
+    Node(str(num), value=str(p[1]), parent=father)
+    num += 1
+    p[0] = father
 
-
+# ok
 def p_func_declaration(p):
     '''
     func_declaration : type header
@@ -136,7 +139,7 @@ def p_func_declaration(p):
         p[2].parent = father
     p[0] = father
 
-
+# ok
 def p_header(p):
     '''
     header : ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM
@@ -158,7 +161,7 @@ def p_header(p):
 
     p[0] = father
 
-
+# ok
 def p_var_list(p):
     '''
     var_list : var_list COMMA var
@@ -194,7 +197,7 @@ def p_var(p):
         p[2].parent = father
     p[0] = father
 
-
+# ok
 def p_params_list(p):
     '''
     params_list : params_list COMMA param
@@ -235,7 +238,7 @@ def p_param(p):
     num += 1
     p[0] = father
 
-
+# ok
 def p_body(p):
     '''
     body : body action
@@ -253,7 +256,7 @@ def p_body(p):
         num += 1
     p[0] = father
 
-
+# ok
 def p_action(p):
     '''
     action : expression
@@ -314,7 +317,7 @@ def p_repita(p):
 
     p[0] = father
 
-
+# ok
 def p_assignment(p):
     '''
     assignment : var ASSIGNMENT expression
@@ -519,7 +522,7 @@ def p_sum_operator(p):
     '''
 
     global num
-    father = Node(str(num), value='op')
+    father = Node(str(num), value='sum_operator')
     num += 1
     son = Node(str(num), father, value=str(p[1]))
     num += 1
@@ -549,7 +552,7 @@ def p_multiply_operator(p):
     '''
 
     global num
-    father = Node(str(num), value='op')
+    father = Node(str(num), value='multiply_operator')
     num += 1
     son = Node(str(num), father, value=str(p[1]))
     num += 1
@@ -676,6 +679,8 @@ def parse(content, path="tree.out", printTree=False, debug=False):
         if(printTree):
             for pre, fill, node in RenderTree(result):
                 print("%s%s" % (pre, node.value))
+    
+    return result
 
 
 # parse('')

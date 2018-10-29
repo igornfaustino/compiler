@@ -7,5 +7,5 @@
 }
 
 inteiro principal()
-
+	inteiro: teste
 fim

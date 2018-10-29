@@ -3,6 +3,8 @@ import getopt
 import lex
 import parse
 import file_utils
+from syntaxTreeUtils import prune_tree
+from anytree.exporter import DotExporter
 
 
 def print_help():
@@ -35,51 +37,66 @@ def print_tokens_to_file(listToken, path):
     file_utils.save_data_into_file(path, listToken)
 
 
-def main(argv):
-    output_file_path_tokens = None
-    output_file_path_tree = None
-    format_print = False
-    show_lex = False
-    show_tree = False
-    debug = False
+def check_options(argv):
+    options = {
+        "output_file_path_tokens": None,
+        "output_file_path_tree": None,
+        "format_print": False,
+        "show_lex": False,
+        "show_tree": False,
+        "debug": False,
+    }
 
     # Check for options
     optlist, args = getopt.getopt(
         argv[1:], "hd", ["tokens-format", "help", "tokens", "tokens-output=", "tree-output=", "tree", "debug"])
     for o, a in optlist:
         if (o == '--tokens-format'):
-            format_print = True
-            show_lex = True
+            options["format_print"] = True
+            options["show_lex"] = True
         if (o == '-h' or o == '--help'):
             print_help()
             return
         if (o == '-d' or o == '--debug'):
-            debug = True
+            options["debug"] = True
         if(o == '--tokens'):
-            show_lex = True
+            options["show_lex"] = True
         if(o == '--tokens-output'):
-            show_lex = True
-            output_file_path_tokens = a
+            options["show_lex"] = True
+            options["output_file_path_tokens"] = a
         if(o == '--tree-output'):
-            output_file_path_tree = a
+            options["output_file_path_tree"] = a
         if(o == '--tree'):
-            show_tree = True
+            options["show_tree"] = True
     if(len(args) == 0):
         print("Requires at least 1 argument.")
         print("Type '--help' for more informations")
-        return
+        exit(0)
+
+    return optlist, args, options
+
+
+def main(argv):
+    optlist, args, options = check_options(argv)
 
     # Read file
     data = file_utils.read_data_from_file(args[0])
 
     # Save data into file
-    if (show_lex):
-        if (output_file_path_tokens):
-            print(output_file_path_tokens)
-            print_tokens_to_file(lex.scan(data), output_file_path_tokens)
+    if (options["show_lex"]):
+        if (options["output_file_path_tokens"]):
+            print_tokens_to_file(lex.scan(data),
+                                 options["output_file_path_tokens"])
         else:
-            print_tokens(lex.scan(data), format_print)
-    parse.parse(data, output_file_path_tree, show_tree, debug)
+            print_tokens(lex.scan(data), options["format_print"])
+    syntax_tree = parse.parse(data,
+                              options["output_file_path_tree"],
+                              options["show_tree"],
+                              options["debug"])
+
+    prune_tree(syntax_tree)
+    DotExporter(syntax_tree,
+                nodeattrfunc=lambda node: 'label="{}"'.format(node.value)).to_dotfile("prune.tree")
 
 
 main(argv)
