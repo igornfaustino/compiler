@@ -3,7 +3,7 @@ import getopt
 import lex
 import parse
 import file_utils
-from syntaxTreeUtils import prune_tree
+from syntax_tree_utils import prune_tree
 from anytree.exporter import DotExporter
 
 
