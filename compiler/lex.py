@@ -1,6 +1,9 @@
 import ply.lex as lex
 from colorpy import warning, error
 
+success = True
+show_error = True
+
 # Declare the state
 states = (
     ('comment', 'exclusive'),
@@ -213,9 +216,12 @@ def find_column(token):
 
 # PLY functions
 def t_ANY_error(t):
-    error("Illegal characters '" + t.value[0] + "' at line " +
-          str(t.lexer.lineno) + "." + str(find_column(t)))
-    exit(1)
+    global success
+    success = False
+    if(show_error):
+        error("Illegal characters '" + t.value[0] + "' at line " +
+            str(t.lexer.lineno))
+    t.lexer.skip(1)
 
 
 def t_ANY_newline(t):
@@ -230,8 +236,14 @@ lexer = lex.lex()
 
 
 def scan(content):
+    """
+    this function is call twice on code execution, first time is just to get the tokens list and show tokens... if this happens, the error is print twice, so in the beginer of this function i deactivate all error showing and in the end i turn on again
+    """
     global lexer
+    global show_error
 
+    # deactivate error
+    show_error = False
     lexer.input(content)
 
     content_tokens = []
@@ -241,8 +253,11 @@ def scan(content):
             break
         tok.lexpos = find_column(tok)
         content_tokens.append(tok)
+
+    # reset all 
     lexer = lex.lex()
-    return content_tokens
+    show_error = True
+    return content_tokens, success
 
 
 if __name__ == '__main__':

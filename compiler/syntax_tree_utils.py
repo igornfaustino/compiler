@@ -40,9 +40,12 @@ def __check_node(node):
         return __prune_var_init(node)
     elif (node.value == "params_list"):
         return __prune_params_list(node)
-        # pass
+    elif (node.value == "arguments_list"):
+        return __prune_arguments_list(node)
     elif (node.value == "param"):
         return __prune_param(node)
+    elif (node.value == "index"):
+        return __prune_index(node)
     elif (node.value == "se" or
             node.value == "então" or
             node.value == "até" or
@@ -162,9 +165,30 @@ def __prune_params_list(tree):
             children = children[1:]  # remove first element
             if(node.parent != first_params_list):
                 node.parent = None
-                first_params_list.children = [node] + list(first_params_list.children)
+                first_params_list.children = [
+                    node] + list(first_params_list.children)
 
     return first_params_list
+
+def __prune_arguments_list(tree):
+    first_argument_list = tree
+    children = list(first_argument_list.children)
+    while (len(children) > 0):
+        if (children[0].value != "expression"):
+            node = children[0]
+            node.parent = None
+            children = children[1:]  # remove first element
+            if len(node.children) > 0:
+                children = list(node.children) + children
+        else:
+            node = children[0]
+            children = children[1:]  # remove first element
+            if(node.parent != first_argument_list):
+                node.parent = None
+                first_argument_list.children = [
+                    node] + list(first_argument_list.children)
+
+    return first_argument_list
 
 
 def __prune_param(tree):
@@ -220,6 +244,7 @@ def __prune_general_expression(tree):
         root = root.parent
     return root
 
+
 def __prune_operator(tree):
     root = tree
     child = root.children[0]
@@ -228,3 +253,24 @@ def __prune_operator(tree):
     root.value = child.value
 
     return root
+
+
+def __prune_index(tree):
+    first_index = tree
+    children = list(first_index.children)
+    while (len(children) > 0):
+        if (children[0].value == "index"):
+            node = children[0]
+            children = children[1:]  # remove first element
+            node.parent = None
+            new_children = []
+            for child in node.children:
+                child.parent = None
+                new_children.append(child)
+            children = new_children + children
+            first_index.children = new_children + list(first_index.children)
+        else:
+            children = children[1:]
+
+    return first_index
+            
