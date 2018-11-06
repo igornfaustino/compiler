@@ -1,7 +1,6 @@
 import ply.yacc as yacc
-from anytree import Node, RenderTree
-from anytree.exporter import DotExporter
-from lex import tokens, find_column
+from anytree import Node
+from lex import tokens
 from colorpy import warning, error
 import logging
 

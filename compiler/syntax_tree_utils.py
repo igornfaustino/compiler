@@ -64,6 +64,8 @@ def __check_node(node):
             node.value == "logic_operator" or
             node.value == "multiply_operator"):
         return __prune_operator(node)
+    elif (node.value == "expression"):
+        return __prune_expression(node)
     return node
 
 
@@ -244,6 +246,14 @@ def __prune_general_expression(tree):
         root = root.parent
     return root
 
+def __prune_expression(tree):
+    root = tree
+    child = list(root.children)[0]
+    if(child.value == "assignment"):
+        child.parent = None
+        root.value = child.value
+        root.children = child.children
+    return root
 
 def __prune_operator(tree):
     root = tree

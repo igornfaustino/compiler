@@ -6,6 +6,7 @@ import file_utils
 import semantic_analyzer
 from syntax_tree_utils import prune_tree
 from anytree.exporter import DotExporter
+from anytree import RenderTree
 
 
 def print_help():
@@ -49,6 +50,7 @@ def check_options(argv):
         "show_lex": False,
         "show_tree": False,
         "debug": False,
+        "show_prune": False,
     }
 
     # Check for options
@@ -81,6 +83,7 @@ def check_options(argv):
             options["show_tree"] = True
             options["output_file_path_tree"] = a
         if(o == '--tree-prune-output'):
+            options["show_prune"] = True
             options["output_file_path_prune_tree"] = a
         if(o == '--tree'):
             options["show_tree"] = True
@@ -94,6 +97,22 @@ def check_options(argv):
     return optlist, args, options
 
 
+def show_tree(tree, path=None):
+    if(path):
+        DotExporter(tree,
+                    nodeattrfunc=lambda node: 'label="{}"'.format(node.value)).to_dotfile(path)
+    else:
+        for pre, fill, node in RenderTree(tree):
+            print("%s%s" % (pre, node.value))
+
+
+def show_tokens(tokens, path=None):
+    if (path):
+        print_tokens_to_file(tokens, path)
+    else:
+        print_tokens(tokens)
+
+
 def main(argv):
     optlist, args, options = check_options(argv)
 
@@ -102,15 +121,10 @@ def main(argv):
 
     ################# LEX ####################
     tokens, lex_success = lex.scan(data)
-    
+
     # Show tokens
     if (lex_success and options["show_lex"]):
-        if (options["output_file_path_tokens"]):
-            print_tokens_to_file(tokens,
-                                 options["output_file_path_tokens"])
-        else:
-            print_tokens(tokens)
-
+        show_tokens(tokens, options["output_file_path_tokens"])
 
     ################ SYNTAX ######################
     syntax_tree, parser_success = parse.parse(data,
@@ -118,26 +132,15 @@ def main(argv):
 
     # Show tokens
     if (parser_success and lex_success and options["show_tree"]):
-        if(options["output_file_path_tree"]):
-            DotExporter(syntax_tree,
-                        nodeattrfunc=lambda node: 'label="{}"'.format(node.value)).to_dotfile(options["output_file_path_tree"])
-        else:
-            for pre, fill, node in RenderTree(syntax_tree):
-                print("%s%s" % (pre, node.value))
-
-    ##################### PRUNE ###############################
+        show_tree(syntax_tree, options["output_file_path_tree"])
+        ##################### PRUNE ###############################
 
     prune_tree(syntax_tree)
 
     # show prune
     if(lex_success and parser_success and options["show_prune"]):
-        if(options["output_file_path_prune_tree"]):
-            DotExporter(syntax_tree,
-                        nodeattrfunc=lambda node: 'label="{}"'.format(node.value)).to_dotfile(options["output_file_path_prune_tree"])
-        else:
-            for pre, fill, node in RenderTree(syntax_tree):
-                print("%s%s" % (pre, node.value))
-    
+        show_tree(syntax_tree, options["output_file_path_prune_tree"])
+
     ########################### SEMANTIC #########################
 
     semantic_success = semantic_analyzer.analyze(syntax_tree)

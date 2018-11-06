@@ -1,12 +1,12 @@
 inteiro: T 
-pedro := 4
+{ pedro := 4 }
 
 inteiro: V1[T][10]
 
 inteiro somavet(inteiro: vet[], inteiro: tam)
 	inteiro: result, teste 
-	result := 0
-	$
+	result := 0.0
+	
 	inteiro: i 
 	i := -1
 	i := !result
