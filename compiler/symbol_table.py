@@ -91,11 +91,25 @@ class SymbolTable():
                 return line
         return False
 
+    def __look_down_return(self, contex):
+        inners_contex = contex.children
+        se_has_return = False
+        _return = False
+        for inner in inners_contex:
+            inner_return = inner._return
+            if not inner._return:
+                inner_return = self.__look_down_return(inner)
+            if inner.contex == "se":
+                se_has_return = inner_return
+            elif (se_has_return and inner.contex == "senão" and inner_return):
+                _return = True
+        return _return
+
     def check_return(self):
         function_return = self.root.children[-1]._return
         if (function_return):
             return function_return
-        return False
+        return self.__look_down_return(self.root.children[-1])
 
     def get_contex(self):
         return self.actual_contex.contex
@@ -103,6 +117,7 @@ class SymbolTable():
     def add_contex(self, contex):
         new_contex = Node(self.id, self.actual_contex,
                           contex=contex, table=[], _return=False)
+        # print(contex)
         self.id += 1
         self.actual_contex = new_contex
 
