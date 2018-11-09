@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 from anytree import Node
-from lex import tokens
+from lex import tokens, find_column
 from colorpy import warning, error
 import logging
 
@@ -190,8 +190,9 @@ def p_var(p):
     '''
 
     global num
-    father = Node(str(num), value='var')
+    father = Node(str(num), value='var', line=p.lineno(1), pos=p.lexpos(1))
     num += 1
+
     Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1
     if(len(p) == 3):
@@ -283,7 +284,7 @@ def p_se(p):
     '''
 
     global num
-    father = Node(str(num), value="se")
+    father = Node(str(num), value="conditional")
     num += 1
     Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1
@@ -325,7 +326,7 @@ def p_assignment(p):
     '''
 
     global num
-    father = Node(str(num), value="assignment")
+    father = Node(str(num), value="assignment", line=p.lineno(2), pos=p.lexpos(2))
     num += 1
     p[1].parent = father
     Node(str(num), father, value=str(p[2]), line=p.lineno(2), pos=p.lexpos(2))
@@ -379,7 +380,7 @@ def p_retorna(p):
     '''
 
     global num
-    father = Node(str(num), value="retorna")
+    father = Node(str(num), value="retorna", line=p.lineno(1), pos=p.lexpos(1))
     num += 1
     Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1
@@ -605,7 +606,7 @@ def p_function_call(p):
     '''
 
     global num
-    father = Node(str(num), value='function_call')
+    father = Node(str(num), value='function_call', line=p.lineno(1), pos=p.lexpos(1))
     num += 1
     Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1

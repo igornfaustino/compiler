@@ -46,14 +46,15 @@ def __check_node(node):
         return __prune_param(node)
     elif (node.value == "index"):
         return __prune_index(node)
-    elif (node.value == "se" or
-            node.value == "então" or
+    elif (node.value == "então" or
             node.value == "até" or
             node.value == "leia" or
             node.value == "repita" or
             node.value == "escreva" or
             node.value == "retorna"):
         return __prune_actions(node)
+    elif (node.value == "conditional"):
+        return __prune_conditional(node)
     elif (node.value == "simple_expression" or
             node.value == "additive_expression" or
             node.value == "multiply_expression" or
@@ -172,6 +173,7 @@ def __prune_params_list(tree):
 
     return first_params_list
 
+
 def __prune_arguments_list(tree):
     first_argument_list = tree
     children = list(first_argument_list.children)
@@ -212,12 +214,43 @@ def __prune_param(tree):
     return first_param
 
 
+def __prune_conditional(tree):
+    conditional = tree
+    children = conditional.children
+    se = children[0]
+    exp = children[1]
+    body = children[3]
+
+    se.parent = None
+    exp.parent = None
+    children[2].parent = None
+    body.parent = None
+
+    exp.parent = conditional
+    se.parent = conditional
+    body.parent = se
+
+    if(len(children) > 5): # se EXP ENTAO BODY SENAO BODY FIM
+        senao = children[4]
+        body_senao = children[5]
+
+        senao.parent = None
+
+        children[6].parent = None
+
+        senao.parent = conditional
+        body_senao.parent = senao
+    else:
+        children[4].parent = None
+    
+    return conditional
+
+
 def __prune_actions(tree):
     first_se = tree
     children = list(first_se.children)
     while(len(children) > 0):
-        if (children[0].value == "se" or
-            children[0].value == "então" or
+        if (children[0].value == "então" or
             children[0].value == "até" or
             children[0].value == "leia" or
             children[0].value == "repita" or
@@ -234,6 +267,8 @@ def __prune_general_expression(tree):
     children = list(root.children)
     if (len(children) == 3):
         root.value = children[1].children[0].value  # move the op up
+        root.line = children[1].children[0].line  # move the op up
+        root.pos = children[1].children[0].pos  # move the op up
         new_children = list(root.children)
         new_children.pop(1)
         root.children = new_children
@@ -246,6 +281,7 @@ def __prune_general_expression(tree):
         root = root.parent
     return root
 
+
 def __prune_expression(tree):
     root = tree
     child = list(root.children)[0]
@@ -254,6 +290,7 @@ def __prune_expression(tree):
         root.value = child.value
         root.children = child.children
     return root
+
 
 def __prune_operator(tree):
     root = tree
@@ -283,4 +320,3 @@ def __prune_index(tree):
             children = children[1:]
 
     return first_index
-            

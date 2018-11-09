@@ -66,97 +66,119 @@ tokens = [
 def t_N_FLOAT(t):
     r'(\d+(\.\d*)?[eE][-+]?\d+)|(\d+\.\d*)'
     t.value = float(t.value)
+    t.lexpos = find_column(t)
     return t
 
 
 def t_N_INT(t):
     r'\d+'
     t.value = int(t.value)
+    t.lexpos = find_column(t)
     return t
 
 
 # Operators
 def t_PLUS(t):
     r'\+'
+    t.lexpos = find_column(t)
     return t
 
 def t_MINUS(t):
     r'\-'
+    t.lexpos = find_column(t)
     return t
 
 def t_MULTIPLY(t):
     r'\*'
+    t.lexpos = find_column(t)
     return t
 
 def t_DIVIDE(t):
     r'\/'
+    t.lexpos = find_column(t)
     return t
 
 def t_EQUAL(t):
     r'\='
+    t.lexpos = find_column(t)
     return t
 
 def t_NOT_EQUAL(t):
     r'<>'
+    t.lexpos = find_column(t)
     return t
 
 def t_GREATER_EQUAL(t):
     r'>='
+    t.lexpos = find_column(t)
     return t
 
 def t_GREATER_THAN(t):
     r'>'
+    t.lexpos = find_column(t)
     return t
 
 def t_LESS_EQUAL(t):
     r'<='
+    t.lexpos = find_column(t)
     return t
 
 def t_LESS_THAN(t):
     r'<'
+    t.lexpos = find_column(t)
     return t
 
 def t_ASSIGNMENT(t):
     r':='
+    t.lexpos = find_column(t)
     return t
 
 # LOGICAL
 def t_AND(t):
     r'&&'
+    t.lexpos = find_column(t)
     return t
 
 def t_OR(t):
     r'\|\|'
+    t.lexpos = find_column(t)
     return t
 
 def t_NOT(t):
     r'\!'
+    t.lexpos = find_column(t)
     return t
 
 
 # Symbols
 def t_COLON(t):
     r':'
+    t.lexpos = find_column(t)
     return t
 
 def t_COMMA(t):
     r','
+    t.lexpos = find_column(t)
     return t
 
 def t_OPEN_PARENTHESIS(t):
     r'\('
+    t.lexpos = find_column(t)
     return t
 
 def t_CLOSE_PARENTHESIS(t):
     r'\)'
+    t.lexpos = find_column(t)
     return t
 
 def t_OPEN_BRACKET(t):
     r'\['
+    t.lexpos = find_column(t)
     return t
 
 def t_CLOSE_BRACKET(t):
     r'\]'
+    t.lexpos = find_column(t)
     return t
 
 
@@ -165,6 +187,7 @@ def t_ID(t):
     r'''[a-zA-Z_áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]
     [a-zA-Z_0-9áàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]*'''
     t.type = reserved.get(t.value, 'ID')    # Check for reserved words
+    t.lexpos = find_column(t)
     return t
 
 
@@ -220,7 +243,7 @@ def t_ANY_error(t):
     success = False
     if(show_error):
         error("Illegal characters '" + t.value[0] + "' at line " +
-            str(t.lexer.lineno))
+            str(t.lexer.lineno) + "." + str(find_column(t)))
     t.lexer.skip(1)
 
 

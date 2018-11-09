@@ -5,7 +5,7 @@ multivet(inteiro: t)
 	inteiro: i
 	i := 0
 	repita
-		V2[i] = V[i] * 2
+		V2[i] := V[i] * 2
 		i := i + 1
 	até i = t
 fim
@@ -19,4 +19,6 @@ inteiro principal ()
 	até i = 100
 
 	multivet(100)
+
+	retorna(0)
 fim
