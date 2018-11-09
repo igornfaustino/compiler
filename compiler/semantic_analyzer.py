@@ -5,8 +5,6 @@ RELATIONAL_OP = ["=", "<>", ">", "<", ">=", "<=", "&&", "||"]
 
 TYPE = ["inteiro", "flutuante"]
 
-# TODO: If isFunction, check if return is correct
-
 
 class Analyzer():
     def __init__(self):
@@ -182,7 +180,6 @@ class Analyzer():
                         return line["type"] + " " + str(dimension - real_dimension)
             return line["type"] if line else None
 
-    # TODO: check return types
     def __analyze_expression(self, node):
         # if is single_expression, just go all deep and return the type
         if (node.value == "expression"):

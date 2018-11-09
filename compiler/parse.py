@@ -4,8 +4,6 @@ from lex import tokens, find_column
 from colorpy import warning, error
 import logging
 
-# TODO: pass lineno and lexpos to tree
-
 num = 0
 success = True
 
@@ -14,7 +12,7 @@ precedence = (
     ("nonassoc", "OPEN_PARENTHESIS"),
 )
 
-# ok
+
 def p_program(p):
     '''
     program : declaration_list
@@ -27,7 +25,7 @@ def p_program(p):
 
     p[0] = root
 
-# ok
+
 def p_declaration_list(p):
     '''
     declaration_list : declaration_list declaration
@@ -74,7 +72,7 @@ def p_var_declaration(p):
     p[3].parent = father
     p[0] = father
 
-# ok
+
 def p_var_init(p):
     '''
     var_init : assignment
@@ -98,20 +96,24 @@ def p_index(p):
     num += 1
     if(len(p) == 5):
         p[1].parent = father
-        Node(str(num), father, value=str(p[2]), line=p.lineno(2), pos=p.lexpos(2))
+        Node(str(num), father, value=str(
+            p[2]), line=p.lineno(2), pos=p.lexpos(2))
         num += 1
         p[3].parent = father
-        Node(str(num), father, value=str(p[4]), line=p.lineno(4), pos=p.lexpos(4))
+        Node(str(num), father, value=str(
+            p[4]), line=p.lineno(4), pos=p.lexpos(4))
         num += 1
     else:
-        Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
+        Node(str(num), father, value=str(
+            p[1]), line=p.lineno(1), pos=p.lexpos(1))
         num += 1
         p[2].parent = father
-        Node(str(num), father, value=str(p[3]), line=p.lineno(3), pos=p.lexpos(3))
+        Node(str(num), father, value=str(
+            p[3]), line=p.lineno(3), pos=p.lexpos(3))
         num += 1
     p[0] = father
 
-# ok
+
 def p_type(p):
     '''
     type : INTEIRO
@@ -121,11 +123,12 @@ def p_type(p):
     global num
     father = Node(str(num), value="type")
     num += 1
-    Node(str(num), value=str(p[1]), parent=father, line=p.lineno(1), pos=p.lexpos(1))
+    Node(str(num), value=str(p[1]), parent=father,
+         line=p.lineno(1), pos=p.lexpos(1))
     num += 1
     p[0] = father
 
-# ok
+
 def p_func_declaration(p):
     '''
     func_declaration : type header
@@ -140,7 +143,7 @@ def p_func_declaration(p):
         p[2].parent = father
     p[0] = father
 
-# ok
+
 def p_header(p):
     '''
     header : ID OPEN_PARENTHESIS params_list CLOSE_PARENTHESIS body FIM
@@ -162,7 +165,7 @@ def p_header(p):
 
     p[0] = father
 
-# ok
+
 def p_var_list(p):
     '''
     var_list : var_list COMMA var
@@ -174,7 +177,8 @@ def p_var_list(p):
     num += 1
     if(len(p) == 4):
         p[1].parent = father
-        Node(str(num), father, value=str(p[2]), line=p.lineno(2), pos=p.lexpos(2))
+        Node(str(num), father, value=str(
+            p[2]), line=p.lineno(2), pos=p.lexpos(2))
         num += 1
         p[3].parent = father
     else:
@@ -199,7 +203,7 @@ def p_var(p):
         p[2].parent = father
     p[0] = father
 
-# ok
+
 def p_params_list(p):
     '''
     params_list : params_list COMMA param
@@ -212,7 +216,8 @@ def p_params_list(p):
     num += 1
     if(len(p) == 4):
         p[1].parent = father
-        Node(str(num), father, value=str(p[2]), line=p.lineno(2), pos=p.lexpos(2))
+        Node(str(num), father, value=str(
+            p[2]), line=p.lineno(2), pos=p.lexpos(2))
         num += 1
         p[3].parent = father
     elif(p[1] is not None):
@@ -240,7 +245,7 @@ def p_param(p):
     num += 1
     p[0] = father
 
-# ok
+
 def p_body(p):
     '''
     body : body action
@@ -258,7 +263,7 @@ def p_body(p):
         num += 1
     p[0] = father
 
-# ok
+
 def p_action(p):
     '''
     action : expression
@@ -296,7 +301,8 @@ def p_se(p):
     num += 1
     if(len(p) == 8):
         p[6].parent = father
-        Node(str(num), father, value=str(p[7]), line=p.lineno(7), pos=p.lexpos(7))
+        Node(str(num), father, value=str(
+            p[7]), line=p.lineno(7), pos=p.lexpos(7))
         num += 1
 
     p[0] = father
@@ -319,14 +325,15 @@ def p_repita(p):
 
     p[0] = father
 
-# ok
+
 def p_assignment(p):
     '''
     assignment : var ASSIGNMENT expression
     '''
 
     global num
-    father = Node(str(num), value="assignment", line=p.lineno(2), pos=p.lexpos(2))
+    father = Node(str(num), value="assignment",
+                  line=p.lineno(2), pos=p.lexpos(2))
     num += 1
     p[1].parent = father
     Node(str(num), father, value=str(p[2]), line=p.lineno(2), pos=p.lexpos(2))
@@ -487,7 +494,8 @@ def p_single_expression(p):
     num += 1
     if (len(p) == 3):
         if(p[1] == '!'):
-            Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
+            Node(str(num), father, value=str(
+                p[1]), line=p.lineno(1), pos=p.lexpos(1))
             num += 1
         else:
             p[1].parent = father
@@ -511,7 +519,8 @@ def p_operator_relational(p):
     global num
     father = Node(str(num), value='relational_op')
     num += 1
-    son = Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
+    son = Node(str(num), father, value=str(
+        p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1
 
     p[0] = father
@@ -526,7 +535,8 @@ def p_sum_operator(p):
     global num
     father = Node(str(num), value='sum_operator')
     num += 1
-    son = Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
+    son = Node(str(num), father, value=str(
+        p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1
 
     p[0] = father
@@ -541,7 +551,8 @@ def p_logic_operator(p):
     global num
     father = Node(str(num), value='logic_op')
     num += 1
-    son = Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
+    son = Node(str(num), father, value=str(
+        p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1
 
     p[0] = father
@@ -556,7 +567,8 @@ def p_multiply_operator(p):
     global num
     father = Node(str(num), value='multiply_operator')
     num += 1
-    son = Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
+    son = Node(str(num), father, value=str(
+        p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1
 
     p[0] = father
@@ -574,10 +586,12 @@ def p_factor(p):
     father = Node(str(num), value='factor')
     num += 1
     if (len(p) == 4):
-        Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
+        Node(str(num), father, value=str(
+            p[1]), line=p.lineno(1), pos=p.lexpos(1))
         num += 1
         p[2].parent = father
-        Node(str(num), father, value=str(p[3]), line=p.lineno(3), pos=p.lexpos(3))
+        Node(str(num), father, value=str(
+            p[3]), line=p.lineno(3), pos=p.lexpos(3))
         num += 1
     else:
         p[1].parent = father
@@ -606,7 +620,8 @@ def p_function_call(p):
     '''
 
     global num
-    father = Node(str(num), value='function_call', line=p.lineno(1), pos=p.lexpos(1))
+    father = Node(str(num), value='function_call',
+                  line=p.lineno(1), pos=p.lexpos(1))
     num += 1
     Node(str(num), father, value=str(p[1]), line=p.lineno(1), pos=p.lexpos(1))
     num += 1
@@ -631,7 +646,8 @@ def p_arguments_list(p):
     num += 1
     if(len(p) == 4):
         p[1].parent = father
-        Node(str(num), father, value=str(p[2]), line=p.lineno(2), pos=p.lexpos(2))
+        Node(str(num), father, value=str(
+            p[2]), line=p.lineno(2), pos=p.lexpos(2))
         num += 1
         p[3].parent = father
     elif(p[1] is not None):

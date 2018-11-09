@@ -1,22 +1,23 @@
-from anytree import PreOrderIter, Node
-from colorpy import error
-
 """
 each node in the tree have an table like this
 
 [
     {
-        name: x, 
-        type: inteiro, 
-        value: 10, 
-        used: True,
-        initialized: False
-        dimension: [], 
-        symbol_type: var,
-        params: [{type: , vet: }] # if is a function 
+        "name": "x",
+        "type": "inteiro",
+        "used": False,
+        "initialized": True,
+        "symbol_type": "var",
+        "dimension": 0,
+        "params": params,
+        "line": 10,
+        "pos": 2
     }
 ]
 """
+
+from anytree import PreOrderIter, Node
+from colorpy import error
 
 
 class SymbolTable():
@@ -69,7 +70,7 @@ class SymbolTable():
                     unused_lines.append(line)
 
         return unused_lines
-    
+
     def get_uninitialized(self):
         uninitialized_lines = []
         for contex in PreOrderIter(self.root):
@@ -77,7 +78,7 @@ class SymbolTable():
                 if(not line["initialized"]):
                     uninitialized_lines.append(line)
 
-        return uninitialized_lines  
+        return uninitialized_lines
 
     def set_return(self):
         self.actual_contex._return = True
