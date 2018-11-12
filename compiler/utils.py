@@ -9,8 +9,8 @@ def print_help():
     print('\nUsage: python', argv[0], '[OPTIONS] file\n')
     print('\n')
     print('Options:')
-    print('  -h, --help                            Print usage')
     print('  -d, --debug                           Debug code')
+    print('  -h, --help                            Print usage')
     print('      --prune                           Print prune tree')
     print('      --quiet                           Don\'t show warnings')
     print('      --tree                            Print tree')
@@ -36,7 +36,9 @@ def print_tokens(listToken, format_print=False):
 
 
 def print_tokens_to_file(listToken, path):
-    file_utils.save_data_into_file(path, listToken)
+    status = file_utils.save_data_into_file(path, listToken)
+    if (not status):
+        exit(-1)
 
 
 def check_options(argv):

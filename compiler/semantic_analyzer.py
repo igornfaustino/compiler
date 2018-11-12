@@ -1,3 +1,5 @@
+''' Semantic analyzer '''
+
 from symbol_table import SymbolTable
 from colorpy import error, warning
 
@@ -7,11 +9,24 @@ TYPE = ["inteiro", "flutuante"]
 
 
 class Analyzer():
+    ''' Analyzer class 
+    
+    Attributes:
+        symboltable (SymbolTable)
+        success (Bool)
+    '''
+
     def __init__(self):
         self.symboltable = SymbolTable()
         self.success = True
 
     def __scan_tree(self, node):
+        ''' scan tree on pre-order and analyze each childen
+
+        Args:
+            node (AnyTree's Node): Node to start the scan
+        '''
+
         flags = self.__analyze(node)
 
         if (not flags["goDeep"]):
@@ -30,6 +45,12 @@ class Analyzer():
                 error("Function " + line["name"] + " must have a retorno")
 
     def __analyze_var(self, var):
+        ''' analyze var's node
+
+        Args:
+            var (Anytree's Node): var node
+        '''
+
         dimension = 0
         if (len(var.children) > 1):
             list_index = var.children[1]
@@ -44,6 +65,13 @@ class Analyzer():
         return dimension
 
     def __crete_var(self, var, _type):
+        ''' Add a new var to symbol table
+        
+        Args:
+            var (Anytree's Node): var node
+            _type (str): var's type
+        '''
+
         dimension = self.__analyze_var(var)
         status = self.symboltable.insert({
             "name": var.children[0].value,
@@ -60,12 +88,24 @@ class Analyzer():
             self.success = False
 
     def __analyze_var_declaration(self, node):
+        ''' analyze var declaration
+
+        Args:
+            node (Anytree's Node): var_declaration's node
+        '''
+
         children = node.children
         _type = children[0].value
         for var in children[1:]:
             self.__crete_var(var, _type)
 
     def __analyze_params_list(self, node):
+        ''' analyze params list and add all params to symbol table
+
+        Args:
+            node (Anytree's Node): var_declaration's node
+        '''
+
         params = node.children
         for param in params:
             _type = param.children[0].value
@@ -82,7 +122,11 @@ class Analyzer():
             })
 
     def __analyze_function_declaration(self, node):
-        # function header is global
+        ''' add function declaration to symbol table
+
+        Args:
+            node (Anytree's Node): function_declaration's node
+        '''
 
         params = []
         _type = None
@@ -116,6 +160,12 @@ class Analyzer():
         self.symboltable.add_contex(name)
 
     def __analyze_function_call(self, node):
+        ''' ana;yze function call
+
+        Args:
+            node (Anytree's Node): function_call's node
+        '''
+
         funtion_line = self.get_table_line_by_node_type(node, False)
         if funtion_line:
             arg_list = node.children[-1]
@@ -137,6 +187,15 @@ class Analyzer():
                         str(node.line) + "." + str(node.pos))
 
     def get_table_line_by_node_type(self, _type, show_error=True, used=True, initialized=False):
+        ''' get table line
+
+        Args:
+            _type (AnyTree's Node): type's Node
+            show_error=True (Bool): show if found some error
+            used=True (Bool): set line searched used with true
+            initialized=False (Bool): set line searched initialized with false
+        '''
+
         aux = _type.children[0].value
         line = self.symboltable.lookup(aux, used=used, initialized=initialized)
         if (not line):
@@ -315,6 +374,8 @@ class Analyzer():
         }
 
     def verify_warnings(self):
+        ''' verify and print warnings '''
+
         for line in self.symboltable.get_uninitialized():
             warning("Identifier \"" +
                     line["name"] + "\" not initialized at line: " + str(line["line"]) + "." + str(line["pos"]))
@@ -326,6 +387,8 @@ class Analyzer():
                     line["name"] + "\" at line: " + str(line["line"]) + "." + str(line["pos"]))
 
     def verify_principal(self):
+        ''' Verify principal function '''
+
         line = self.symboltable.has_principal()
         if(line and line["used"]):
             error("\"principal\" function shouldn't be called")
@@ -335,10 +398,24 @@ class Analyzer():
             self.success = False
 
     def analyze(self, node):
+        ''' Analyze node and set attribute success with True or False
+
+        Args:
+            node (AnyTree's Node): node to start the analyze
+        '''
+
         self.__scan_tree(node)
 
 
 def analyze(tree):
+    ''' Analyze tree
+
+    Args:
+        tree (AnyTree's Node): tree to analyze
+    Returns
+        Bool: success of the analyze
+    '''
+
     analyzer = Analyzer()
     analyzer.analyze(tree)
     analyzer.verify_principal()

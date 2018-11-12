@@ -1,3 +1,5 @@
+''' lexical analysis '''
+
 import ply.lex as lex
 from colorpy import warning, error
 
@@ -259,8 +261,14 @@ lexer = lex.lex()
 
 
 def scan(content):
-    """
-    this function is call twice on code execution, first time is just to get the tokens list and show tokens... if this happens, the error is print twice, so in the beginer of this function i deactivate all error showing and in the end i turn on again
+    """ get all tokens
+
+    * this function is just used manually
+
+    Args:
+        content (str): text to get tokens
+    Returns:
+        List: list of tokens
     """
     global lexer
     global show_error

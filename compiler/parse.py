@@ -1,3 +1,5 @@
+''' syntax analisys '''
+
 import ply.yacc as yacc
 from anytree import Node
 from lex import tokens, find_column
@@ -687,6 +689,15 @@ parser = yacc.yacc()
 
 
 def parse(content, debug=False):
+    ''' parse the tokens and create an tree
+
+    Args:
+        content (str): text to get tokens and do the parser
+        debug=False (Bool): enable PLY debug mode
+    Returns
+        AnyTree's Node, Bool: root tree and if parse was success
+    '''
+
     result = parser.parse(content, debug=debug)
 
     global success

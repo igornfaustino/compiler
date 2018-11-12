@@ -12,6 +12,8 @@ def main(argv):
 
     # Read file
     data = file_utils.read_data_from_file(args[0])
+    if(not data):
+        return
 
     ################# LEX ####################
     tokens, lex_success = lex.scan(data)
