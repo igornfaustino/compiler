@@ -4,9 +4,9 @@
 flutuante: a
 inteiro: b
 
-func()
+inteiro func()
   a := 10.2
-  retorna(a)
+
 fim
 
 inteiro principal()

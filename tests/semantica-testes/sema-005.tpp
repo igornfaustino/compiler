@@ -7,5 +7,5 @@ fim
 
 inteiro principal()
 	inteiro: a
-	a := func(10, 3.2)
+	a := func(10)
 fim

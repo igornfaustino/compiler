@@ -7,7 +7,6 @@ RELATIONAL_OP = ["=", "<>", ">", "<", ">=", "<=", "&&", "||"]
 
 TYPE = ["inteiro", "flutuante"]
 
-
 class Analyzer():
     ''' Analyzer class 
     
@@ -352,9 +351,25 @@ class Analyzer():
                 node.value == "senão"):
             self.__analyze_add_new_contex(node)
 
+            # Just to analyze the expression
+            if (node.value == "repita"):
+                for child in node.children:
+                    if(child.value == "expression"):
+                        self.__analyze_expression(child)
+
             return {
                 "goDeep": True,
                 "newContext": True,
+                "isFunction": False,
+            }
+        elif (node.value == "conditional"):
+            # Just to analyze the expression
+            for child in node.children:
+                if(child.value == "expression"):
+                    self.__analyze_expression(child)
+            return {
+                "goDeep": True,
+                "newContext": False,
                 "isFunction": False,
             }
         elif (node.value == "function_call"):
