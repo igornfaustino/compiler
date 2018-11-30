@@ -9,7 +9,6 @@ inteiro somavet(inteiro: vet[], inteiro: tam)
 	
 	inteiro: i 
 	i := -1
-	i := !result
 
 	repita
 		inteiro: inner

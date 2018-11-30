@@ -5,6 +5,7 @@ import lex
 import parse
 import file_utils
 import semantic_analyzer
+import code_generate
 from syntax_tree_utils import prune_tree
 from utils import *
 
@@ -47,7 +48,7 @@ def main(argv):
 
     if(lex_success and parser_success and semantic_success):
         # generate code
-        pass
+        code_generate.generate_code(syntax_tree, get_file_name(args[0]))
 
 
 main(argv)

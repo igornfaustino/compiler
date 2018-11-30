@@ -7,6 +7,8 @@ RELATIONAL_OP = ["=", "<>", ">", "<", ">=", "<=", "&&", "||"]
 
 TYPE = ["inteiro", "flutuante"]
 
+# TODO: Leia (Inicializar variavel)
+
 class Analyzer():
     ''' Analyzer class 
     
@@ -83,6 +85,8 @@ class Analyzer():
             "pos": var.children[0].pos,
             "value": None
         })
+        line = self.symboltable.lookup(var.children[0].value)
+        var.children[0].table_pointer = line
         if (not status):
             self.success = False
 
@@ -119,6 +123,8 @@ class Analyzer():
                 "line": param.children[0].line,
                 "pos": param.children[0].pos
             })
+            line = self.symboltable.lookup(par_name)
+            param.children[1].table_pointer = line
 
     def __analyze_function_declaration(self, node):
         ''' add function declaration to symbol table
@@ -153,6 +159,11 @@ class Analyzer():
             "line": node.children[0].line,
             "pos": node.children[0].pos
         })
+        line = self.symboltable.lookup(name, used=False)
+        if(len(node.children) == 4):
+            node.children[1].table_pointer = line
+        else:
+            node.children[0].table_pointer = line
         if (not status):
             self.success = False
 
@@ -204,6 +215,7 @@ class Analyzer():
                       " not declared on line " + str(_type.children[0].line) + "." + str(_type.children[0].pos))
         return line if line else None
 
+    # TODO... single expression can be an expression some times
     def __analyze_single_expression(self, node):
         """
         Return type:
@@ -220,7 +232,7 @@ class Analyzer():
             op = children[0].value
             _type = children[1].children[0]  # if is function_call, num or var
             if (op == "!"):  # if op is ! then is a bool..
-                if (_type != num):  # just search for the line for mark as used
+                if (_type.value != "num"):  # just search for the line for mark as used
                     line = self.get_table_line_by_node_type(_type)
                 return "bool"
 
@@ -228,6 +240,8 @@ class Analyzer():
         if(_type.value == "num"):
             num = _type.children[0].value
             return "inteiro" if (type(num) is int) else "flutuante"
+        elif(_type.value == "expression"):
+            return self.__analyze_expression(_type)
         else:
             line = self.get_table_line_by_node_type(_type)
             if(line and (line["symbol_type"] == "var" or line["symbol_type"] == "par")):

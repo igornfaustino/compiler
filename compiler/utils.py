@@ -114,3 +114,6 @@ def show_tokens(tokens, path=None):
         print_tokens_to_file(tokens, path)
     else:
         print_tokens(tokens, Config.format_print)
+
+def get_file_name(path):
+    return path.split("/")[-1].split(".")[0]
