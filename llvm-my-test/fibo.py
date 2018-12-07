@@ -45,7 +45,7 @@ fib_res = builder.add(call_fib_n_minus_1, call_fib_n_minus_2)
 
 builder.ret(fib_res)
 
-print(module)
+# print(module)
 
 """
 Execute generated code.
@@ -72,10 +72,11 @@ engine.add_module(mod)
 engine.finalize_object()
 
 # Look up the function pointer (a Python int)
-func_ptr = engine.get_function_address("fibonacci")
+func_ptr = engine.get_function_address("main")
 
 # Run the function via ctypes
-c_fn_fib = CFUNCTYPE(c_int, c_int)(func_ptr)
+c_fn = CFUNCTYPE(c_int)(func_ptr)
+c_fn()
 
 # Test our function for n in 0..50
 # for n in range(0,50+1):

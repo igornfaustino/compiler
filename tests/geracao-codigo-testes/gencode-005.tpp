@@ -13,7 +13,8 @@ inteiro principal()
 
 	{ c := soma(a, b) }
 
-	escreva(c)
+	escreva(a)
+	escreva(b)
 
   retorna(0)
 fim

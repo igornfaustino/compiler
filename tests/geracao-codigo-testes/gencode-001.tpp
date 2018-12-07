@@ -1,12 +1,11 @@
 {Declaração de variáveis}
-inteiro: a
-a := 2
+{ inteiro: a
+a := 2 }
 inteiro principal()
-	inteiro: b
+	inteiro: b, a
 	
+	leia(a)
+	escreva(a)
 
-	b := a
-	a := 10 + 1.1
-	
     retorna(0)
 fim

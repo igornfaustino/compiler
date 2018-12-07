@@ -7,8 +7,6 @@ RELATIONAL_OP = ["=", "<>", ">", "<", ">=", "<=", "&&", "||"]
 
 TYPE = ["inteiro", "flutuante"]
 
-# TODO: Leia (Inicializar variavel)
-
 class Analyzer():
     ''' Analyzer class 
     
@@ -208,6 +206,7 @@ class Analyzer():
 
         aux = _type.children[0].value
         line = self.symboltable.lookup(aux, used=used, initialized=initialized)
+        _type.table_pointer = line
         if (not line):
             self.success = False
             if (show_error):
@@ -215,7 +214,6 @@ class Analyzer():
                       " not declared on line " + str(_type.children[0].line) + "." + str(_type.children[0].pos))
         return line if line else None
 
-    # TODO... single expression can be an expression some times
     def __analyze_single_expression(self, node):
         """
         Return type:
@@ -317,6 +315,11 @@ class Analyzer():
             if (child.value == "expression"):
                 self.__analyze_expression(child)
 
+    def __analyze_leia(self, node):
+        var = node.children[0]
+        line = self.get_table_line_by_node_type(var, initialized=True)
+        var.children[0].table_pointer = line
+
     def __analyze(self, node):
         if (node.value == "var_declaration"):
             self.__analyze_var_declaration(node)
@@ -386,6 +389,8 @@ class Analyzer():
                 "newContext": False,
                 "isFunction": False,
             }
+        elif (node.value == "leia"):
+            self.__analyze_leia(node)
         elif (node.value == "function_call"):
             self.__analyze_function_call(node)
         elif (node.value == "escreva" or

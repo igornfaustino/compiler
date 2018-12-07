@@ -7,7 +7,7 @@ fim
 
 inteiro principal()
   inteiro: x
-  x := func(1,2)
+  x := func(1, 2)
   retorna(0)
 fim
 

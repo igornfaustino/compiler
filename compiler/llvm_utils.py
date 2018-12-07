@@ -1,7 +1,7 @@
 from llvmlite import ir
 
-t_int = ir.IntType(64)
-t_float = ir.FloatType()
+t_int = ir.IntType(32)
+t_float = ir.DoubleType()
 t_void = ir.VoidType()
 
 
@@ -77,16 +77,22 @@ def do_operation(builder, op, val1, val2):
         return builder.icmp_signed(">", val1, val2)
     elif (op == "<="):
         return builder.icmp_signed("<=", val1, val2)
-    elif (op == "=>"):
-        return builder.icmp_signed("=>", val1, val2)
+    elif (op == ">="):
+        return builder.icmp_signed(">=", val1, val2)
     elif (op == "<>"):
         return builder.icmp_signed("!=", val1, val2)
+    elif (op == "&&"):
+        return builder.and_(val1, val2)
+    elif (op == "||"):
+        return builder.or_(val1, val2)
 
 
 def load_value(builder, val):
+    # print(type(val))
     return val if (
         type(val) is not ir.values.GlobalVariable and
-        type(val) is not ir.instructions.AllocaInstr) else builder.load(val)
+        type(val) is not ir.instructions.AllocaInstr and
+        type(val) is not ir.instructions.GEPInstr) else builder.load(val, align=4)
 
 
 if __name__ == "__main__":
