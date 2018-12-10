@@ -59,8 +59,7 @@ def get_function_type(return_type, args_type):
 
     return ir.FunctionType(llvm_return_type, llvm_args_type)
 
-
-def do_operation(builder, op, val1, val2):
+def do_int_operations(builder, op, val1, val2):
     if (op == "+"):
         return builder.add(val1, val2)
     elif (op == "-"):
@@ -85,6 +84,43 @@ def do_operation(builder, op, val1, val2):
         return builder.and_(val1, val2)
     elif (op == "||"):
         return builder.or_(val1, val2)
+
+def do_float_operations(builder, op, val1, val2):
+    if (val1.type is t_int):
+        val1 = builder.sitofp(val1, t_float)
+    if (val2.type is t_int):
+        val2 = builder.sitofp(val2, t_float)
+
+    if (op == "+"):
+        return builder.fadd(val1, val2)
+    elif (op == "-"):
+        return builder.fsub(val1, val2)
+    elif (op == "*"):
+        return builder.fmul(val1, val2)
+    elif (op == "/"):
+        return builder.fdiv(val1, val2)
+    elif (op == "="):
+        return builder.icmp_signed("==", val1, val2)
+    elif (op == "<"):
+        return builder.icmp_signed("<", val1, val2)
+    elif (op == ">"):
+        return builder.icmp_signed(">", val1, val2)
+    elif (op == "<="):
+        return builder.icmp_signed("<=", val1, val2)
+    elif (op == ">="):
+        return builder.icmp_signed(">=", val1, val2)
+    elif (op == "<>"):
+        return builder.icmp_signed("!=", val1, val2)
+    elif (op == "&&"):
+        return builder.and_(val1, val2)
+    elif (op == "||"):
+        return builder.or_(val1, val2)
+
+def do_operation(builder, op, val1, val2):
+    if(val1.type is get_type("inteiro") and val2.type is get_type("inteiro")):
+        return do_int_operations(builder, op, val1, val2)
+    return do_float_operations(builder, op, val1, val2)
+
 
 
 def load_value(builder, val):

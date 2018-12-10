@@ -20,7 +20,7 @@ inteiro fibonacciIter(inteiro: n)
 		f := i + f
 		i := f - i
 		k := k + 1
-	até (k >= n)
+	até (k <= n)
 
 	retorna(f)
 fim
@@ -33,16 +33,14 @@ inteiro principal()
 	i := 1
 	repita
 		escreva(fibonacciIter(i))
-		{ escreva(i) }
 		i := i + 1
-	até i > n
-
+	até(i < n)
+	
 	i := 1
 	repita
 		escreva(fibonacciRec(i))
 		i := i + 1
-	até i > n
+	até(i < n)
 
 	retorna(0)
 fim
-

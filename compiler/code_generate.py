@@ -2,12 +2,20 @@ from llvmlite import ir
 from llvmlite import binding as llvm
 import llvm_utils
 from ctypes import CFUNCTYPE, c_int
+from enum import Enum
 
 # TODO: type cast
-# TODO: arrays...
-# array is alread declared... i need to access this and make the good
+# TODO... run to codes 9
+
+
+class Terminator(Enum):
+    retorna = 0
+    loop = 1
+    conditional = 2
 
 # Initialize global vars when enters on main
+
+
 class LLVMCodeGenerator():
     def __init__(self, module_name):
         self.module = ir.Module(module_name)
@@ -26,7 +34,8 @@ class LLVMCodeGenerator():
         fmt = "%f \n\0"
         c_fmt = ir.Constant(ir.ArrayType(ir.IntType(8), len(fmt)),
                             bytearray(fmt.encode("utf8")))
-        global_fmt = ir.GlobalVariable(self.module, c_fmt.type, name="fstr_float")
+        global_fmt = ir.GlobalVariable(
+            self.module, c_fmt.type, name="fstr_float")
         global_fmt.linkage = 'internal'
         global_fmt.global_constant = True
         global_fmt.initializer = c_fmt
@@ -37,7 +46,8 @@ class LLVMCodeGenerator():
         fmt = "%d \n\0"
         c_fmt = ir.Constant(ir.ArrayType(ir.IntType(8), len(fmt)),
                             bytearray(fmt.encode("utf8")))
-        global_fmt = ir.GlobalVariable(self.module, c_fmt.type, name="fstr_int")
+        global_fmt = ir.GlobalVariable(
+            self.module, c_fmt.type, name="fstr_int")
         global_fmt.linkage = 'internal'
         global_fmt.global_constant = True
         global_fmt.initializer = c_fmt
@@ -48,7 +58,8 @@ class LLVMCodeGenerator():
         fmt = "%lf\00"
         c_fmt = ir.Constant(ir.ArrayType(ir.IntType(8), len(fmt)),
                             bytearray(fmt.encode("utf8")))
-        global_fmt = ir.GlobalVariable(self.module, c_fmt.type, name="fstr_float_r")
+        global_fmt = ir.GlobalVariable(
+            self.module, c_fmt.type, name="fstr_float_r")
         global_fmt.linkage = 'internal'
         global_fmt.global_constant = True
         global_fmt.initializer = c_fmt
@@ -59,7 +70,8 @@ class LLVMCodeGenerator():
         fmt = "%i\00"
         c_fmt = ir.Constant(ir.ArrayType(ir.IntType(8), len(fmt)),
                             bytearray(fmt.encode("utf8")))
-        global_fmt = ir.GlobalVariable(self.module, c_fmt.type, name="fstr_int_r")
+        global_fmt = ir.GlobalVariable(
+            self.module, c_fmt.type, name="fstr_int_r")
         global_fmt.linkage = 'internal'
         global_fmt.global_constant = True
         global_fmt.initializer = c_fmt
@@ -137,7 +149,6 @@ class LLVMCodeGenerator():
                     self.f_vars[line["name"]] = self.builder.alloca(
                         array_type, name=line["name"])
 
-    # TODO suport to arrays on params
     def __function_declaraion(self, node):
         """ get function declaration node and create a new function on LLVM
         the att actual_function gets the new function and the builder the functions entry block
@@ -179,7 +190,11 @@ class LLVMCodeGenerator():
         # put args on f_vars
         i = 0
         for name in p_names:
-            self.f_vars[name] = self.actual_function.args[i]
+            val = self.actual_function.args[i]
+            type_ = p_types[i]
+            self.f_vars[name] = self.builder.alloca(
+                llvm_utils.get_type(type_), name=name)
+            self.builder.store(val, self.f_vars[name])
             i += 1
 
         if f_name == "main":
@@ -188,17 +203,34 @@ class LLVMCodeGenerator():
                 self.__assignment(global_init)
 
     def __get_var(self, var_name):
-        var = self.f_vars[var_name] if var_name in self.f_vars.keys() else self.global_var[var_name]
+        var = self.f_vars[var_name] if var_name in self.f_vars.keys(
+        ) else self.global_var[var_name]
         return var
 
     def __call_function(self, function_node):
         f_name = function_node.children[0].value
         f_args = function_node.children[1].children
-        
+        params = function_node.table_pointer["params"]
+        # print(function_node.table_pointer)
+        param_pos = 0
         args = []
         for arg in f_args:
-            args.append(self.__expression(arg))
-        
+            exp = self.__expression(arg)
+            if(params[param_pos]["type"] == "inteiro"):
+                try:
+                    exp = self.builder.fptosi(
+                        exp, llvm_utils.get_type("inteiro"))
+                except expression as identifier:
+                    pass
+            else:
+                try:
+                    exp = self.builder.sitofp(
+                        exp, llvm_utils.get_type("flutuante"))
+                except expression as identifier:
+                    pass
+            args.append(exp)
+            param_pos += 1
+
         fn = self.functions[f_name]
         return self.builder.call(fn, args)
 
@@ -209,8 +241,9 @@ class LLVMCodeGenerator():
         # op or single exp
         child = node.children[0] if node.value == "expression" else node
         if (child.value == "single_expression"):
-            factor = child.children[0]
-            if (len(factor.children) == 1):
+
+            if (len(child.children) == 1):
+                factor = child.children[0]
                 n_type = factor.children[0]
                 if (n_type.value == "num"):
                     num = n_type.children[0].value
@@ -218,19 +251,45 @@ class LLVMCodeGenerator():
                     return llvm_utils.get_const(num, llvm_utils.get_type(t_num))
                 elif (n_type.value == "var"):
                     var_name = n_type.children[0].value
-                    var = llvm_utils.load_value(self.builder, self.__get_var(var_name))
+                    var = llvm_utils.load_value(
+                        self.builder, self.__get_var(var_name))
                     if len(n_type.children) == 2:
                         index = n_type.children[1]
                         for child in index.children:
                             if (child.value == "expression"):
                                 exp = self.__expression(child)
-                                var = self.builder.gep( self.__get_var(var_name), [llvm_utils.get_const(0, llvm_utils.get_type("inteiro")), exp])
+                                var = self.builder.gep(self.__get_var(var_name), [
+                                                       llvm_utils.get_const(0, llvm_utils.get_type("inteiro")), exp])
                                 var = llvm_utils.load_value(self.builder, var)
                     return var
                 elif (n_type.value == "function_call"):
                     return self.__call_function(n_type)
                 else:
                     return self.__expression(n_type)
+            else:
+                factor = child.children[1]
+                n_type = factor.children[0]
+                if (n_type.value == "num"):
+                    num = n_type.children[0].value
+                    t_num = "inteiro" if type(num) is int else "flutuante"
+                    return self.builder.not_(llvm_utils.get_const(num, llvm_utils.get_type(t_num)))
+                elif (n_type.value == "var"):
+                    var_name = n_type.children[0].value
+                    var = llvm_utils.load_value(
+                        self.builder, self.__get_var(var_name))
+                    if len(n_type.children) == 2:
+                        index = n_type.children[1]
+                        for child in index.children:
+                            if (child.value == "expression"):
+                                exp = self.__expression(child)
+                                var = self.builder.gep(self.__get_var(var_name), [
+                                                       llvm_utils.get_const(0, llvm_utils.get_type("inteiro")), exp])
+                                var = llvm_utils.load_value(self.builder, var)
+                    return self.builder.not_(var)
+                elif (n_type.value == "function_call"):
+                    return self.builder.not_(self.__call_function(n_type))
+                else:
+                    return self.builder.not_(self.__expression(n_type))
         else:  # operators
             op = child
             val1 = self.__expression(op.children[0])
@@ -252,7 +311,7 @@ class LLVMCodeGenerator():
             self.globals_nodes_initialize.append(node)
         else:
             var = self.__get_var(var_name)
-            res = self.__expression(children[1])     
+            res = self.__expression(children[1])
             res = llvm_utils.load_value(self.builder, res)
 
             if(len(var_node.children) == 2):
@@ -260,9 +319,21 @@ class LLVMCodeGenerator():
                 for child in index.children:
                     if (child.value == "expression"):
                         exp = self.__expression(child)
-                        var = self.builder.gep(var, [llvm_utils.get_const(0, llvm_utils.get_type("inteiro")), exp])
-            
-            self.builder.store(res, var)
+                        var = self.builder.gep(var, [llvm_utils.get_const(
+                            0, llvm_utils.get_type("inteiro")), exp])
+
+            try:
+                self.builder.store(res, var)
+            except TypeError:
+                if (line["type"] == "inteiro"):
+                    i_res = self.builder.fptosi(
+                        res, llvm_utils.get_type("inteiro"))
+                    self.builder.store(i_res, var)
+                else:
+                    f_res = self.builder.sitofp(
+                        res, llvm_utils.get_type("flutuante"))
+                    self.builder.store(f_res, var)
+                # exit(0)
 
     def __retorna(self, node):
         exp = node.children[0]
@@ -299,8 +370,10 @@ class LLVMCodeGenerator():
         exp = node.children[1]
 
         # create blocks
-        loop_block = self.builder.append_basic_block("loop_" + str(self.loopId))
-        loop_end = self.builder.append_basic_block("end_loop_" + str(self.loopId))
+        loop_block = self.builder.append_basic_block(
+            "loop_" + str(self.loopId))
+        loop_end = self.builder.append_basic_block(
+            "end_loop_" + str(self.loopId))
         self.loopId += 1
 
         self.builder.cbranch(self.__get_pred(exp), loop_block, loop_end)
@@ -309,21 +382,20 @@ class LLVMCodeGenerator():
         self.builder.cbranch(self.__get_pred(exp), loop_block, loop_end)
         self.builder.position_at_end(loop_end)
 
-
     def __print_function(self, node):
         value = self.__expression(node.children[0])
 
         if (str(value.type) == "i32"):
             fmt = self.global_int
         else:
-            fmt = self.global_float          
+            fmt = self.global_float
         # Declare argument list
         voidptr_ty = ir.IntType(8).as_pointer()
 
         fmt_arg = self.builder.bitcast(fmt, voidptr_ty)
 
         # Call Print Function
-        self.builder.call(self.printf, [fmt_arg, value])  
+        self.builder.call(self.printf, [fmt_arg, value])
 
     def __read_function(self, node):
         var_node = node.children[0]
@@ -334,7 +406,7 @@ class LLVMCodeGenerator():
         if (line["type"] == "inteiro"):
             fmt = self.global_int_read
         else:
-            fmt = self.global_float_read         
+            fmt = self.global_float_read
         # Declare argument list
         voidptr_ty = ir.IntType(8).as_pointer()
 
@@ -344,6 +416,8 @@ class LLVMCodeGenerator():
 
     def walk_on_tree(self, node):
         enterFunction = False
+        hasTerminator = False
+        return_value = None
 
         if (node.value == "var_declaration"):
             self.__var_declaration(node)
@@ -354,23 +428,46 @@ class LLVMCodeGenerator():
             enterFunction = True
         elif (node.value == "retorna"):
             self.__retorna(node)
+            return Terminator.retorna
         elif (node.value == "conditional"):
             self.__conditional(node)
-            return  # stop look deep in this node
+            return Terminator.conditional  # stop look deep in this node
         elif (node.value == "repita"):
             self.__loops(node)
-            return
+            return Terminator.loop
         elif (node.value == "escreva"):
             self.__print_function(node)
         elif (node.value == "leia"):
             self.__read_function(node)
+        elif (node.value == "expression"):
+            if (node.parent.value == "body"):
+                self.__expression(node)
 
         for child in node.children:
-            self.walk_on_tree(child)
+            ret = self.walk_on_tree(child)
+            if (enterFunction and ret == Terminator.conditional or ret == Terminator.loop):
+                hasTerminator = False
+            elif (enterFunction and ret == Terminator.retorna):
+                hasTerminator = True
+            elif (not enterFunction):
+                return_value = ret if ret else return_value
 
         if (enterFunction):
+            if not hasTerminator:
+                return_type = self.actual_function.return_value.type
+                i_type = llvm_utils.get_type("inteiro")
+                f_type = llvm_utils.get_type("flutuante")
+                if(return_type is i_type):
+                    self.builder.ret(llvm_utils.get_const(0, i_type))
+                elif(return_type is f_type):
+                    self.builder.ret(llvm_utils.get_const(0, f_type))
+                else:
+                    self.builder.ret_void()
+
             self.actual_function = None
             self.f_vars = {}
+
+        return return_value
 
     def compile_ir(self):
         """
@@ -391,7 +488,7 @@ class LLVMCodeGenerator():
         engine = llvm.create_mcjit_compiler(backing_mod, target_machine)
 
         # Parse our generated module
-        mod = llvm.parse_assembly( str( self.module ) )
+        mod = llvm.parse_assembly(str(self.module))
         mod.verify()
         # Now add the module and make sure it is ready for execution
         engine.add_module(mod)

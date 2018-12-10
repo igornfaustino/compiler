@@ -29,10 +29,13 @@ def main(argv):
     syntax_tree, parser_success = parse.parse(data,
                                               Config.debug)
 
+    if (not parser_success):
+        return
+
     # Show tokens
     if (parser_success and lex_success and Config.show_tree):
         show_tree(syntax_tree, Config.output_file_path_tree)
-        ##################### PRUNE ###############################
+    ##################### PRUNE ###############################
 
     prune_tree(syntax_tree)
 
@@ -44,6 +47,8 @@ def main(argv):
 
     semantic_success = semantic_analyzer.analyze(syntax_tree)
 
+    if (not semantic_success):
+        return
     ########################### CODE GENERATOR #####################
 
     if(lex_success and parser_success and semantic_success):

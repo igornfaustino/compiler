@@ -41,6 +41,7 @@ class Analyzer():
             line = self.symboltable.get_global_last_line()
             _type = line["type"]
             if(_type != "" and not self.symboltable.check_return()):
+                self.success = False
                 error("Function " + line["name"] + " must have a retorno")
 
     def __analyze_var(self, var):
@@ -175,6 +176,7 @@ class Analyzer():
         '''
 
         funtion_line = self.get_table_line_by_node_type(node, False)
+        node.table_pointer = funtion_line
         if funtion_line:
             arg_list = node.children[-1]
             par = funtion_line["params"]
@@ -210,6 +212,7 @@ class Analyzer():
         if (not line):
             self.success = False
             if (show_error):
+                self.success = False
                 error(("Variable " if (_type.value == "var") else "Function ") + aux +
                       " not declared on line " + str(_type.children[0].line) + "." + str(_type.children[0].pos))
         return line if line else None
@@ -230,8 +233,10 @@ class Analyzer():
             op = children[0].value
             _type = children[1].children[0]  # if is function_call, num or var
             if (op == "!"):  # if op is ! then is a bool..
-                if (_type.value != "num"):  # just search for the line for mark as used
-                    line = self.get_table_line_by_node_type(_type)
+                if(_type.value == "expression"):
+                    self.__analyze_expression(_type)
+                elif (_type.value != "num"):  # just search for the line for mark as used
+                    line = self.get_taget_table_line_by_node_typeble_line_by_node_type(_type)
                 return "bool"
 
         # if not a bool... just do the regular verification
@@ -248,6 +253,8 @@ class Analyzer():
                     real_dimension = len(_type.children) - 1
                     if (dimension - real_dimension != 0):
                         return line["type"] + " " + str(dimension - real_dimension)
+            if (_type.value == "function_call"):
+                self.__analyze_function_call(_type)
             return line["type"] if line else None
 
     def __analyze_expression(self, node):
@@ -304,6 +311,7 @@ class Analyzer():
         _type = self.__analyze_expression(exp)
         line = self.symboltable.get_global_last_line()
         if(line["type"] not in TYPE or _type not in TYPE):
+            self.success = False
             error("Invalid return at line " +
                   str(node.line) + "." + str(node.pos))
         elif(line["type"] != _type):
