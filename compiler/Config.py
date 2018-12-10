@@ -32,3 +32,8 @@ class Config():
     # Prune
     show_prune = False
     output_file_path_prune_tree = None
+
+    # gen
+    show = False
+    output = "a.ll"
+    exec_ = False

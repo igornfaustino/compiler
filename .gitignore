@@ -106,5 +106,9 @@ venv.bak/
 *.tree
 *.out
 *.dot
+*.ll
+*.bc
+*.S
+*.o
 
 .vscode/

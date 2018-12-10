@@ -11,8 +11,11 @@ def print_help():
     print('Options:')
     print('  -d, --debug                           Debug code')
     print('  -h, --help                            Print usage')
+    print('  -x, --exec                            Execute the code')
+    print('  -o, --output                          Output file to generate code')
     print('      --prune                           Print prune tree')
     print('      --quiet                           Don\'t show warnings')
+    print('  -s, --show                            Show generated code')
     print('      --tree                            Print tree')
     print('      --tree-output=                    Print tree to a file')
     print('      --tree-prune-output=              Print prune tree to a file')
@@ -42,20 +45,9 @@ def print_tokens_to_file(listToken, path):
 
 
 def check_options(argv):
-    options = {
-        "output_file_path_tokens": None,
-        "output_file_path_tree": None,
-        "output_file_path_prune_tree": None,
-        "format_print": False,
-        "show_lex": False,
-        "show_tree": False,
-        "debug": False,
-        "show_prune": False,
-    }
-
     # Check for options
     optlist, args = getopt.getopt(argv[1:],
-                                  "hd",
+                                  "hdxo:s",
                                   ["tokens-format",
                                    "help",
                                    "tokens",
@@ -65,7 +57,10 @@ def check_options(argv):
                                    "tree",
                                    "quiet",
                                    "prune",
-                                   "debug"])
+                                   "debug",
+                                   "output=",
+                                   "show",
+                                   "exec"])
     for o, a in optlist:
         if (o == '--tokens-format'):
             Config.format_print = True
@@ -92,6 +87,12 @@ def check_options(argv):
             Config.show_tree = True
         if(o == '--prune'):
             Config.show_prune = True
+        if(o == '--exec' or o == '-x'):
+            Config.exec_ = True
+        if(o == '--show' or o == '-s'):
+            Config.show = True
+        if(o == '--output' or o == '-o'):
+            Config.output = a
     if(len(args) == 0):
         print("Requires at least 1 argument.")
         print("Type '--help' for more informations")

@@ -3,9 +3,8 @@ from llvmlite import binding as llvm
 import llvm_utils
 from ctypes import CFUNCTYPE, c_int
 from enum import Enum
-
-# TODO: type cast
-# TODO... run to codes 9
+from Config import Config
+from file_utils import save_data_into_file
 
 
 class Terminator(Enum):
@@ -505,5 +504,9 @@ class LLVMCodeGenerator():
 def generate_code(tree, module_name):
     LLVM_gem = LLVMCodeGenerator(module_name)
     LLVM_gem.walk_on_tree(tree)
-    print(LLVM_gem.module)
-    LLVM_gem.compile_ir()
+    save_data_into_file(Config.output, str(LLVM_gem.module))
+    if (Config.show):
+        print(LLVM_gem.module)
+    if (Config.exec_):
+        LLVM_gem.compile_ir()
+    
